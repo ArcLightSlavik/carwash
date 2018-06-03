@@ -1,7 +1,10 @@
 package ua.slavik.carwash.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 public class Customer
 {
@@ -23,5 +26,9 @@ public class Customer
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.car = car;
+    }
+    public Customer()
+    {
+
     }
 }

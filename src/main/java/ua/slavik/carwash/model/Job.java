@@ -2,10 +2,12 @@ package ua.slavik.carwash.model;
 
 //what is going to be performed on the car
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
-
+@Data
 @Entity
 public class Job
 {

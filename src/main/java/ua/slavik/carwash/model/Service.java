@@ -2,12 +2,15 @@ package ua.slavik.carwash.model;
 
 //what they can perform on the car
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.List;
 
+@Data
 @Entity
 public class Service
 {
