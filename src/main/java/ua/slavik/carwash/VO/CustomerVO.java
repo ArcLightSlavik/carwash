@@ -9,6 +9,6 @@ public class CustomerVO
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private CarVO car;
+    private Long carId;
 
 }

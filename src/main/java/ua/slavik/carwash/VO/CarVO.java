@@ -11,7 +11,7 @@ public class CarVO
     private Long id;
     private String registrationNumber;
     private String model;
-    private List<JobVO> jobs;
-    private CustomerVO customer;
+    private List<Long> jobIds;
+    private Long customerID;
 }
 

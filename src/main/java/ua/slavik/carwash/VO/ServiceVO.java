@@ -8,7 +8,7 @@ import java.util.List;
 public class ServiceVO
 {
     private long id;
-    private List<JobVO> jobs;
     private String name;
     private int price;
+    private List<Long> jobIds;
 }

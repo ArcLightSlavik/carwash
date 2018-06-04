@@ -6,9 +6,9 @@ import lombok.Data;
 public class UpdateCustomerVO
 {
     private Long id;
+    private Long carId;
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private CarVO car;
 
 }
