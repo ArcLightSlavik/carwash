@@ -5,6 +5,10 @@ import ua.slavik.carwash.VO.CarVO;
 import ua.slavik.carwash.VO.CreateCarVO;
 import ua.slavik.carwash.VO.UpdateCarVO;
 import ua.slavik.carwash.model.Car;
+import ua.slavik.carwash.model.Customer;
+import ua.slavik.carwash.service.CustomerService;
+
+import java.util.Optional;
 
 @Component
 public class CarAssembler
@@ -12,7 +16,11 @@ public class CarAssembler
     public Car toCar(CreateCarVO createCarVO)
     {
         Car car = new Car();
-        car.setCustomer(createCarVO.getCustomer());
+        Optional<Customer> customer = CustomerService.getCustomerById(CreateCarVO.getCustomerId());
+        if (customer.isPresent())
+        {
+            car.setCustomer(customer.get());
+        }
         car.setModel(createCarVO.getModel());
         car.setRegistrationNumber(createCarVO.getRegistrationNumber());
         car.setJobs(createCarVO.getJobs());

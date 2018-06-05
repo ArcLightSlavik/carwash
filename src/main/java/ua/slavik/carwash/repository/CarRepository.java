@@ -1,9 +1,9 @@
 package ua.slavik.carwash.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ua.slavik.carwash.model.Service;
+import ua.slavik.carwash.model.Car;
 
-public interface ServiceRepository extends CrudRepository<Service, Long>
+public interface CarRepository extends CrudRepository<Car, Long>
 {
     void delete(Long id);
 }

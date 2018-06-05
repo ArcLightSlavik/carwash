@@ -28,4 +28,9 @@ public class Car
         this.model = model;
     }
 
+    public Car()
+    {
+
+    }
+
 }
