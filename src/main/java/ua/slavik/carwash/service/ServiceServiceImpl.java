@@ -6,6 +6,8 @@ import ua.slavik.carwash.repository.ServiceRepository;
 
 import java.util.Optional;
 
+@org.springframework.stereotype.Service
+
 public class ServiceServiceImpl implements ServiceService
 {
     @Autowired
@@ -30,7 +32,7 @@ public class ServiceServiceImpl implements ServiceService
     public void deleteService(Long id) {
         Optional<Service> service = getServiceById(id);
         if (service != null) {
-            serviceRepository.delete(id);
+            serviceRepository.deleteById(id);
         }
     }
 }

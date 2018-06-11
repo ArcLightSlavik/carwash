@@ -36,7 +36,7 @@ public class JobServiceImpl implements JobService
         Optional<Job> job = getJobById(id);
         if (job != null)
         {
-            jobRepository.delete(id);
+            jobRepository.deleteById(id);
         }
     }
 }

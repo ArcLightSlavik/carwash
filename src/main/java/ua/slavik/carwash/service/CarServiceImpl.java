@@ -37,7 +37,7 @@ public class CarServiceImpl implements CarService
         Optional<Car> car = getCarById(id);
         if (car != null)
         {
-            carRepository.delete(id);
+            carRepository.deleteById(id);
         }
     }
 }

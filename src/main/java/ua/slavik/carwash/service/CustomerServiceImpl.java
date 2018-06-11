@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService
         Optional<Customer> customer = getCustomerById(id);
         if (customer !=  null)
         {
-            customerRepository.delete(id);
+            customerRepository.deleteById(id);
         }
     }
 

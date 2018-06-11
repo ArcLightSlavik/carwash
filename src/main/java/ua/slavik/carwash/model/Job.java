@@ -34,4 +34,8 @@ public class Job
         this.completed = completed;
     }
 
+    public Job()
+    {
+
+    }
 }

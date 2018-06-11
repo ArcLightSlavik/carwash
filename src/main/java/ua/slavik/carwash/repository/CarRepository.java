@@ -5,5 +5,5 @@ import ua.slavik.carwash.model.Car;
 
 public interface CarRepository extends CrudRepository<Car, Long>
 {
-    void delete(Long id);
+
 }

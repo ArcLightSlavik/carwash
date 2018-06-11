@@ -1,19 +1,38 @@
 package ua.slavik.carwash.assemblers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.slavik.carwash.VO.CreateJobVO;
 import ua.slavik.carwash.VO.JobVO;
 import ua.slavik.carwash.VO.UpdateJobVO;
 import ua.slavik.carwash.model.Job;
+import ua.slavik.carwash.model.Service;
+import ua.slavik.carwash.service.CarService;
+import ua.slavik.carwash.service.ServiceService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JobAssembler
 {
+    @Autowired
+    private ServiceService serviceService;
+
+    @Autowired
+    private CarService carService;
+
     public Job toJob(CreateJobVO createJobVO)
     {
         Job job = new Job();
-        job.setServices(createJobVO.getServices());
-        job.setCar(createJobVO.getCar());
+
+        List<Service> services = new ArrayList<Service>();
+        for (Long serviceId : createJobVO.getServiceIds()) {
+            services.add(serviceService.getServiceById(serviceId).orElse(null));
+        }
+        job.setServices(services);
+
+        job.setCar(carService.getCarById(createJobVO.getCarId()).orElse(null));
         job.setCompleted(createJobVO.isCompleted());
 
         return job;
@@ -22,8 +41,14 @@ public class JobAssembler
     {
         JobVO jobVO = new JobVO();
         jobVO.setId(job.getId());
-        jobVO.setServices(job.getServices());
-        jobVO.setCar(job.getCar());
+
+        List<Long> serviceIds = new ArrayList<Long>();
+        for (Service service : job.getServices()) {
+            serviceIds.add(service.getId());
+        }
+        jobVO.setServiceIds(serviceIds);
+
+        jobVO.setCarId(job.getCar().getId());
         jobVO.setCompleted(job.isCompleted());
 
         return jobVO;
@@ -32,8 +57,15 @@ public class JobAssembler
     {
         Job job = new Job();
         job.setId(updateJobVO.getId());
-        job.setServices(updateJobVO.getServices());
-        job.setCar(updateJobVO.getCar());
+
+        List<Service> services = new ArrayList<Service>();
+        for (Long serviceId : updateJobVO.getServiceIds()) {
+            services.add(serviceService.getServiceById(serviceId).orElse(null));
+        }
+        job.setServices(services);
+
+        job.setCar(carService.getCarById(updateJobVO.getCarId()).orElse(null));
+
         job.setCompleted(updateJobVO.isCompleted());
 
         return job;
