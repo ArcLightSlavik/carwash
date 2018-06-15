@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface JobService
 {
-    Optional<Job> getJobById(Long id);
+    Job getJobById(Long id);
 
     Job createJob(Job job);
 

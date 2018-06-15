@@ -1,62 +1,53 @@
 package ua.slavik.carwash.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.slavik.carwash.VO.CreateCustomerVO;
+import ua.slavik.carwash.VO.CustomerVO;
+import ua.slavik.carwash.VO.UpdateCustomerVO;
+import ua.slavik.carwash.assemblers.CustomerAssembler;
 import ua.slavik.carwash.model.Customer;
-import ua.slavik.carwash.repository.CustomerRepository;
-import java.util.Optional;
+import ua.slavik.carwash.service.CustomerService;
 
 
 @RestController
+@RequestMapping("/customer")
 public class CustomerController
 {
+
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerAssembler customerAssembler;
 
-    @PostMapping(value = "/customers")
-    public ResponseEntity createCustomer(@RequestBody Customer customer)
+    @Autowired
+    private CustomerService customerService;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public CustomerVO createCustomer(@RequestBody CreateCustomerVO customerVO)
     {
-        customerRepository.save(customer);
+        Customer customer = customerAssembler.toCustomer(customerVO);
+        Customer savedCustomer = customerService.createCustomer(customer);
 
-        return new ResponseEntity(customer , HttpStatus.OK);
+        return customerAssembler.toCustomerVO(savedCustomer);
     }
 
-    @GetMapping("/customers")
-    public Iterable<Customer> getCustomers()
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public CustomerVO getCustomer(@PathVariable("id") Long id)
     {
-        return customerRepository.findAll();
+        return customerAssembler.toCustomerVO(customerService.getCustomerById(id));
     }
 
-    @GetMapping("/customers/{id}")
-    public ResponseEntity getCustomer(@PathVariable("id") Long id)
+    @RequestMapping(method = RequestMethod.PUT)
+    public CustomerVO updateCustomer(@RequestBody UpdateCustomerVO updateCustomerVO)
     {
-        Optional<Customer> customer = customerRepository.findById(id);
-        if (customer.isPresent())
-        {
-            return new ResponseEntity(customer, HttpStatus.OK);
-        }
-        return new ResponseEntity("no customer id found" + id , HttpStatus.NOT_FOUND);
+        Customer customer = customerAssembler.toCustomer(updateCustomerVO);
+        Customer updatedCustomer = customerService.updateCustomer(customer);
+
+        return customerAssembler.toCustomerVO(customer);
     }
 
-    @PutMapping ("/customers/{id}")
-    public ResponseEntity updateCustomer(@PathVariable Long id, @RequestBody Customer customer)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Long id)
     {
-        customer = customerRepository.save(customer);
-        return new ResponseEntity(customer, HttpStatus.OK);
-    }
-
-    @DeleteMapping ("/customers/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable Long id)
-    {
-        boolean customerExists = customerRepository.existsById(id);
-
-        if(customerExists)
-        {
-            customerRepository.deleteById(id);
-            return new ResponseEntity(HttpStatus.OK);
-        }
-        return new ResponseEntity("no customer found by id" + id , HttpStatus.NOT_FOUND);
+        customerService.deleteCustomer(id);
     }
 }

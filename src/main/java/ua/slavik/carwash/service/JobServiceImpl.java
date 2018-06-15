@@ -13,9 +13,9 @@ public class JobServiceImpl implements JobService
     private JobRepository jobRepository;
 
     @Override
-    public Optional<Job> getJobById(Long id)
+    public Job getJobById(Long id)
     {
-        return jobRepository.findById(id);
+        return jobRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class JobServiceImpl implements JobService
     @Override
     public void deleteJob(Long id)
     {
-        Optional<Job> job = getJobById(id);
+        Job job = getJobById(id);
         if (job != null)
         {
             jobRepository.deleteById(id);

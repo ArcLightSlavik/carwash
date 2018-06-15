@@ -1,61 +1,52 @@
 package ua.slavik.carwash.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.slavik.carwash.VO.CreateServiceVO;
+import ua.slavik.carwash.VO.ServiceVO;
+import ua.slavik.carwash.VO.UpdateServiceVO;
+import ua.slavik.carwash.assemblers.ServiceAssembler;
 import ua.slavik.carwash.model.Service;
-import ua.slavik.carwash.repository.ServiceRepository;
-import java.util.Optional;
+import ua.slavik.carwash.service.ServiceService;
+
+
 
 @RestController
 public class ServiceController
 {
     @Autowired
-    private ServiceRepository serviceRepository;
+    private ServiceAssembler serviceAssembler;
 
-    @PostMapping(value = "/services")
-    public ResponseEntity createService(@RequestBody Service service)
+    @Autowired
+    private ServiceService serviceService;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ServiceVO createService(@RequestBody CreateServiceVO serviceVO)
     {
-        serviceRepository.save(service);
+        Service service = serviceAssembler.toService(serviceVO);
+        Service savedService = serviceService.createService(service);
 
-        return new ResponseEntity(service , HttpStatus.OK);
+        return serviceAssembler.toServiceVO(savedService);
     }
 
-    @GetMapping("/services")
-    public Iterable<Service> getService()
+    @RequestMapping(value = "/services/{id}", method = RequestMethod.GET)
+    public ServiceVO getService(@PathVariable("id") Long id)
     {
-        return serviceRepository.findAll();
+        return serviceAssembler.toServiceVO(serviceService.getServiceById(id));
     }
 
-    @GetMapping("/services/{id}")
-    public ResponseEntity getService(@PathVariable("id") Long id)
+    @RequestMapping(method = RequestMethod.PUT)
+    public ServiceVO updateService(@RequestBody UpdateServiceVO updateServiceVO)
     {
-        Optional<Service> service = serviceRepository.findById(id);
-        if (service.isPresent())
-        {
-            return new ResponseEntity(service, HttpStatus.OK);
-        }
-        return new ResponseEntity("no service id found" + id , HttpStatus.NOT_FOUND);
+        Service service = serviceAssembler.toService(updateServiceVO);
+        Service updatedService = serviceService.updateService(service);
+
+        return serviceAssembler.toServiceVO(service);
     }
 
-    @PutMapping ("/services/{id}")
-    public ResponseEntity updateService(@PathVariable Long id, @RequestBody Service service)
+    @RequestMapping(value = "/services/{id}" , method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Long id)
     {
-        service = serviceRepository.save(service);
-        return new ResponseEntity(service, HttpStatus.OK);
-    }
-
-    @DeleteMapping ("/services/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable Long id)
-    {
-        boolean customerExists = serviceRepository.existsById(id);
-
-        if(customerExists)
-        {
-            serviceRepository.deleteById(id);
-            return new ResponseEntity(HttpStatus.OK);
-        }
-        return new ResponseEntity("no service found by id" + id , HttpStatus.NOT_FOUND);
+        serviceService.deleteService(id);
     }
 }

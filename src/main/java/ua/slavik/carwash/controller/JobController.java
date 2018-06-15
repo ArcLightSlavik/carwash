@@ -1,61 +1,51 @@
 package ua.slavik.carwash.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.slavik.carwash.VO.UpdateJobVO;
+import ua.slavik.carwash.assemblers.JobAssembler;
+import ua.slavik.carwash.VO.CreateJobVO;
+import ua.slavik.carwash.VO.JobVO;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.repository.JobRepository;
-import java.util.Optional;
+import ua.slavik.carwash.service.JobService;
+
 
 @RestController
 public class JobController
 {
     @Autowired
-    private JobRepository jobRepository;
+    private JobAssembler jobAssembler;
 
-    @PostMapping(value = "/jobs")
-    public ResponseEntity createJob(@RequestBody Job job)
+    @Autowired
+    private JobService jobService;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public JobVO createJob(@RequestBody CreateJobVO jobVO)
     {
-        jobRepository.save(job);
+        Job job = jobAssembler.toJob(jobVO);
+        Job savedJob = jobService.createJob(job);
 
-        return new ResponseEntity(job , HttpStatus.OK);
+        return jobAssembler.toJobVO(savedJob);
     }
 
-    @GetMapping("/jobs")
-    public Iterable<Job> getJobs()
+    @RequestMapping(value = "/jobs/{id}" , method = RequestMethod.GET)
+    public JobVO getJobs(@PathVariable("id") Long id)
     {
-        return jobRepository.findAll();
+        return jobAssembler.toJobVO(jobService.getJobById(id));
     }
 
-    @GetMapping("/jobs/{id}")
-    public ResponseEntity getJob(@PathVariable("id") Long id)
+    @RequestMapping(method = RequestMethod.PUT)
+    public JobVO updateJob(@RequestBody UpdateJobVO updateJobVO)
     {
-        Optional<Job> job = jobRepository.findById(id);
-        if (job.isPresent())
-        {
-            return new ResponseEntity(job, HttpStatus.OK);
-        }
-        return new ResponseEntity("no job id found" + id , HttpStatus.NOT_FOUND);
+       Job job = jobAssembler.toJob(updateJobVO);
+       Job updateJob = jobService.updateJob(job);
+
+       return jobAssembler.toJobVO(job);
     }
 
-    @PutMapping("/jobs/{id}")
-    public ResponseEntity updateJob(@PathVariable Long id, @RequestBody Job job)
+    @RequestMapping(value = "/jobs/{id}" , method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Long id)
     {
-        job = jobRepository.save(job);
-        return new ResponseEntity(job, HttpStatus.OK);
-    }
-
-    @DeleteMapping ("/jobs/{id}")
-    public ResponseEntity deleteJob(@PathVariable Long id)
-    {
-        boolean jobExists = jobRepository.existsById(id);
-
-        if(jobExists)
-        {
-            jobRepository.deleteById(id);
-            return new ResponseEntity(HttpStatus.OK);
-        }
-        return new ResponseEntity("no job found by id" + id , HttpStatus.NOT_FOUND);
+        jobService.deleteJob(id);
     }
 }

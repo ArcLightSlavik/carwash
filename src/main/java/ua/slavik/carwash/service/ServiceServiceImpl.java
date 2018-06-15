@@ -14,8 +14,9 @@ public class ServiceServiceImpl implements ServiceService
     private ServiceRepository serviceRepository;
 
     @Override
-    public Optional<Service> getServiceById(Long id) {
-        return serviceRepository.findById(id);
+    public Service getServiceById(Long id)
+    {
+        return serviceRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -29,8 +30,9 @@ public class ServiceServiceImpl implements ServiceService
     }
 
     @Override
-    public void deleteService(Long id) {
-        Optional<Service> service = getServiceById(id);
+    public void deleteService(Long id)
+    {
+        Service service = getServiceById(id);
         if (service != null) {
             serviceRepository.deleteById(id);
         }
