@@ -25,8 +25,9 @@ public class ServiceAssembler
         service.setPrice(createServiceVO.getPrice());
 
         List<Job> jobs = new ArrayList<Job>();
-        for (Long jobId : createServiceVO.getJobIds()) {
-            jobs.add(jobService.getJobById(jobId).orElse(null));
+        for (Long jobId : createServiceVO.getJobIds())
+        {
+            jobs.add(jobService.getJobById(jobId));
         }
         service.setJobs(jobs);
 
@@ -41,7 +42,8 @@ public class ServiceAssembler
         serviceVO.setPrice(service.getPrice());
 
         List<Long> jobIds = new ArrayList<Long>();
-        for (Job job : service.getJobs()) {
+        for (Job job : service.getJobs())
+        {
             jobIds.add(job.getId());
         }
         serviceVO.setJobIds(jobIds);
@@ -57,8 +59,9 @@ public class ServiceAssembler
         service.setPrice(updateServiceVO.getPrice());
 
         List<Job> jobs = new ArrayList<Job>();
-        for (Long jobId : updateServiceVO.getJobIds()) {
-            jobs.add(jobService.getJobById(jobId).orElse(null));
+        for (Long jobId : updateServiceVO.getJobIds())
+        {
+            jobs.add(jobService.getJobById(jobId));
         }
         service.setJobs(jobs);
 

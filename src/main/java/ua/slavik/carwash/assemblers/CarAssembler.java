@@ -26,14 +26,14 @@ public class CarAssembler
     public Car toCar(CreateCarVO createCarVO)
     {
         Car car = new Car();
-        car.setCustomer(customerService.getCustomerById(createCarVO.getCustomerId()).orElse(null));
+        car.setCustomer(customerService.getCustomerById(createCarVO.getCustomerId()));
         car.setModel(createCarVO.getModel());
         car.setRegistrationNumber(createCarVO.getRegistrationNumber());
 
         List<Job> jobs = new ArrayList<Job>();
         for (Long jobId : createCarVO.getJobIds())
         {
-            jobs.add(jobService.getJobById(jobId).orElse(null));
+            jobs.add(jobService.getJobById(jobId));
         }
         car.setJobs(jobs);
 
@@ -62,14 +62,14 @@ public class CarAssembler
     {
         Car car = new Car();
         car.setId(updateCarVO.getId());
-        car.setCustomer(customerService.getCustomerById(updateCarVO.getCustomerId()).orElse(null));
+        car.setCustomer(customerService.getCustomerById(updateCarVO.getCustomerId()));
         car.setModel(updateCarVO.getModel());
         car.setRegistrationNumber(updateCarVO.getRegistrationNumber());
 
         List<Job> jobs = new ArrayList<Job>();
         for (Long jobId : updateCarVO.getJobIds())
         {
-            jobs.add(jobService.getJobById(jobId).orElse(null));
+            jobs.add(jobService.getJobById(jobId));
         }
         car.setJobs(jobs);
 

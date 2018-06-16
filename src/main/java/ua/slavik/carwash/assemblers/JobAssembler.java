@@ -27,8 +27,9 @@ public class JobAssembler
         Job job = new Job();
 
         List<Service> services = new ArrayList<Service>();
-        for (Long serviceId : createJobVO.getServiceIds()) {
-            services.add(serviceService.getServiceById(serviceId).orElse(null));
+        for (Long serviceId : createJobVO.getServiceIds())
+        {
+            services.add(serviceService.getServiceById(serviceId));
         }
         job.setServices(services);
 
@@ -43,7 +44,8 @@ public class JobAssembler
         jobVO.setId(job.getId());
 
         List<Long> serviceIds = new ArrayList<Long>();
-        for (Service service : job.getServices()) {
+        for (Service service : job.getServices())
+        {
             serviceIds.add(service.getId());
         }
         jobVO.setServiceIds(serviceIds);
@@ -59,8 +61,9 @@ public class JobAssembler
         job.setId(updateJobVO.getId());
 
         List<Service> services = new ArrayList<Service>();
-        for (Long serviceId : updateJobVO.getServiceIds()) {
-            services.add(serviceService.getServiceById(serviceId).orElse(null));
+        for (Long serviceId : updateJobVO.getServiceIds())
+        {
+            services.add(serviceService.getServiceById(serviceId));
         }
         job.setServices(services);
 
