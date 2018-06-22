@@ -1,14 +1,14 @@
-package ua.slavik.carwash.VO;
+package ua.slavik.carwash.DTO;
 
 import lombok.Data;
 
 @Data
-public class UpdateCustomerVO
+public class CustomerDTO
 {
     private Long id;
-    private Long carId;
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private Long carId;
 
 }

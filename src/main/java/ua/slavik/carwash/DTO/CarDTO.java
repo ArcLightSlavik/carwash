@@ -1,12 +1,11 @@
-package ua.slavik.carwash.VO;
+package ua.slavik.carwash.DTO;
 
 import lombok.Data;
-import ua.slavik.carwash.model.Customer;
 
 import java.util.List;
 
 @Data
-public class CarVO
+public class CarDTO
 {
     private Long id;
     private String registrationNumber;

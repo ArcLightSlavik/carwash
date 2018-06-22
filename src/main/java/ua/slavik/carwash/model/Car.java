@@ -1,11 +1,13 @@
 package ua.slavik.carwash.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@Builder
 @Entity
 public class Car
 {
@@ -16,21 +18,11 @@ public class Car
     private String registrationNumber;
     private String model;
 
-    @OneToOne(mappedBy = "car")
-    private Customer customer;
-
     @OneToMany(mappedBy = "car")
     private List<Job> jobs;
 
-    public Car(String registrationNumber, String model)
-    {
-        this.registrationNumber = registrationNumber;
-        this.model = model;
-    }
-
-    public Car()
-    {
-
-    }
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private Customer customer;
 
 }

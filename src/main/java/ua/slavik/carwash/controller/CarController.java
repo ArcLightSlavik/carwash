@@ -3,7 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.VO.*;
+import ua.slavik.carwash.DTO.*;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.service.CarService;
 
@@ -19,27 +19,27 @@ public class CarController
     private CarService carService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public CarVO createCar(@RequestBody CreateCarVO carVO)
+    public CarDTO createCar(@RequestBody CreateCarDTO carVO)
     {
         Car car = modelMapper.map(carVO, Car.class);
         Car savedCar = carService.createCar(car);
 
-        return modelMapper.map(savedCar, CarVO.class);
+        return modelMapper.map(savedCar, CarDTO.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public CarVO getCar(@PathVariable("id") Long id)
+    public CarDTO getCar(@PathVariable("id") Long id)
     {
-        return modelMapper.map(carService.getCarById(id), CarVO.class);
+        return modelMapper.map(carService.getCarById(id), CarDTO.class);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public CarVO updateCar(@RequestBody UpdateCarVO updateCarVO)
+    public CarDTO updateCar(@RequestBody UpdateCarDTO updateCarVO)
     {
         Car car = modelMapper.map(updateCarVO , Car.class);
         Car updatedCar = carService.updateCar(car);
 
-        return modelMapper.map(updatedCar , CarVO.class);
+        return modelMapper.map(updatedCar , CarDTO.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

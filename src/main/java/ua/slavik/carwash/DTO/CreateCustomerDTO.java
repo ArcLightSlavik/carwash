@@ -1,9 +1,9 @@
-package ua.slavik.carwash.VO;
+package ua.slavik.carwash.DTO;
 
 import lombok.Data;
 
 @Data
-public class CreateCustomerVO
+public class CreateCustomerDTO
 {
     private String firstName;
     private String lastName;

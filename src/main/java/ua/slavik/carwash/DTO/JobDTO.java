@@ -1,13 +1,14 @@
-package ua.slavik.carwash.VO;
+package ua.slavik.carwash.DTO;
 
 import lombok.Data;
 import java.util.List;
 
 @Data
-public class CreateJobVO
+
+public class JobDTO
 {
     private long id;
     private boolean completed;
-    private Long carId;
     private List<Long> serviceIds;
+    private Long carId;
 }

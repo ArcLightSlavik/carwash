@@ -2,6 +2,7 @@ package ua.slavik.carwash.model;
 
 //what they can perform on the car
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Data
+@Builder
 @Entity
 public class Service
 {
@@ -23,14 +25,6 @@ public class Service
 
     private String name;
     private int price;
+    private int duration;
 
-    public Service(String name, int price )
-    {
-        this.name = name;
-        this.price = price;
-    }
-    public Service()
-    {
-
-    }
 }

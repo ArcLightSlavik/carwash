@@ -1,11 +1,11 @@
-package ua.slavik.carwash.VO;
+package ua.slavik.carwash.DTO;
 
 import lombok.Data;
 import java.util.List;
 
 @Data
 
-public class JobVO
+public class UpdateJobDTO
 {
     private long id;
     private boolean completed;

@@ -2,12 +2,15 @@ package ua.slavik.carwash.model;
 
 //what is going to be performed on the car
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
+@Builder
 @Entity
 public class Job
 {
@@ -26,16 +29,6 @@ public class Job
 
     private List<Service> services;
     private boolean completed;
-
-    public Job(Car car, List<Service> services , boolean completed)
-    {
-        this.car = car;
-        this.services = services;
-        this.completed = completed;
-    }
-
-    public Job()
-    {
-
-    }
+    private Date startDate;
+    private Date endDate;
 }

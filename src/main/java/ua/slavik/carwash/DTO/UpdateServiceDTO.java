@@ -1,11 +1,10 @@
-package ua.slavik.carwash.VO;
+package ua.slavik.carwash.DTO;
 
 import lombok.Data;
 import java.util.List;
 
 @Data
-
-public class CreateServiceVO
+public class UpdateServiceDTO
 {
     private long id;
     private String name;
