@@ -1,8 +1,9 @@
-package ua.slavik.carwash.service;
+package ua.slavik.carwash.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.slavik.carwash.model.Service;
 import ua.slavik.carwash.repository.ServiceRepository;
+import ua.slavik.carwash.service.ServiceService;
 
 import java.util.Optional;
 

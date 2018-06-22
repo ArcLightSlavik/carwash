@@ -1,11 +1,11 @@
 package ua.slavik.carwash.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.VO.CreateServiceVO;
 import ua.slavik.carwash.VO.ServiceVO;
 import ua.slavik.carwash.VO.UpdateServiceVO;
-import ua.slavik.carwash.assemblers.ServiceAssembler;
 import ua.slavik.carwash.model.Service;
 import ua.slavik.carwash.service.ServiceService;
 
@@ -14,8 +14,7 @@ import ua.slavik.carwash.service.ServiceService;
 @RestController
 public class ServiceController
 {
-    @Autowired
-    private ServiceAssembler serviceAssembler;
+    private ModelMapper modelMapper =  new ModelMapper();
 
     @Autowired
     private ServiceService serviceService;
@@ -23,25 +22,25 @@ public class ServiceController
     @RequestMapping(method = RequestMethod.POST)
     public ServiceVO createService(@RequestBody CreateServiceVO serviceVO)
     {
-        Service service = serviceAssembler.toService(serviceVO);
+        Service service = modelMapper.map(serviceVO, Service.class);
         Service savedService = serviceService.createService(service);
 
-        return serviceAssembler.toServiceVO(savedService);
+        return modelMapper.map( savedService, ServiceVO.class);
     }
 
     @RequestMapping(value = "/services/{id}", method = RequestMethod.GET)
     public ServiceVO getService(@PathVariable("id") Long id)
     {
-        return serviceAssembler.toServiceVO(serviceService.getServiceById(id));
+        return modelMapper.map(serviceService.getServiceById(id), ServiceVO.class);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ServiceVO updateService(@RequestBody UpdateServiceVO updateServiceVO)
     {
-        Service service = serviceAssembler.toService(updateServiceVO);
+        Service service = modelMapper.map(updateServiceVO , Service.class);
         Service updatedService = serviceService.updateService(service);
 
-        return serviceAssembler.toServiceVO(service);
+        return modelMapper.map(updatedService , ServiceVO.class);
     }
 
     @RequestMapping(value = "/services/{id}" , method = RequestMethod.DELETE)
