@@ -2,6 +2,8 @@ package ua.slavik.carwash.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.*;
 import ua.slavik.carwash.model.Car;
@@ -12,7 +14,6 @@ import ua.slavik.carwash.service.CarService;
 @RequestMapping("/car")
 public class CarController
 {
-
     private ModelMapper modelMapper =  new ModelMapper();
 
     @Autowired
@@ -28,9 +29,13 @@ public class CarController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public CarDTO getCar(@PathVariable("id") Long id)
+    public ResponseEntity getCar(@PathVariable("id") Long id)
     {
-        return modelMapper.map(carService.getCarById(id), CarDTO.class);
+        Car car = carService.getCarById(id);
+        if (car == null) {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -43,8 +48,14 @@ public class CarController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id)
+    public ResponseEntity delete(@PathVariable("id") Long id)
     {
+        Car car = carService.getCarById(id);
+        if (car == null)
+        {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
         carService.deleteCar(id);
+        return new ResponseEntity("deleted" , HttpStatus.OK);
     }
 }

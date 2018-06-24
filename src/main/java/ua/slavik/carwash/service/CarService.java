@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface CarService
 {
-    Optional<Car> getCarById(Long id);
+    Car getCarById(Long id);
 
     Car createCar(Car car);
 

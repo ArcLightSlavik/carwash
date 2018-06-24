@@ -2,6 +2,8 @@ package ua.slavik.carwash.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.CreateServiceDTO;
 import ua.slavik.carwash.DTO.ServiceDTO;
@@ -28,10 +30,14 @@ public class ServiceController
         return modelMapper.map( savedService, ServiceDTO.class);
     }
 
-    @RequestMapping(value = "/services/{id}", method = RequestMethod.GET)
-    public ServiceDTO getService(@PathVariable("id") Long id)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity getService(@PathVariable("id") Long id)
     {
-        return modelMapper.map(serviceService.getServiceById(id), ServiceDTO.class);
+        Service service = serviceService.getServiceById(id);
+        if (service == null) {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(modelMapper.map(service, ServiceDTO.class), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -43,9 +49,15 @@ public class ServiceController
         return modelMapper.map(updatedService , ServiceDTO.class);
     }
 
-    @RequestMapping(value = "/services/{id}" , method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("id") Long id)
     {
+        Service service = serviceService.getServiceById(id);
+        if (service == null)
+        {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
         serviceService.deleteService(id);
+        return new ResponseEntity("deleted" , HttpStatus.OK);
     }
 }

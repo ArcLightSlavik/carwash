@@ -2,6 +2,8 @@ package ua.slavik.carwash.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.CreateCustomerDTO;
 import ua.slavik.carwash.DTO.CustomerDTO;
@@ -30,9 +32,13 @@ public class CustomerController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public CustomerDTO getCustomer(@PathVariable("id") Long id)
+    public ResponseEntity getCustomer(@PathVariable("id") Long id)
     {
-        return modelMapper.map(customerService.getCustomerById(id), CustomerDTO.class);
+        Customer customer = customerService.getCustomerById(id);
+        if (customer == null) {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -45,8 +51,14 @@ public class CustomerController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id)
+    public ResponseEntity delete(@PathVariable("id") Long id)
     {
+        Customer customer = customerService.getCustomerById(id);
+        if (customer == null)
+        {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
         customerService.deleteCustomer(id);
+        return new ResponseEntity("deleted" , HttpStatus.OK);
     }
 }

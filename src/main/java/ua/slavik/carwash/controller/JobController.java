@@ -2,6 +2,8 @@ package ua.slavik.carwash.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.UpdateJobDTO;
 import ua.slavik.carwash.DTO.CreateJobDTO;
@@ -27,10 +29,14 @@ public class JobController
         return modelMapper.map( savedJob , JobDTO.class);
     }
 
-    @RequestMapping(value = "/jobs/{id}" , method = RequestMethod.GET)
-    public JobDTO getJobs(@PathVariable("id") Long id)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity getJob(@PathVariable("id") Long id)
     {
-        return modelMapper.map(jobService.getJobById(id), JobDTO.class);
+        Job job = jobService.getJobById(id);
+        if (job == null) {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(modelMapper.map(job , JobDTO.class), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -42,9 +48,15 @@ public class JobController
         return modelMapper.map(updatedJob , JobDTO.class);
     }
 
-    @RequestMapping(value = "/jobs/{id}" , method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("id") Long id)
     {
+        Job job= jobService.getJobById(id);
+        if (job == null)
+        {
+            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        }
         jobService.deleteJob(id);
+        return new ResponseEntity("deleted" , HttpStatus.OK);
     }
 }

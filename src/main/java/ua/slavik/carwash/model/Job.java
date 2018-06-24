@@ -28,7 +28,8 @@ public class Job
             inverseJoinColumns = @JoinColumn(name = "job_id",  referencedColumnName = "id"))
 
     private List<Service> services;
-    private boolean completed;
+    //0 = in progress 1 = complete 2 = cancelled
+    private int status;
     private Date startDate;
     private Date endDate;
 }
