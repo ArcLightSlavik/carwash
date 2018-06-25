@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.DTO.CreateServiceDTO;
-import ua.slavik.carwash.DTO.ServiceDTO;
-import ua.slavik.carwash.DTO.UpdateServiceDTO;
+import CreateServiceDTO;
+import ua.slavik.carwash.DTO.ServiceDTO.ServiceDTO;
+import ua.slavik.carwash.DTO.ServiceDTO.UpdateServiceDTO;
 import ua.slavik.carwash.model.Service;
 import ua.slavik.carwash.service.ServiceService;
 
@@ -22,12 +22,12 @@ public class ServiceController
     private ServiceService serviceService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ServiceDTO createService(@RequestBody CreateServiceDTO serviceVO)
+    public ResponseEntity createService(@RequestBody CreateServiceDTO serviceDTO)
     {
-        Service service = modelMapper.map(serviceVO, Service.class);
+        Service service = modelMapper.map(serviceDTO, Service.class);
         Service savedService = serviceService.createService(service);
 
-        return modelMapper.map( savedService, ServiceDTO.class);
+        return new ResponseEntity(modelMapper.map( savedService, ServiceDTO.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -41,12 +41,12 @@ public class ServiceController
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ServiceDTO updateService(@RequestBody UpdateServiceDTO updateServiceVO)
+    public ResponseEntity updateService(@RequestBody UpdateServiceDTO updateServiceVO)
     {
         Service service = modelMapper.map(updateServiceVO , Service.class);
         Service updatedService = serviceService.updateService(service);
 
-        return modelMapper.map(updatedService , ServiceDTO.class);
+        return new ResponseEntity(modelMapper.map(updatedService , ServiceDTO.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -4,7 +4,6 @@ package ua.slavik.carwash.model;
 
 import lombok.Builder;
 import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

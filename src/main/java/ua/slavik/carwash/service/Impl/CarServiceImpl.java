@@ -6,8 +6,6 @@ import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.repository.CarRepository;
 import ua.slavik.carwash.service.CarService;
 
-import java.util.Optional;
-
 @Service
 public class CarServiceImpl implements CarService
 {
@@ -15,9 +13,9 @@ public class CarServiceImpl implements CarService
     private CarRepository carRepository;
 
     @Override
-    public Optional<Car> getCarById(Long id)
+    public Car getCarById(Long id)
     {
-        return carRepository.findById(id);
+        return carRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class CarServiceImpl implements CarService
     @Override
     public void deleteCar(Long id)
     {
-        Optional<Car> car = getCarById(id);
+        Car car = getCarById(id);
         if (car != null)
         {
             carRepository.deleteById(id);

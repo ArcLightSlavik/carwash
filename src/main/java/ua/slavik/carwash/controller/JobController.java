@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.DTO.UpdateJobDTO;
-import ua.slavik.carwash.DTO.CreateJobDTO;
-import ua.slavik.carwash.DTO.JobDTO;
+import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
+import CreateJobDTO;
+import ua.slavik.carwash.DTO.JobDTO.JobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.service.JobService;
 
@@ -21,12 +21,12 @@ public class JobController
     private JobService jobService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public JobDTO createJob(@RequestBody CreateJobDTO jobVO)
+    public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
     {
-        Job job = modelMapper.map(jobVO , Job.class);
+        Job job = modelMapper.map(jobDTO , Job.class);
         Job savedJob = jobService.createJob(job);
 
-        return modelMapper.map( savedJob , JobDTO.class);
+        return new ResponseEntity(modelMapper.map(savedJob , Job.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -40,12 +40,12 @@ public class JobController
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public JobDTO updateJob(@RequestBody UpdateJobDTO updateJobVO)
+    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO)
     {
-        Job job = modelMapper.map(updateJobVO , Job.class);
+        Job job = modelMapper.map(updateJobDTO , Job.class);
         Job updatedJob = jobService.updateJob(job);
 
-        return modelMapper.map(updatedJob , JobDTO.class);
+        return new ResponseEntity(modelMapper.map(updatedJob , Job.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

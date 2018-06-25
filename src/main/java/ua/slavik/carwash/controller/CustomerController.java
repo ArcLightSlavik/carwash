@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.DTO.CreateCustomerDTO;
-import ua.slavik.carwash.DTO.CustomerDTO;
-import ua.slavik.carwash.DTO.UpdateCustomerDTO;
+import CreateCustomerDTO;
+import ua.slavik.carwash.DTO.CustomerDTO.CustomerDTO;
+import ua.slavik.carwash.DTO.CustomerDTO.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.service.CustomerService;
 
@@ -23,12 +23,12 @@ public class CustomerController
     private CustomerService customerService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public CustomerDTO createCustomer(@RequestBody CreateCustomerDTO customerVO)
+    public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO)
     {
-        Customer customer = modelMapper.map(customerVO, Customer.class);
+        Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
 
-        return modelMapper.map(savedCustomer, CustomerDTO.class);
+        return new ResponseEntity(modelMapper.map(savedCustomer, Customer.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -42,12 +42,12 @@ public class CustomerController
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public CustomerDTO updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerVO)
+    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO)
     {
-        Customer customer = modelMapper.map(updateCustomerVO , Customer.class);
+        Customer customer = modelMapper.map(updateCustomerDTO , Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(customer);
 
-        return modelMapper.map(updatedCustomer , CustomerDTO.class);
+        return new ResponseEntity(modelMapper.map(updatedCustomer , Customer.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

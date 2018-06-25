@@ -6,7 +6,6 @@ import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.repository.JobRepository;
 import ua.slavik.carwash.service.JobService;
 
-import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService

@@ -1,10 +1,10 @@
-package ua.slavik.carwash.DTO;
+package ua.slavik.carwash.DTO.CarDTO;
 
 import lombok.Data;
 import java.util.List;
 
 @Data
-public class UpdateCarDTO
+public class CarDTO
 {
     private Long id;
     private String registrationNumber;
@@ -12,3 +12,4 @@ public class UpdateCarDTO
     private List<Long> jobIds;
     private Long customerId;
 }
+

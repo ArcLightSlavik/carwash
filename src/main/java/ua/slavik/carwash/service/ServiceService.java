@@ -1,7 +1,6 @@
 package ua.slavik.carwash.service;
 
 import ua.slavik.carwash.model.Service;
-import java.util.Optional;
 
 public interface ServiceService
 {

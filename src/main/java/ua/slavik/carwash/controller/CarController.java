@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.DTO.*;
+import ua.slavik.carwash.DTO.CarDTO.CarDTO;
+import ua.slavik.carwash.DTO.CarDTO.CreateCarDTO;
+import ua.slavik.carwash.DTO.CarDTO.UpdateCarDTO;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.service.CarService;
 
@@ -20,12 +22,12 @@ public class CarController
     private CarService carService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public CarDTO createCar(@RequestBody CreateCarDTO carVO)
+    public ResponseEntity createCar(@RequestBody CreateCarDTO carDTO)
     {
-        Car car = modelMapper.map(carVO, Car.class);
+        Car car = modelMapper.map(carDTO, Car.class);
         Car savedCar = carService.createCar(car);
 
-        return modelMapper.map(savedCar, CarDTO.class);
+        return new ResponseEntity(modelMapper.map(savedCar, Car.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -39,12 +41,12 @@ public class CarController
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public CarDTO updateCar(@RequestBody UpdateCarDTO updateCarVO)
+    public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO)
     {
-        Car car = modelMapper.map(updateCarVO , Car.class);
+        Car car = modelMapper.map(updateCarDTO , Car.class);
         Car updatedCar = carService.updateCar(car);
 
-        return modelMapper.map(updatedCar , CarDTO.class);
+        return new ResponseEntity(modelMapper.map(updatedCar , Car.class), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

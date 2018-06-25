@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO;
+package ua.slavik.carwash.DTO.JobDTO;
 
 import lombok.Data;
 import java.util.List;
