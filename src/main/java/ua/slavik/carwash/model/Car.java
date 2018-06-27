@@ -23,5 +23,4 @@ public class Car
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
-
 }

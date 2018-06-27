@@ -10,5 +10,4 @@ public class CustomerDTO
     private String lastName;
     private String phoneNumber;
     private Long carId;
-
 }

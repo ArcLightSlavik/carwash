@@ -30,8 +30,8 @@ public class CarController
         return new ResponseEntity(modelMapper.map(savedCar, Car.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity getCar(@PathVariable("id") Long id)
+    @RequestMapping(value = "/car/{carId}", method = RequestMethod.GET)
+    public ResponseEntity getCar(@PathVariable("carId") Long id)
     {
         Car car = carService.getCarById(id);
         if (car == null) {
@@ -49,8 +49,8 @@ public class CarController
         return new ResponseEntity(modelMapper.map(updatedCar , Car.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable("id") Long id)
+    @RequestMapping(value = "/car/{carId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("carId") Long id)
     {
         Car car = carService.getCarById(id);
         if (car == null)

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import CreateCustomerDTO;
+import ua.slavik.carwash.DTO.CustomerDTO.CreateCustomerDTO;
 import ua.slavik.carwash.DTO.CustomerDTO.CustomerDTO;
 import ua.slavik.carwash.DTO.CustomerDTO.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
@@ -16,7 +16,6 @@ import ua.slavik.carwash.service.CustomerService;
 @RequestMapping("/customer")
 public class CustomerController
 {
-
     private ModelMapper modelMapper =  new ModelMapper();
 
     @Autowired
@@ -31,8 +30,8 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(savedCustomer, Customer.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity getCustomer(@PathVariable("id") Long id)
+    @RequestMapping(value = "/customer/{customerId}", method = RequestMethod.GET)
+    public ResponseEntity getCustomer(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
@@ -50,8 +49,8 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(updatedCustomer , Customer.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable("id") Long id)
+    @RequestMapping(value = "/customer/{customerId}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null)

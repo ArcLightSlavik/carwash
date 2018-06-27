@@ -10,5 +10,4 @@ public class UpdateCustomerDTO
     private String firstName;
     private String lastName;
     private String phoneNumber;
-
 }
