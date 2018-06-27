@@ -21,7 +21,7 @@ public class CustomerController
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping(value = "/customer")
     public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO)
     {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
@@ -30,7 +30,7 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(savedCustomer, Customer.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/customer/{customerId}", method = RequestMethod.GET)
+    @GetMapping(value = "/customer/{customerId}")
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);
@@ -40,7 +40,7 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping(value = "/customer")
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO)
     {
         Customer customer = modelMapper.map(updateCustomerDTO , Customer.class);
@@ -49,7 +49,7 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(updatedCustomer , Customer.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/customer/{customerId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/customer/{customerId}")
     public ResponseEntity delete(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);

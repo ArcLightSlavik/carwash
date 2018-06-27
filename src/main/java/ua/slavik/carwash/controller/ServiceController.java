@@ -20,7 +20,7 @@ public class ServiceController
     @Autowired
     private ServiceService serviceService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping(value = "/service")
     public ResponseEntity createService(@RequestBody CreateServiceDTO serviceDTO)
     {
         Service service = modelMapper.map(serviceDTO, Service.class);
@@ -29,7 +29,7 @@ public class ServiceController
         return new ResponseEntity(modelMapper.map( savedService, ServiceDTO.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/service/{serviceId}", method = RequestMethod.GET)
+    @GetMapping(value = "/service/{serviceId}")
     public ResponseEntity getService(@PathVariable("serviceId") Long id)
     {
         Service service = serviceService.getServiceById(id);
@@ -39,7 +39,7 @@ public class ServiceController
         return new ResponseEntity(modelMapper.map(service, ServiceDTO.class), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping(value = "/service")
     public ResponseEntity updateService(@RequestBody UpdateServiceDTO updateServiceVO)
     {
         Service service = modelMapper.map(updateServiceVO , Service.class);
@@ -48,7 +48,7 @@ public class ServiceController
         return new ResponseEntity(modelMapper.map(updatedService , ServiceDTO.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/service/{serviceId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/service/{serviceId}")
     public ResponseEntity delete(@PathVariable("serviceId") Long id)
     {
         Service service = serviceService.getServiceById(id);

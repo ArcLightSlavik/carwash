@@ -28,7 +28,7 @@ public class JobController
     @Autowired
     private ServiceService serviceService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping(value = "/job")
     public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
     {
         Job job = modelMapper.map(jobDTO , Job.class);
@@ -37,7 +37,7 @@ public class JobController
         return new ResponseEntity(modelMapper.map(savedJob , Job.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/job/{jobId}", method = RequestMethod.GET)
+    @GetMapping(value = "/job/{jobId}")
     public ResponseEntity getJob(@PathVariable("jobId") Long id)
     {
         Job job = jobService.getJobById(id);
@@ -47,7 +47,7 @@ public class JobController
         return new ResponseEntity(modelMapper.map(job , JobDTO.class), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping(value = "/job")
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO)
     {
         Job job = modelMapper.map(updateJobDTO , Job.class);
@@ -56,7 +56,7 @@ public class JobController
         return new ResponseEntity(modelMapper.map(updatedJob , Job.class), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/job/{jobId}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/job/{jobId}")
     public ResponseEntity delete(@PathVariable("jobId") Long id)
     {
         Job job= jobService.getJobById(id);
@@ -68,8 +68,8 @@ public class JobController
         return new ResponseEntity("deleted" , HttpStatus.OK);
     }
     //add service
-    @RequestMapping(value = "/job/{jobId}/services" , method = RequestMethod.PUT)
-    public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId , @RequestBody Long serviceId)
+    @PutMapping(value = "/job/{jobId}/service/{serviceId}")
+    public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId , @PathVariable("serviceId") Long serviceId)
     {
         Job job = jobService.getJobById(jobId);
         if (job == null)
@@ -81,7 +81,7 @@ public class JobController
         {
             return new ResponseEntity("services not found " , HttpStatus.NOT_FOUND);
         }
-        if (job.getStatus() != JobStatus.NOT_STARTED)
+        if (job.getStatus() != JobStatus.IN_PROGRESS || job.getStatus() != JobStatus.NOT_STARTED)
         {
             return new ResponseEntity("You can't add a service if job has been started" , HttpStatus.NOT_ACCEPTABLE);
         }
