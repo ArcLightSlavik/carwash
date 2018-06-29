@@ -1,14 +1,16 @@
 package ua.slavik.carwash.DTO.JobDTO;
 
 import lombok.Data;
-import ua.slavik.carwash.model.JobStatus;
+import java.util.Date;
 import java.util.List;
 
 @Data
 public class JobDTO
 {
-    private Long id;
+    private long id;
+    private boolean completed;
+    private List<Long> serviceIds;
     private Long carId;
-    private List<Long> subJobIds;
-    private JobStatus status;
+    private Date startDate;
+    private Date endDate;
 }

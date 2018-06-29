@@ -6,10 +6,8 @@ import java.util.List;
 @Data
 public class UpdateServiceDTO
 {
-    private Long id;
-    private List<Long> subJobIds;
+    private long id;
     private String name;
     private int price;
-    private int duration;
-    private String description;
+    private List<Long> jobIds;
 }

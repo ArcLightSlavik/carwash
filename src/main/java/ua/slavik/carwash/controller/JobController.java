@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.JobDTO.CreateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.JobDTO;
-import ua.slavik.carwash.DTO.SubJobDTO.SubJobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobStatus;
-import ua.slavik.carwash.model.SubJob;
+import ua.slavik.carwash.model.Service;
 import ua.slavik.carwash.service.JobService;
-import ua.slavik.carwash.service.SubJobService;
+import ua.slavik.carwash.service.ServiceService;
+
+import java.util.List;
 
 
 @RestController
@@ -25,7 +26,7 @@ public class JobController
     private JobService jobService;
 
     @Autowired
-    private SubJobService subJobService;
+    private ServiceService serviceService;
 
     @PostMapping(value = "/job")
     public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
@@ -66,29 +67,32 @@ public class JobController
         jobService.deleteJob(id);
         return new ResponseEntity("deleted" , HttpStatus.OK);
     }
-
-    @PostMapping(value = "/job/{jobId}/subJob")
-    public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId, @RequestBody CreateJobDTO subJob)
+    //add service
+    @PutMapping(value = "/job/{jobId}/service/{serviceId}")
+    public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId , @PathVariable("serviceId") Long serviceId)
     {
         Job job = jobService.getJobById(jobId);
         if (job == null)
         {
-            return new ResponseEntity("invalid job id", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("jobs not found " , HttpStatus.NOT_FOUND);
         }
-
-        // goes through each subjob in the job ,if any are completed, don't let them add another
-        for (SubJob sj : job.getSubJobs())
+        Service service = serviceService.getServiceById(serviceId);
+        if (service == null)
         {
-            if (sj.getStatus() == JobStatus.COMPLETED)
-            {
-                return new ResponseEntity("cannot add new subjobs to this job - a subjob is already complete for it", HttpStatus.NOT_ACCEPTABLE);
-            }
+            return new ResponseEntity("services not found " , HttpStatus.NOT_FOUND);
+        }
+        if (job.getStatus() != JobStatus.IN_PROGRESS || job.getStatus() != JobStatus.NOT_STARTED)
+        {
+            return new ResponseEntity("You can't add a service if job has been started" , HttpStatus.NOT_ACCEPTABLE);
         }
 
-        // create the new sub job
-        subJobService.createSubJob(modelMapper.map(subJob, SubJob.class));
+        List<Service> services = job.getServices();
+        services.add(service);
+        job.setServices(services);
 
-        return new ResponseEntity(modelMapper.map(subJob, SubJobDTO.class), HttpStatus.OK);
+        jobService.updateJob(job);
+
+        return new ResponseEntity(modelMapper.map(job , JobDTO.class) , HttpStatus.OK);
 
     }
 
