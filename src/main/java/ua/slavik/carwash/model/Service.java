@@ -23,4 +23,5 @@ public class Service
     private int price;
     private int duration;
     private String description;
+    private int priority;
 }

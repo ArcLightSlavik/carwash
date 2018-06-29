@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.JobDTO.CreateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.JobDTO;
+import ua.slavik.carwash.DTO.SubJobDTO.CreateSubJobDTO;
 import ua.slavik.carwash.DTO.SubJobDTO.SubJobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobStatus;
@@ -68,7 +69,7 @@ public class JobController
     }
 
     @PostMapping(value = "/job/{jobId}/subJob")
-    public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId, @RequestBody CreateJobDTO subJob)
+    public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId, @RequestBody CreateSubJobDTO subJobDTO)
     {
         Job job = jobService.getJobById(jobId);
         if (job == null)
@@ -76,17 +77,18 @@ public class JobController
             return new ResponseEntity("invalid job id", HttpStatus.NOT_FOUND);
         }
 
+        SubJob subJob = modelMapper.map(subJobDTO, SubJob.class);
         // goes through each subjob in the job , if any are completed, don't let them add another
         for (SubJob sj : job.getSubJobs())
         {
-            if (sj.getStatus() == JobStatus.COMPLETED)
+            if (sj.getStatus() == JobStatus.COMPLETED && subJob.getService().getPriority() > sj.getService().getPriority())
             {
                 return new ResponseEntity("cannot add new subjobs to this job - a subjob is already complete for it", HttpStatus.NOT_ACCEPTABLE);
             }
         }
 
         // create the new subjob
-        subJobService.createSubJob(modelMapper.map(subJob, SubJob.class));
+        subJobService.createSubJob(subJob);
 
         return new ResponseEntity(modelMapper.map(subJob, SubJobDTO.class), HttpStatus.OK);
 
