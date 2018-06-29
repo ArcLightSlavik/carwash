@@ -7,8 +7,9 @@ import java.util.List;
 public class UpdateCarDTO
 {
     private Long id;
-    private String registrationNumber;
-    private String model;
-    private List<Long> jobIds;
-    private Long customerId;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
+    private List<Long> carIds;
 }

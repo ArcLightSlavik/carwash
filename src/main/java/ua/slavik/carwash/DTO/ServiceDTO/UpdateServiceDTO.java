@@ -7,9 +7,10 @@ import java.util.List;
 public class UpdateServiceDTO
 {
     private Long id;
-    private List<Long> subJobIds;
     private String name;
+    private String description;
     private int price;
     private int duration;
-    private String description;
+    private int priority;
+    private List<Long> subJobIds;
 }

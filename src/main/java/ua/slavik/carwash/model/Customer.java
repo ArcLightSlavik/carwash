@@ -13,7 +13,6 @@ public class Customer
     @Id
     @GeneratedValue
     private Long id;
-
     private String firstName;
     private String lastName;
     private String phoneNumber;
