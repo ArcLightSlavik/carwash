@@ -18,7 +18,6 @@ public class Service
 
     @OneToMany(mappedBy = "service")
     private List<SubJob> subJobs;
-
     private String name;
     private String description;
     private int price;
