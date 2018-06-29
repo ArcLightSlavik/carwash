@@ -21,13 +21,12 @@ public class Job
     @JoinColumn(name="car_id")
     private Car car;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "service_job",
-            joinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "job_id",  referencedColumnName = "id"))
+    @OneToMany(mappedBy = "job")
+    private List<SubJob> subJobs;
 
-    private List<Service> services;
     private Date startDate;
     private Date endDate;
+
+    // overall job status
     private JobStatus status;
 }

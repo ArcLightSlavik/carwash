@@ -6,8 +6,9 @@ import java.util.List;
 @Data
 public class CreateServiceDTO
 {
-    private long id;
+    private List<Long> subJobIds;
     private String name;
     private int price;
-    private List<Long> jobIds;
+    private int duration;
+    private String description;
 }
