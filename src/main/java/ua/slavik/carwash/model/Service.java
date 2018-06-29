@@ -4,10 +4,7 @@ package ua.slavik.carwash.model;
 
 import lombok.Builder;
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -19,8 +16,8 @@ public class Service
     @GeneratedValue
     private long id;
 
-    @ManyToMany(mappedBy = "services")
-    private List<Job> jobs;
+    @OneToMany(mappedBy = "service")
+    private List<SubJob> subJobs;
 
     private String name;
     private int price;
