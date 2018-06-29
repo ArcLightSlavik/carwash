@@ -21,7 +21,7 @@ public class CustomerController
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping(value = "/customer")
+    @PostMapping
     public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO)
     {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
@@ -30,7 +30,7 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(savedCustomer, Customer.class), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/customer/{customerId}")
+    @GetMapping(value = "/{customerId}")
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);
@@ -40,7 +40,7 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/customer")
+    @PutMapping
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO)
     {
         Customer customer = modelMapper.map(updateCustomerDTO , Customer.class);
@@ -49,7 +49,7 @@ public class CustomerController
         return new ResponseEntity(modelMapper.map(updatedCustomer , Customer.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/customer/{customerId}")
+    @DeleteMapping(value ="/{customerId}")
     public ResponseEntity delete(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);

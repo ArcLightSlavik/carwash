@@ -21,7 +21,7 @@ public class CarController
     @Autowired
     private CarService carService;
 
-    @PostMapping(value = "/car")
+    @PostMapping
     public ResponseEntity createCar(@RequestBody CreateCarDTO carDTO)
     {
         Car car = modelMapper.map(carDTO, Car.class);
@@ -30,7 +30,7 @@ public class CarController
         return new ResponseEntity(modelMapper.map(savedCar, Car.class), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/car/{carId}")
+    @GetMapping(value = "/{carId}")
     public ResponseEntity getCar(@PathVariable("carId") Long id)
     {
         Car car = carService.getCarById(id);
@@ -40,7 +40,7 @@ public class CarController
         return new ResponseEntity(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/car")
+    @PutMapping
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO)
     {
         Car car = modelMapper.map(updateCarDTO , Car.class);
@@ -49,7 +49,7 @@ public class CarController
         return new ResponseEntity(modelMapper.map(updatedCar , Car.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/car/{carId}")
+    @DeleteMapping(value = "/{carId}")
     public ResponseEntity delete(@PathVariable("carId") Long id)
     {
         Car car = carService.getCarById(id);

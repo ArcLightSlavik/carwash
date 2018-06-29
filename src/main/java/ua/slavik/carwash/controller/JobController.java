@@ -18,6 +18,7 @@ import ua.slavik.carwash.service.SubJobService;
 
 
 @RestController
+@RequestMapping("/job")
 public class JobController
 {
     private ModelMapper modelMapper =  new ModelMapper();
@@ -28,7 +29,7 @@ public class JobController
     @Autowired
     private SubJobService subJobService;
 
-    @PostMapping(value = "/job")
+    @PostMapping
     public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
     {
         Job job = modelMapper.map(jobDTO , Job.class);
@@ -37,7 +38,7 @@ public class JobController
         return new ResponseEntity(modelMapper.map(savedJob , Job.class), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/job/{jobId}")
+    @GetMapping(value = "/{jobId}")
     public ResponseEntity getJob(@PathVariable("jobId") Long id)
     {
         Job job = jobService.getJobById(id);
@@ -47,7 +48,7 @@ public class JobController
         return new ResponseEntity(modelMapper.map(job , JobDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/job")
+    @PutMapping
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO)
     {
         Job job = modelMapper.map(updateJobDTO , Job.class);
@@ -56,7 +57,7 @@ public class JobController
         return new ResponseEntity(modelMapper.map(updatedJob , Job.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/job/{jobId}")
+    @DeleteMapping(value = "/{jobId}")
     public ResponseEntity delete(@PathVariable("jobId") Long id)
     {
         Job job= jobService.getJobById(id);
@@ -68,7 +69,7 @@ public class JobController
         return new ResponseEntity("deleted" , HttpStatus.OK);
     }
 
-    @PostMapping(value = "/job/{jobId}/subJob")
+    @PostMapping(value = "/{jobId}/subJob")
     public ResponseEntity addServiceToJob(@PathVariable("jobId") Long jobId, @RequestBody CreateSubJobDTO subJobDTO)
     {
         Job job = jobService.getJobById(jobId);

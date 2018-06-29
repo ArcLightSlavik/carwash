@@ -13,6 +13,7 @@ import ua.slavik.carwash.service.ServiceService;
 
 
 @RestController
+@RequestMapping("/service")
 public class ServiceController
 {
     private ModelMapper modelMapper =  new ModelMapper();
@@ -20,7 +21,7 @@ public class ServiceController
     @Autowired
     private ServiceService serviceService;
 
-    @PostMapping(value = "/service")
+    @PostMapping
     public ResponseEntity createService(@RequestBody CreateServiceDTO serviceDTO)
     {
         Service service = modelMapper.map(serviceDTO, Service.class);
@@ -29,7 +30,7 @@ public class ServiceController
         return new ResponseEntity(modelMapper.map( savedService, ServiceDTO.class), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/service/{serviceId}")
+    @GetMapping(value = "/{serviceId}")
     public ResponseEntity getService(@PathVariable("serviceId") Long id)
     {
         Service service = serviceService.getServiceById(id);
@@ -39,7 +40,7 @@ public class ServiceController
         return new ResponseEntity(modelMapper.map(service, ServiceDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/service")
+    @PutMapping
     public ResponseEntity updateService(@RequestBody UpdateServiceDTO updateServiceVO)
     {
         Service service = modelMapper.map(updateServiceVO , Service.class);
@@ -48,7 +49,7 @@ public class ServiceController
         return new ResponseEntity(modelMapper.map(updatedService , ServiceDTO.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/service/{serviceId}")
+    @DeleteMapping(value = "/{serviceId}")
     public ResponseEntity delete(@PathVariable("serviceId") Long id)
     {
         Service service = serviceService.getServiceById(id);
