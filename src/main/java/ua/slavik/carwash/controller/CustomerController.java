@@ -16,7 +16,7 @@ import ua.slavik.carwash.service.CustomerService;
 @RequestMapping("/customer")
 public class CustomerController
 {
-    private ModelMapper modelMapper =  new ModelMapper();
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     private CustomerService customerService;
@@ -34,7 +34,8 @@ public class CustomerController
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);
-        if (customer == null) {
+        if (customer == null)
+        {
             return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
@@ -43,13 +44,13 @@ public class CustomerController
     @PutMapping
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO)
     {
-        Customer customer = modelMapper.map(updateCustomerDTO , Customer.class);
+        Customer customer = modelMapper.map(updateCustomerDTO, Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(customer);
 
-        return new ResponseEntity(modelMapper.map(updatedCustomer , Customer.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(updatedCustomer, Customer.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value ="/{customerId}")
+    @DeleteMapping(value = "/{customerId}")
     public ResponseEntity delete(@PathVariable("customerId") Long id)
     {
         Customer customer = customerService.getCustomerById(id);
@@ -58,6 +59,6 @@ public class CustomerController
             return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
         }
         customerService.deleteCustomer(id);
-        return new ResponseEntity("deleted" , HttpStatus.OK);
+        return new ResponseEntity("deleted", HttpStatus.OK);
     }
 }

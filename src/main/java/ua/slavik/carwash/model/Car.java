@@ -13,7 +13,6 @@ public class Car
     @Id
     @GeneratedValue
     private long id;
-
     private String registrationNumber;
     private String model;
 
@@ -21,6 +20,6 @@ public class Car
     private List<Job> jobs;
 
     @ManyToOne
-    @JoinColumn(name="customer_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 }

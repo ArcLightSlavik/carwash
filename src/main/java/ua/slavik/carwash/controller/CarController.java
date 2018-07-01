@@ -16,7 +16,7 @@ import ua.slavik.carwash.service.CarService;
 @RequestMapping("/car")
 public class CarController
 {
-    private ModelMapper modelMapper =  new ModelMapper();
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     private CarService carService;
@@ -34,7 +34,8 @@ public class CarController
     public ResponseEntity getCar(@PathVariable("carId") Long id)
     {
         Car car = carService.getCarById(id);
-        if (car == null) {
+        if (car == null)
+        {
             return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
@@ -43,10 +44,10 @@ public class CarController
     @PutMapping
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO)
     {
-        Car car = modelMapper.map(updateCarDTO , Car.class);
+        Car car = modelMapper.map(updateCarDTO, Car.class);
         Car updatedCar = carService.updateCar(car);
 
-        return new ResponseEntity(modelMapper.map(updatedCar , Car.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(updatedCar, Car.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{carId}")
@@ -58,6 +59,6 @@ public class CarController
             return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
         }
         carService.deleteCar(id);
-        return new ResponseEntity("deleted" , HttpStatus.OK);
+        return new ResponseEntity("deleted", HttpStatus.OK);
     }
 }

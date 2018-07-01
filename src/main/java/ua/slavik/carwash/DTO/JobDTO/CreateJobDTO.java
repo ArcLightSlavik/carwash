@@ -10,7 +10,7 @@ import java.util.List;
 public class CreateJobDTO
 {
     private Car car;
-    private List<Long> subJobIds;
+    private List<Long> jobItemIds;
     private Date startDate;
     private Date endDate;
     private JobStatus status;

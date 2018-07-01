@@ -1,7 +1,5 @@
 package ua.slavik.carwash.model;
 
-//what is going to be performed on the car
-
 import lombok.Builder;
 import lombok.Data;
 import javax.persistence.*;
@@ -16,17 +14,14 @@ public class Job
     @Id
     @GeneratedValue
     private long id;
+    private Date startDate;
+    private Date endDate;
+    private JobStatus status;
 
     @ManyToOne
-    @JoinColumn(name="car_id")
+    @JoinColumn(name = "car_id")
     private Car car;
 
     @OneToMany(mappedBy = "job")
-    private List<SubJob> subJobs;
-
-    private Date startDate;
-    private Date endDate;
-
-    // overall job status
-    private JobStatus status;
+    private List<JobItem> jobItems;
 }
