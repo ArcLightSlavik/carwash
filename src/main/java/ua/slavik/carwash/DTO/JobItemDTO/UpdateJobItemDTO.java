@@ -6,10 +6,11 @@ import lombok.Data;
 public class UpdateJobItemDTO
 {
     private Long id;
+    private Long jobId;
     private int price;
     private int duration;
     private int priority;
     private String name;
     private String description;
-    private Long jobId;
+    private boolean repeatable;
 }

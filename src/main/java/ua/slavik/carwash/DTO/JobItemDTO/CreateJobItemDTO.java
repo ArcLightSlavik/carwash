@@ -8,7 +8,8 @@ public class CreateJobItemDTO
     private int price;
     private int duration;
     private int priority;
+    private Long jobId;
     private String name;
     private String description;
-    private Long jobId;
+    private boolean repeatable;
 }

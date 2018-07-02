@@ -13,7 +13,9 @@ import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.service.JobItemService;
 import ua.slavik.carwash.service.JobService;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -82,16 +84,47 @@ public class JobController
         {
             return new ResponseEntity("services not found", HttpStatus.NOT_FOUND);
         }
-        for (JobItem ji : job.getJobItems())
+        boolean allowed = job.getJobItems()
+                .stream()
+                .allMatch(ji ->
+                {
+                    // check if this JobItem is ****NOT**** COMPLETED
+                    if (ji.getStatus() != JobStatus.COMPLETED)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        // check if the *new* JobItem has a lower priority
+                        if (ji.isRepeatable() && ji.getPriority() < jobItem.getPriority())
+                        {
+                            return true;
+                        }
+
+                        // if the priorities are the same, check if they are the same jobItem, and then that it's repeatable
+                        if (ji.getPriority() == jobItem.getPriority() && ji.getName() == jobItem.getName() && ji.isRepeatable())
+                        {
+                            return true;
+                        }
+
+                    }
+
+                    return false;
+                });
+
+        if (!allowed)
         {
-            if (ji.getStatus() == JobStatus.COMPLETED && jobItem.getPriority() > ji.getPriority())
-            {
-                return new ResponseEntity("cannot add a new jobitem to this job - jobitem with lower priority is already complete", HttpStatus.NOT_ACCEPTABLE);
-            }
+            return new ResponseEntity("cannot add a new jobitem to this job - jobitem with lower priority is already complete", HttpStatus.NOT_ACCEPTABLE);
         }
 
         List<JobItem> jobItems = job.getJobItems();
         jobItems.add(jobItem);
+
+        jobItems = jobItems
+                .stream()
+                .sorted(Comparator.comparing(ji -> ji.getPriority()))
+                .collect(Collectors.toList());
+
         job.setJobItems(jobItems);
 
         jobService.updateJob(job);

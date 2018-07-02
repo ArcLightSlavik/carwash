@@ -18,6 +18,7 @@ public class JobItem
     private int duration;
     private int priority;
     private JobStatus status;
+    private boolean repeatable;
 
     @ManyToOne
     @JoinColumn(name = "job_id")
