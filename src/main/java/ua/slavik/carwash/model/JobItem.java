@@ -1,14 +1,17 @@
 package ua.slavik.carwash.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 
-@Data
-@Builder
+@Getter
+@Setter
 @Entity
 public class JobItem
 {
+    private ModelMapper modelMapper = new ModelMapper();
+
     @Id
     @GeneratedValue
     private long id;

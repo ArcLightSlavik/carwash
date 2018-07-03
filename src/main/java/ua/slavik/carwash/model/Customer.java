@@ -1,12 +1,12 @@
 package ua.slavik.carwash.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@Setter
 @Entity
 public class Customer
 {
@@ -20,4 +20,13 @@ public class Customer
 
     @OneToMany(mappedBy = "customer")
     private List<Car> cars;
+
+    public Customer(String john)
+    {
+        //temporary
+    }
+    public Customer()
+    {
+        //temporary
+    }
 }

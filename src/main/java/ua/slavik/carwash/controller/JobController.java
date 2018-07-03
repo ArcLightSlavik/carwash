@@ -9,13 +9,7 @@ import ua.slavik.carwash.DTO.JobDTO.CreateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.JobDTO;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.model.JobItem;
-import ua.slavik.carwash.model.JobStatus;
-import ua.slavik.carwash.service.JobItemService;
 import ua.slavik.carwash.service.JobService;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -26,9 +20,6 @@ public class JobController
 
     @Autowired
     private JobService jobService;
-
-    @Autowired
-    private JobItemService jobItemService;
 
     @PostMapping
     public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
@@ -74,63 +65,7 @@ public class JobController
     @PutMapping(value = "/{jobId}/jobItem/{jobItemId}")
     public ResponseEntity addJobItemToJob(@PathVariable("jobId") Long jobId, @PathVariable("jobItemId") Long jobItemId)
     {
-        Job job = jobService.getJobById(jobId);
-        if (job == null)
-        {
-            return new ResponseEntity("jobs not found", HttpStatus.NOT_FOUND);
-        }
-        JobItem jobItem = jobItemService.getJobItemById(jobItemId);
-        if (jobItem == null)
-        {
-            return new ResponseEntity("services not found", HttpStatus.NOT_FOUND);
-        }
-        boolean allowed = job.getJobItems()
-                .stream()
-                .allMatch(ji ->
-                {
-                    // check if this JobItem is ****NOT**** COMPLETED
-                    if (ji.getStatus() != JobStatus.COMPLETED)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        // check if the *new* JobItem has a lower priority
-                        if (ji.isRepeatable() && ji.getPriority() < jobItem.getPriority())
-                        {
-                            return true;
-                        }
-
-                        // if the priorities are the same, check if they are the same jobItem, and then that it's repeatable
-                        if (ji.getPriority() == jobItem.getPriority() && ji.getName() == jobItem.getName() && ji.isRepeatable())
-                        {
-                            return true;
-                        }
-
-                    }
-
-                    return false;
-                });
-
-        if (!allowed)
-        {
-            return new ResponseEntity("cannot add a new jobitem to this job - jobitem with lower priority is already complete", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        List<JobItem> jobItems = job.getJobItems();
-        jobItems.add(jobItem);
-
-        jobItems = jobItems
-                .stream()
-                .sorted(Comparator.comparing(ji -> ji.getPriority()))
-                .collect(Collectors.toList());
-
-        job.setJobItems(jobItems);
-
-        jobService.updateJob(job);
-
-        return new ResponseEntity(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
-
+        return jobService.addJobItemToJob(jobId, jobItemId);
     }
 
 }
