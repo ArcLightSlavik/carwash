@@ -27,7 +27,7 @@ public class JobController
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
 
-        return new ResponseEntity(modelMapper.map(savedJob, Job.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(savedJob, JobDTO.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{jobId}")
@@ -47,7 +47,7 @@ public class JobController
         Job job = modelMapper.map(updateJobDTO, Job.class);
         Job updatedJob = jobService.updateJob(job);
 
-        return new ResponseEntity(modelMapper.map(updatedJob, Job.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(updatedJob, JobDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{jobId}")

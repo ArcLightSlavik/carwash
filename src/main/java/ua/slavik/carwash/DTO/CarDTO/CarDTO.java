@@ -7,10 +7,9 @@ import java.util.List;
 public class CarDTO
 {
     private Long id;
-    private List<Long> carIds;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String email;
+    private String registrationNumber;
+    private String model;
+    private List<Long> jobIds;
+    private Long customerId;
 }
 

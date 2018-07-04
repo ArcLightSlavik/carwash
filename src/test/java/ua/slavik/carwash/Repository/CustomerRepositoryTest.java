@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
-import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -32,13 +31,4 @@ public class CustomerRepositoryTest
         assertEquals(result.getLastName(), "Wick");
     }
     //without EntityManager
-    @Test
-    public void testFindByFirstName()
-    {
-        entityManager.persist(new Customer("John"));
-
-        Optional<Customer> customer = customerRepository.findByFirstName("John");
-        assertEquals("John" , customer.get().getFirstName());
-    }
-    //with EntityManager , if we had findByFirstName
 }

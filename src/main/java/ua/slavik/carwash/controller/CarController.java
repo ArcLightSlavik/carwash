@@ -27,7 +27,7 @@ public class CarController
         Car car = modelMapper.map(carDTO, Car.class);
         Car savedCar = carService.createCar(car);
 
-        return new ResponseEntity(modelMapper.map(savedCar, Car.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(savedCar, CarDTO.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{carId}")
@@ -47,7 +47,7 @@ public class CarController
         Car car = modelMapper.map(updateCarDTO, Car.class);
         Car updatedCar = carService.updateCar(car);
 
-        return new ResponseEntity(modelMapper.map(updatedCar, Car.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(updatedCar, CarDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{carId}")

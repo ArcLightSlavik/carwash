@@ -34,12 +34,14 @@ public class CustomerControllerTest
         Customer customer = new Customer();
         customer.setId(1L);
         customer.setFirstName("John");
+        customer.setLastName("Wick");
         customer.setEmail("john.wick@gmail.com");
 
         given(customerRepository.findById(1L)).willReturn(java.util.Optional.ofNullable(customer));
         mvc.perform(get("/customer/1").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
                 .andExpect((ResultMatcher) jsonPath("$.id", is(1)))
                 .andExpect((ResultMatcher) jsonPath("$.firstName", ("John")))
+                .andExpect((ResultMatcher) jsonPath("$.lastName", ("Wick")))
                 .andExpect((ResultMatcher) jsonPath("$.email", ("john.wick@gmail.com")));
     }
 
@@ -48,4 +50,6 @@ public class CustomerControllerTest
     {
         mvc.perform(get("/customer/2").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());
     }
+
+    //carControllerTest
 }

@@ -1,20 +1,19 @@
 package ua.slavik.carwash.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Car
 {
-    private ModelMapper modelMapper = new ModelMapper();
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String registrationNumber;
     private String model;

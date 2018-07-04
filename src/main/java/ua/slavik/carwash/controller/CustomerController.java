@@ -27,7 +27,7 @@ public class CustomerController
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
 
-        return new ResponseEntity(modelMapper.map(savedCustomer, Customer.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(savedCustomer, CustomerDTO.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{customerId}")
@@ -47,7 +47,7 @@ public class CustomerController
         Customer customer = modelMapper.map(updateCustomerDTO, Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(customer);
 
-        return new ResponseEntity(modelMapper.map(updatedCustomer, Customer.class), HttpStatus.OK);
+        return new ResponseEntity(modelMapper.map(updatedCustomer, CustomerDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{customerId}")
