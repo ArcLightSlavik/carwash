@@ -55,6 +55,7 @@ public class JobServiceImpl implements JobService
             jobRepository.deleteById(id);
         }
     }
+
     @Override
     public ResponseEntity addJobItemToJob(Long jobId, Long jobItemId)
     {
@@ -76,8 +77,7 @@ public class JobServiceImpl implements JobService
                     if (ji.getStatus() != JobStatus.COMPLETED)
                     {
                         return true;
-                    }
-                    else
+                    } else
                     {
                         // check if the *new* JobItem has a lower priority
                         if (ji.isRepeatable() && ji.getPriority() < jobItem.getPriority())
