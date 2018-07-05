@@ -1,8 +1,6 @@
 package ua.slavik.carwash.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +8,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Job
 {
     @Id

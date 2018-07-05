@@ -1,14 +1,14 @@
 package ua.slavik.carwash.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class JobItem
 {
     @Id
