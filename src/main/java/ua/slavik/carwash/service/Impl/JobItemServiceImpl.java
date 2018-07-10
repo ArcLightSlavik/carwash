@@ -10,8 +10,13 @@ import ua.slavik.carwash.service.JobItemService;
 
 public class JobItemServiceImpl implements JobItemService
 {
+    private final JobItemRepository jobItemRepository;
+
     @Autowired
-    private JobItemRepository jobItemRepository;
+    public JobItemServiceImpl(JobItemRepository jobItemRepository)
+    {
+        this.jobItemRepository = jobItemRepository;
+    }
 
     @Override
     public JobItem getJobItemById(Long id)

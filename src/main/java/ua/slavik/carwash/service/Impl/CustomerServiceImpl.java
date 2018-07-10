@@ -10,8 +10,13 @@ import ua.slavik.carwash.service.CustomerService;
 @Service
 public class CustomerServiceImpl implements CustomerService
 {
+    private final CustomerRepository customerRepository;
+
     @Autowired
-    private CustomerRepository customerRepository;
+    public CustomerServiceImpl(CustomerRepository customerRepository)
+    {
+        this.customerRepository = customerRepository;
+    }
 
     public Customer getCustomerById(Long id)
     {

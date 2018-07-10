@@ -16,10 +16,15 @@ import ua.slavik.carwash.service.JobItemService;
 @RequestMapping("/jobItem")
 public class JobItemController
 {
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    private final JobItemService jobItemService;
 
     @Autowired
-    private JobItemService jobItemService;
+    public JobItemController(JobItemService jobItemService)
+    {
+        this.jobItemService = jobItemService;
+    }
 
     @PostMapping
     public ResponseEntity createJobItem(@RequestBody CreateJobItemDTO jobItemDTO)
@@ -27,7 +32,7 @@ public class JobItemController
         JobItem jobItem = modelMapper.map(jobItemDTO, JobItem.class);
         JobItem savedJobItem = jobItemService.createJobItem(jobItem);
 
-        return new ResponseEntity(modelMapper.map(savedJobItem, JobItemDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(savedJobItem, JobItemDTO.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{jobItemId}")
@@ -36,9 +41,9 @@ public class JobItemController
         JobItem jobItem = jobItemService.getJobItemById(id);
         if (jobItem == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(modelMapper.map(jobItem, JobItemDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(jobItem, JobItemDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
@@ -47,7 +52,7 @@ public class JobItemController
         JobItem jobItem = modelMapper.map(updateJobItemDTO, JobItem.class);
         JobItem updatedJobItem = jobItemService.updateJobItem(jobItem);
 
-        return new ResponseEntity(modelMapper.map(updatedJobItem, JobItemDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedJobItem, JobItemDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{jobItemId}")
@@ -56,9 +61,9 @@ public class JobItemController
         JobItem jobItem = jobItemService.getJobItemById(id);
         if (jobItem == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobItemService.deleteJobItem(id);
-        return new ResponseEntity("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 }

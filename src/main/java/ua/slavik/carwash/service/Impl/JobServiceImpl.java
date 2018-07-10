@@ -20,13 +20,18 @@ import java.util.stream.Collectors;
 @Service
 public class JobServiceImpl implements JobService
 {
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    private final JobRepository jobRepository;
+
+    private final JobItemService jobItemService;
 
     @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
-    private JobItemService jobItemService;
+    public JobServiceImpl(JobRepository jobRepository, JobItemService jobItemService)
+    {
+        this.jobRepository = jobRepository;
+        this.jobItemService = jobItemService;
+    }
 
     @Override
     public Job getJobById(Long id)
@@ -62,12 +67,12 @@ public class JobServiceImpl implements JobService
         Job job = getJobById(jobId);
         if (job == null)
         {
-            return new ResponseEntity("jobs not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("jobs not found", HttpStatus.NOT_FOUND);
         }
         JobItem jobItem = jobItemService.getJobItemById(jobItemId);
         if (jobItem == null)
         {
-            return new ResponseEntity("services not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("services not found", HttpStatus.NOT_FOUND);
         }
         boolean allowed = job.getJobItems()
                 .stream()
@@ -86,19 +91,15 @@ public class JobServiceImpl implements JobService
                         }
 
                         // if the priorities are the same, check if they are the same jobItem, and then that it's repeatable
-                        if (ji.getPriority() == jobItem.getPriority() && ji.getName() == jobItem.getName() && ji.isRepeatable())
-                        {
-                            return true;
-                        }
+                        return ji.getPriority() == jobItem.getPriority() && ji.getName().equals(jobItem.getName()) && ji.isRepeatable();
 
                     }
 
-                    return false;
                 });
 
         if (!allowed)
         {
-            return new ResponseEntity("cannot add a new jobitem to this job - jobitem with lower priority is already complete", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("cannot add a new jobitem to this job - jobitem with lower priority is already complete", HttpStatus.NOT_ACCEPTABLE);
         }
 
         List<JobItem> jobItems = job.getJobItems();
@@ -106,14 +107,14 @@ public class JobServiceImpl implements JobService
 
         jobItems = jobItems
                 .stream()
-                .sorted(Comparator.comparing(ji -> ji.getPriority()))
+                .sorted(Comparator.comparing(JobItem::getPriority))
                 .collect(Collectors.toList());
 
         job.setJobItems(jobItems);
 
         updateJob(job);
 
-        return new ResponseEntity(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
 
     }
 }

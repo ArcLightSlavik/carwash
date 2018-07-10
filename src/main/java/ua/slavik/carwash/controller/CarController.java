@@ -16,10 +16,14 @@ import ua.slavik.carwash.service.CarService;
 @RequestMapping("/car")
 public class CarController
 {
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
+    private final CarService carService;
 
     @Autowired
-    private CarService carService;
+    public CarController(CarService carService)
+    {
+        this.carService = carService;
+    }
 
     @PostMapping
     public ResponseEntity createCar(@RequestBody CreateCarDTO carDTO)
@@ -27,7 +31,7 @@ public class CarController
         Car car = modelMapper.map(carDTO, Car.class);
         Car savedCar = carService.createCar(car);
 
-        return new ResponseEntity(modelMapper.map(savedCar, CarDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(savedCar, CarDTO.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{carId}")
@@ -36,9 +40,9 @@ public class CarController
         Car car = carService.getCarById(id);
         if (car == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
@@ -47,7 +51,7 @@ public class CarController
         Car car = modelMapper.map(updateCarDTO, Car.class);
         Car updatedCar = carService.updateCar(car);
 
-        return new ResponseEntity(modelMapper.map(updatedCar, CarDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedCar, CarDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{carId}")
@@ -56,9 +60,9 @@ public class CarController
         Car car = carService.getCarById(id);
         if (car == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         carService.deleteCar(id);
-        return new ResponseEntity("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 }

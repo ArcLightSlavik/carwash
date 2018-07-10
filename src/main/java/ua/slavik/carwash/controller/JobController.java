@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.DTO.JobDTO.CreateJobDTO;
-import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
 import ua.slavik.carwash.DTO.JobDTO.JobDTO;
+import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.service.JobService;
 
@@ -16,10 +16,15 @@ import ua.slavik.carwash.service.JobService;
 @RequestMapping("/job")
 public class JobController
 {
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    private final JobService jobService;
 
     @Autowired
-    private JobService jobService;
+    public JobController(JobService jobService)
+    {
+        this.jobService = jobService;
+    }
 
     @PostMapping
     public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
@@ -27,7 +32,7 @@ public class JobController
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
 
-        return new ResponseEntity(modelMapper.map(savedJob, JobDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(savedJob, JobDTO.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{jobId}")
@@ -36,9 +41,9 @@ public class JobController
         Job job = jobService.getJobById(id);
         if (job == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
@@ -47,7 +52,7 @@ public class JobController
         Job job = modelMapper.map(updateJobDTO, Job.class);
         Job updatedJob = jobService.updateJob(job);
 
-        return new ResponseEntity(modelMapper.map(updatedJob, JobDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedJob, JobDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{jobId}")
@@ -56,10 +61,10 @@ public class JobController
         Job job = jobService.getJobById(id);
         if (job == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobService.deleteJob(id);
-        return new ResponseEntity("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
     @PutMapping(value = "/{jobId}/jobItem/{jobItemId}")

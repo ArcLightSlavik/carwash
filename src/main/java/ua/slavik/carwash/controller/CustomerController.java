@@ -16,10 +16,14 @@ import ua.slavik.carwash.service.CustomerService;
 @RequestMapping("/customer")
 public class CustomerController
 {
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
+    private final CustomerService customerService;
 
     @Autowired
-    private CustomerService customerService;
+    public CustomerController(CustomerService customerService)
+    {
+        this.customerService = customerService;
+    }
 
     @PostMapping
     public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO)
@@ -27,7 +31,7 @@ public class CustomerController
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
 
-        return new ResponseEntity(modelMapper.map(savedCustomer, CustomerDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(savedCustomer, CustomerDTO.class), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{customerId}")
@@ -36,9 +40,9 @@ public class CustomerController
         Customer customer = customerService.getCustomerById(id);
         if (customer == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
@@ -47,7 +51,7 @@ public class CustomerController
         Customer customer = modelMapper.map(updateCustomerDTO, Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(customer);
 
-        return new ResponseEntity(modelMapper.map(updatedCustomer, CustomerDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedCustomer, CustomerDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{customerId}")
@@ -56,9 +60,9 @@ public class CustomerController
         Customer customer = customerService.getCustomerById(id);
         if (customer == null)
         {
-            return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         customerService.deleteCustomer(id);
-        return new ResponseEntity("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 }
