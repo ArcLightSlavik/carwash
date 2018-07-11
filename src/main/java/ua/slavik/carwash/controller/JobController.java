@@ -32,7 +32,7 @@ public class JobController
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
 
-        return new ResponseEntity<>(modelMapper.map(savedJob, JobDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(savedJob, JobDTO.class), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{jobId}")

@@ -32,7 +32,7 @@ public class JobItemController
         JobItem jobItem = modelMapper.map(jobItemDTO, JobItem.class);
         JobItem savedJobItem = jobItemService.createJobItem(jobItem);
 
-        return new ResponseEntity<>(modelMapper.map(savedJobItem, JobItemDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(savedJobItem, JobItemDTO.class), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{jobItemId}")

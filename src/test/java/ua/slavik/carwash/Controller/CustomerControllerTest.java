@@ -19,10 +19,7 @@ import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.Impl.CustomerServiceImpl;
 import java.util.ArrayList;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -88,6 +85,7 @@ public class CustomerControllerTest
                 .andExpect(jsonPath("$.phoneNumber").value(mockCustomerDTO.getPhoneNumber()));
 
     }
+
     @Test
     public void updateCustomer() throws Exception
     {
@@ -111,6 +109,7 @@ public class CustomerControllerTest
                 .andExpect(jsonPath("$.email").value(customerUpdate.getEmail()))
                 .andExpect(jsonPath("$.phoneNumber").value(customerUpdate.getPhoneNumber()));
     }
+
     @Test
     public void deleteCustomer() throws Exception
     {
@@ -118,8 +117,7 @@ public class CustomerControllerTest
                 .email("skywalker.l@outlook.com").phoneNumber("098765432101").build();
         customerRepository.save(mockCustomer);
 
-        RequestBuilder requestBuilder = delete("/customer/{id}" , 1L);
-
+        RequestBuilder requestBuilder = delete("/customer/{id}", 1L);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().string("deleted"))
