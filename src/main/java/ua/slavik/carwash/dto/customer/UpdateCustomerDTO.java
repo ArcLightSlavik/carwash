@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO.CustomerDTO;
+package ua.slavik.carwash.dto.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,11 +10,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateCustomerDTO
+public class UpdateCustomerDTO
 {
+    private Long id;
+    private List<Long> carIds;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
-    private List<Long> carIds;
 }

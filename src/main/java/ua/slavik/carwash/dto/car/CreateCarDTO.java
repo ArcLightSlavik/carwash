@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO.CarDTO;
+package ua.slavik.carwash.dto.car;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

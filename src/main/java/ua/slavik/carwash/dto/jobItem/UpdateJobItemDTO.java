@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO.JobItemDTO;
+package ua.slavik.carwash.dto.jobItem;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

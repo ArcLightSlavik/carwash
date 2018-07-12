@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO.JobItemDTO;
+package ua.slavik.carwash.dto.jobItem;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,12 +10,13 @@ import ua.slavik.carwash.model.JobStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateJobItemDTO
+public class JobItemDTO
 {
+    private Long id;
+    private Long jobId;
     private int price;
     private int duration;
     private int priority;
-    private Long jobId;
     private String name;
     private String description;
     private boolean repeatable;

@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO.JobDTO;
+package ua.slavik.carwash.dto.job;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +12,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateJobDTO
+public class CreateJobDTO
 {
-    private Long id;
     private Long carId;
     private List<Long> jobItemIds;
     private Date startDate;

@@ -1,4 +1,4 @@
-package ua.slavik.carwash.Controller;
+package ua.slavik.carwash.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -13,8 +13,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.DTO.CustomerDTO.CreateCustomerDTO;
-import ua.slavik.carwash.DTO.CustomerDTO.UpdateCustomerDTO;
+import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
+import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.Impl.CustomerServiceImpl;
@@ -43,8 +43,13 @@ public class CustomerControllerTest
     @Test
     public void getCustomer() throws Exception
     {
-        Customer mockCustomer = Customer.builder().firstName("John").lastName("Wick")
-                .email("john.wick@gmail.com").phoneNumber("04587302576").id(1L).build();
+        Customer mockCustomer = Customer.builder()
+                .firstName("John")
+                .lastName("Wick")
+                .email("john.wick@gmail.com")
+                .phoneNumber("04587302576")
+                .id(1L)
+                .build();
 
         Mockito.when(
                 customerServiceMock.getCustomerById(1L)
@@ -66,8 +71,13 @@ public class CustomerControllerTest
     public void postCustomer() throws Exception
     {
 
-        CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder().firstName("James").lastName("Bond")
-                .email("007@gmail.com").phoneNumber("04509345435").carIds(new ArrayList<>()).build();
+        CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
+                .firstName("James")
+                .lastName("Bond")
+                .email("007@gmail.com")
+                .phoneNumber("04509345435")
+                .carIds(new ArrayList<>())
+                .build();
 
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
 
@@ -89,12 +99,21 @@ public class CustomerControllerTest
     @Test
     public void updateCustomer() throws Exception
     {
-        Customer mockCustomer = Customer.builder().firstName("Benedict").lastName("Cumberbatch")
-                .email("benny.d@outlook.com").phoneNumber("05976854234").build();
+        Customer mockCustomer = Customer.builder()
+                .firstName("Benedict")
+                .lastName("Cumberbatch")
+                .email("benny.d@outlook.com")
+                .phoneNumber("05976854234")
+                .build();
         customerRepository.save(mockCustomer);
 
-        UpdateCustomerDTO customerUpdate = UpdateCustomerDTO.builder().firstName("John").lastName("Watson")
-                .email("watson.john@gmail.com").phoneNumber("99999999999").id(1L).build();
+        UpdateCustomerDTO customerUpdate = UpdateCustomerDTO.builder()
+                .firstName("John")
+                .lastName("Watson")
+                .email("watson.john@gmail.com")
+                .phoneNumber("99999999999")
+                .id(1L)
+                .build();
 
         RequestBuilder requestBuilder = put("/customer/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -113,8 +132,12 @@ public class CustomerControllerTest
     @Test
     public void deleteCustomer() throws Exception
     {
-        Customer mockCustomer = Customer.builder().firstName("Luke").lastName("Skywalker")
-                .email("skywalker.l@outlook.com").phoneNumber("098765432101").build();
+        Customer mockCustomer = Customer.builder()
+                .firstName("Luke")
+                .lastName("Skywalker")
+                .email("skywalker.l@outlook.com")
+                .phoneNumber("098765432101")
+                .build();
         customerRepository.save(mockCustomer);
 
         RequestBuilder requestBuilder = delete("/customer/{id}", 1L);

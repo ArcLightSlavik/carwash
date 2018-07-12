@@ -1,4 +1,4 @@
-package ua.slavik.carwash.Controller;
+package ua.slavik.carwash.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -13,8 +13,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.DTO.CarDTO.CreateCarDTO;
-import ua.slavik.carwash.DTO.CarDTO.UpdateCarDTO;
+import ua.slavik.carwash.dto.car.CreateCarDTO;
+import ua.slavik.carwash.dto.car.UpdateCarDTO;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CarRepository;
@@ -48,8 +48,11 @@ public class CarControllerTest
     @Test
     public void getCar() throws Exception
     {
-        Car mockCar = Car.builder().registrationNumber("AA 8448 CB").model("Audi")
-                .id(1L).build();
+        Car mockCar = Car.builder()
+                .registrationNumber("AA 8448 CB")
+                .model("Audi")
+                .id(1L)
+                .build();
 
         Mockito.when(
                 carServiceMock.getCarById(1L)
@@ -68,12 +71,21 @@ public class CarControllerTest
     @Test
     public void postCar() throws Exception
     {
-        Customer mockCustomer = Customer.builder().firstName("John").lastName("Wick")
-                .email("john.wick@gmail.com").phoneNumber("04587302576").id(1L).build();
+        Customer mockCustomer = Customer.builder()
+                .firstName("John")
+                .lastName("Wick")
+                .email("john.wick@gmail.com")
+                .phoneNumber("04587302576")
+                .id(1L)
+                .build();
         customerRepository.save(mockCustomer);
 
-        CreateCarDTO mockCarDTO = CreateCarDTO.builder().registrationNumber("AA 8448 CB").model("Audi")
-                .jobIds(new ArrayList<>()).customerId(1L).build();
+        CreateCarDTO mockCarDTO = CreateCarDTO.builder()
+                .registrationNumber("AA 8448 CB")
+                .model("Audi")
+                .jobIds(new ArrayList<>())
+                .customerId(1L)
+                .build();
 
         String mockCarDTOJSON = objectMapper.writeValueAsString(mockCarDTO);
 
@@ -93,12 +105,17 @@ public class CarControllerTest
     @Test
     public void updateCar() throws Exception
     {
-        Car mockCar = Car.builder().registrationNumber("AA 8448 CB").model("Audi")
+        Car mockCar = Car.builder()
+                .registrationNumber("AA 8448 CB")
+                .model("Audi")
                 .build();
         carRepository.save(mockCar);
 
-        UpdateCarDTO carUpdate = UpdateCarDTO.builder().registrationNumber("AA 9999 CB").model("Bmw")
-                .id(1L).build();
+        UpdateCarDTO carUpdate = UpdateCarDTO.builder()
+                .registrationNumber("AA 9999 CB")
+                .model("Bmw")
+                .id(1L)
+                .build();
 
         RequestBuilder requestBuilder = put("/car/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -115,8 +132,11 @@ public class CarControllerTest
     @Test
     public void deleteCar() throws Exception
     {
-        Car mockCar = Car.builder().registrationNumber("AA 8448 CB").model("Audi")
-                .id(1L).build();
+        Car mockCar = Car.builder()
+                .registrationNumber("AA 8448 CB")
+                .model("Audi")
+                .id(1L)
+                .build();
         carRepository.save(mockCar);
 
         RequestBuilder requestBuilder = delete("/car/{id}", 1L);

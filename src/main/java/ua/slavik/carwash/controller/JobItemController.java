@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.DTO.JobItemDTO.CreateJobItemDTO;
-import ua.slavik.carwash.DTO.JobItemDTO.JobItemDTO;
-import ua.slavik.carwash.DTO.JobItemDTO.UpdateJobItemDTO;
+import ua.slavik.carwash.dto.jobItem.CreateJobItemDTO;
+import ua.slavik.carwash.dto.jobItem.JobItemDTO;
+import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.service.JobItemService;
 

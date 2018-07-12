@@ -1,4 +1,4 @@
-package ua.slavik.carwash.Controller;
+package ua.slavik.carwash.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -13,8 +13,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.DTO.JobDTO.CreateJobDTO;
-import ua.slavik.carwash.DTO.JobDTO.UpdateJobDTO;
+import ua.slavik.carwash.dto.job.CreateJobDTO;
+import ua.slavik.carwash.dto.job.UpdateJobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.repository.JobRepository;
@@ -44,8 +44,12 @@ public class JobControllerTest
     @Test
     public void getJob() throws Exception
     {
-        Job mockJob = Job.builder().startDate(new Date(1531282957L)).endDate(new Date(1531282992L))
-                .status(JobStatus.IN_PROGRESS).id(1L).build();
+        Job mockJob = Job.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.IN_PROGRESS)
+                .id(1L)
+                .build();
 
         Mockito.when(
                 jobServiceMock.getJobById(1L)
@@ -63,8 +67,11 @@ public class JobControllerTest
     @Test
     public void postJob() throws Exception
     {
-        CreateJobDTO mockJobDTO = CreateJobDTO.builder().startDate(new Date(1531282957L)).endDate(new Date(1531282992L))
-                .status(JobStatus.IN_PROGRESS).build();
+        CreateJobDTO mockJobDTO = CreateJobDTO.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.IN_PROGRESS)
+                .build();
 
         String mockJobDTOJSON = objectMapper.writeValueAsString(mockJobDTO);
 
@@ -83,12 +90,19 @@ public class JobControllerTest
     @Test
     public void updateJob() throws Exception
     {
-        Job mockJob = Job.builder().startDate(new Date(1531282957L)).endDate(new Date(1531282992L))
-                .status(JobStatus.IN_PROGRESS).build();
+        Job mockJob = Job.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.IN_PROGRESS)
+                .build();
         jobRepository.save(mockJob);
 
-        UpdateJobDTO jobUpdate = UpdateJobDTO.builder().startDate(new Date(1531358161L)).endDate(new Date(1531358169L))
-                .status(JobStatus.COMPLETED).id(1L).build();
+        UpdateJobDTO jobUpdate = UpdateJobDTO.builder()
+                .startDate(new Date(1531358161L))
+                .endDate(new Date(1531358169L))
+                .status(JobStatus.COMPLETED)
+                .id(1L)
+                .build();
 
         RequestBuilder requestBuilder = put("/job/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -104,8 +118,11 @@ public class JobControllerTest
     @Test
     public void deleteJob() throws Exception
     {
-        Job mockJob = Job.builder().startDate(new Date(1531282957L)).endDate(new Date(1531282992L))
-                .status(JobStatus.IN_PROGRESS).build();
+        Job mockJob = Job.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.IN_PROGRESS)
+                .build();
         jobRepository.save(mockJob);
 
         RequestBuilder requestBuilder = delete("/job/{id}", 1L);

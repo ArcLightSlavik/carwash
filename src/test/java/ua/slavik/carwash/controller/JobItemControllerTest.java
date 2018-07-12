@@ -1,4 +1,4 @@
-package ua.slavik.carwash.Controller;
+package ua.slavik.carwash.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -13,8 +13,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.DTO.JobItemDTO.CreateJobItemDTO;
-import ua.slavik.carwash.DTO.JobItemDTO.UpdateJobItemDTO;
+import ua.slavik.carwash.dto.jobItem.CreateJobItemDTO;
+import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobStatus;
@@ -49,8 +49,16 @@ public class JobItemControllerTest
     @Test
     public void getJobItem() throws Exception
     {
-        JobItem mockJobItem = JobItem.builder().name("window cleaning").description("cleaning of window").price(10).duration(20).priority(3).status(JobStatus.IN_PROGRESS).repeatable(false)
-                .id(1L).build();
+        JobItem mockJobItem = JobItem.builder()
+                .name("window cleaning")
+                .description("cleaning of window")
+                .price(10)
+                .duration(20)
+                .priority(3)
+                .status(JobStatus.IN_PROGRESS)
+                .repeatable(false)
+                .id(1L)
+                .build();
 
         Mockito.when(
                 jobItemServiceMock.getJobItemById(1L)
@@ -73,12 +81,24 @@ public class JobItemControllerTest
     @Test
     public void postJobItem() throws Exception
     {
-        Job mockJob = Job.builder().startDate(new Date(1531282957L)).endDate(new Date(1531282992L))
-                .status(JobStatus.NOT_STARTED).id(1L).build();
+        Job mockJob = Job.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.NOT_STARTED)
+                .id(1L)
+                .build();
         jobRepository.save(mockJob);
 
-        CreateJobItemDTO mockJobItemDTO = CreateJobItemDTO.builder().name("window cleaning").description("cleaning of window").price(10).duration(20).priority(3).status(JobStatus.IN_PROGRESS).repeatable(false)
-                .jobId(1L).build();
+        CreateJobItemDTO mockJobItemDTO = CreateJobItemDTO.builder()
+                .name("window cleaning")
+                .description("cleaning of window")
+                .price(10)
+                .duration(20)
+                .priority(3)
+                .status(JobStatus.IN_PROGRESS)
+                .repeatable(false)
+                .jobId(1L)
+                .build();
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
 
@@ -101,12 +121,27 @@ public class JobItemControllerTest
     @Test
     public void updateJobItem() throws Exception
     {
-        JobItem mockJobItem = JobItem.builder().name("window cleaning").description("cleaning of window").price(10).duration(20).priority(3).status(JobStatus.IN_PROGRESS).repeatable(false)
+        JobItem mockJobItem = JobItem.builder()
+                .name("window cleaning")
+                .description("cleaning of window")
+                .price(10)
+                .duration(20)
+                .priority(3)
+                .status(JobStatus.IN_PROGRESS)
+                .repeatable(false)
                 .build();
         jobItemRepository.save(mockJobItem);
 
-        UpdateJobItemDTO jobItemUpdate = UpdateJobItemDTO.builder().name("car cleaning").description("cleaning of car").price(50).duration(40).priority(2).status(JobStatus.COMPLETED).repeatable(true)
-                .id(1L).build();
+        UpdateJobItemDTO jobItemUpdate = UpdateJobItemDTO.builder()
+                .name("car cleaning")
+                .description("cleaning of car")
+                .price(50)
+                .duration(40)
+                .priority(2)
+                .status(JobStatus.COMPLETED)
+                .repeatable(true)
+                .id(1L)
+                .build();
 
         RequestBuilder requestBuilder = put("/jobitem/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -127,8 +162,16 @@ public class JobItemControllerTest
     @Test
     public void deleteJobItem() throws Exception
     {
-        JobItem mockJobItem = JobItem.builder().name("window cleaning").description("cleaning of window").price(10).duration(20).priority(3).status(JobStatus.COMPLETED).repeatable(false)
-                .id(1L).build();
+        JobItem mockJobItem = JobItem.builder()
+                .name("window cleaning")
+                .description("cleaning of window")
+                .price(10)
+                .duration(20)
+                .priority(3)
+                .status(JobStatus.COMPLETED)
+                .repeatable(false)
+                .id(1L)
+                .build();
         jobItemRepository.save(mockJobItem);
 
         RequestBuilder requestBuilder = delete("/jobitem/{id}", 1L);

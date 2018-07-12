@@ -1,4 +1,4 @@
-package ua.slavik.carwash.DTO.CarDTO;
+package ua.slavik.carwash.dto.car;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarDTO
+public class UpdateCarDTO
 {
     private Long id;
     private String registrationNumber;
@@ -18,4 +18,3 @@ public class CarDTO
     private List<Long> jobIds;
     private Long customerId;
 }
-

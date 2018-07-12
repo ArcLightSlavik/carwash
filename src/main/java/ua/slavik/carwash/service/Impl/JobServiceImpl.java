@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ua.slavik.carwash.DTO.JobDTO.JobDTO;
+import ua.slavik.carwash.dto.job.JobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobStatus;
