@@ -183,4 +183,5 @@ public class JobItemControllerTest
 
 
     //to do - figure out what's the problem with updateJobItem + make a test for addJobItemToJob
+    //internet crash during commit
 }
