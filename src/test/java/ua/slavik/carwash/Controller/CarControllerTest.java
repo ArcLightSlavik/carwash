@@ -94,10 +94,10 @@ public class CarControllerTest
     public void updateCar() throws Exception
     {
         Car mockCar = Car.builder().registrationNumber("AA 8448 CB").model("Audi")
-                .id(1L).build();
+                .build();
         carRepository.save(mockCar);
 
-        UpdateCarDTO carUpdate = UpdateCarDTO.builder().registrationNumber("AA 8448 CB").model("Audi")
+        UpdateCarDTO carUpdate = UpdateCarDTO.builder().registrationNumber("AA 9999 CB").model("Bmw")
                 .id(1L).build();
 
         RequestBuilder requestBuilder = put("/car/")
@@ -108,8 +108,8 @@ public class CarControllerTest
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.registrationNumber").value(mockCar.getRegistrationNumber()))
-                .andExpect(jsonPath("$.model").value(mockCar.getModel()));
+                .andExpect(jsonPath("$.registrationNumber").value(carUpdate.getRegistrationNumber()))
+                .andExpect(jsonPath("$.model").value(carUpdate.getModel()));
     }
 
     @Test

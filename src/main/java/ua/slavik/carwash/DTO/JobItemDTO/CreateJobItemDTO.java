@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.slavik.carwash.model.JobStatus;
 
 @Data
 @Builder
@@ -18,4 +19,5 @@ public class CreateJobItemDTO
     private String name;
     private String description;
     private boolean repeatable;
+    private JobStatus status;
 }

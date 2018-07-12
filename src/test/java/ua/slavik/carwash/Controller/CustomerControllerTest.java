@@ -93,8 +93,8 @@ public class CustomerControllerTest
                 .email("benny.d@outlook.com").phoneNumber("05976854234").build();
         customerRepository.save(mockCustomer);
 
-        UpdateCustomerDTO customerUpdate = UpdateCustomerDTO.builder().id(1L).firstName("Sherlock").lastName("Holmes")
-                .email("sherl.h@gmail.com").phoneNumber("03598930675").build();
+        UpdateCustomerDTO customerUpdate = UpdateCustomerDTO.builder().firstName("John").lastName("Watson")
+                .email("watson.john@gmail.com").phoneNumber("99999999999").id(1L).build();
 
         RequestBuilder requestBuilder = put("/customer/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

@@ -13,7 +13,7 @@ import ua.slavik.carwash.service.JobItemService;
 
 
 @RestController
-@RequestMapping("/jobItem")
+@RequestMapping("/jobitem")
 public class JobItemController
 {
     private final ModelMapper modelMapper = new ModelMapper();

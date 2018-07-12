@@ -57,7 +57,7 @@ public class JobControllerTest
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockJob.getId()))
-                .andExpect(jsonPath("$.status").value(mockJob.getStatus()));
+                .andExpect(jsonPath("$.status").value(mockJob.getStatus().toString()));
     }
 
     @Test
@@ -74,9 +74,9 @@ public class JobControllerTest
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value(mockJobDTO.getStatus()));
+                .andExpect(jsonPath("$.status").value(mockJobDTO.getStatus().toString()));
 
     }
 
@@ -87,8 +87,8 @@ public class JobControllerTest
                 .status(JobStatus.IN_PROGRESS).build();
         jobRepository.save(mockJob);
 
-        UpdateJobDTO jobUpdate = UpdateJobDTO.builder().id(1L).startDate(new Date(1531282957L)).endDate(new Date(1531282992L))
-                .status(JobStatus.IN_PROGRESS).build();
+        UpdateJobDTO jobUpdate = UpdateJobDTO.builder().startDate(new Date(1531358161L)).endDate(new Date(1531358169L))
+                .status(JobStatus.COMPLETED).id(1L).build();
 
         RequestBuilder requestBuilder = put("/job/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -98,7 +98,7 @@ public class JobControllerTest
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value(mockJob.getStatus()));
+                .andExpect(jsonPath("$.status").value(jobUpdate.getStatus().toString()));
     }
 
     @Test
@@ -115,6 +115,5 @@ public class JobControllerTest
                 .andExpect(status().isOk());
     }
 
-    //to do - fix errors + figure out how to check dates because the're not in dto
 }
 
