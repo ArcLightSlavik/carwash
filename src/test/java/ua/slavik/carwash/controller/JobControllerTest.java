@@ -30,8 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class JobControllerTest
-{
+public class JobControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -48,8 +47,7 @@ public class JobControllerTest
     private JobServiceImpl jobServiceMock;
 
     @Test
-    public void getJob() throws Exception
-    {
+    public void getJob() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -71,8 +69,7 @@ public class JobControllerTest
     }
 
     @Test
-    public void postJob() throws Exception
-    {
+    public void postJob() throws Exception {
         CreateJobDTO mockJobDTO = CreateJobDTO.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -94,8 +91,7 @@ public class JobControllerTest
     }
 
     @Test
-    public void updateJob() throws Exception
-    {
+    public void updateJob() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -122,8 +118,7 @@ public class JobControllerTest
     }
 
     @Test
-    public void deleteJob() throws Exception
-    {
+    public void deleteJob() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -137,9 +132,9 @@ public class JobControllerTest
                 .andExpect(content().string("deleted"))
                 .andExpect(status().isOk());
     }
+
     @Test
-    public void addJobItemToJob() throws Exception
-    {
+    public void addJobItemToJob() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -170,7 +165,7 @@ public class JobControllerTest
                 .jobId(1L)
                 .build();
 
-        RequestBuilder requestBuilder = put("/job/{jobId}/jobItem/{jobItemId}" , 1L , 1L);
+        RequestBuilder requestBuilder = put("/job/{jobId}/jobItem/{jobItemId}", 1L, 1L);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))

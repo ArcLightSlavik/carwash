@@ -10,11 +10,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateCarDTO
-{
+public class UpdateCarDTO {
     private Long id;
+    private Long customerId;
+    private List<Long> jobIds;
     private String registrationNumber;
     private String model;
-    private List<Long> jobIds;
-    private Long customerId;
 }

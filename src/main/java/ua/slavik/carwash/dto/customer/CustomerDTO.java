@@ -10,8 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDTO
-{
+public class CustomerDTO {
     private Long id;
     private List<Long> carIds;
     private String firstName;

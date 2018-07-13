@@ -7,40 +7,33 @@ import ua.slavik.carwash.repository.CarRepository;
 import ua.slavik.carwash.service.CarService;
 
 @Service
-public class CarServiceImpl implements CarService
-{
+public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
 
     @Autowired
-    public CarServiceImpl(CarRepository carRepository)
-    {
+    public CarServiceImpl(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
 
     @Override
-    public Car getCarById(Long id)
-    {
+    public Car getCarById(Long id) {
         return carRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Car createCar(Car car)
-    {
+    public Car createCar(Car car) {
         return carRepository.save(car);
     }
 
     @Override
-    public Car updateCar(Car car)
-    {
+    public Car updateCar(Car car) {
         return carRepository.save(car);
     }
 
     @Override
-    public void deleteCar(Long id)
-    {
+    public void deleteCar(Long id) {
         Car car = getCarById(id);
-        if (car != null)
-        {
+        if (car != null) {
             carRepository.deleteById(id);
         }
     }

@@ -3,8 +3,7 @@ package ua.slavik.carwash.service;
 import org.springframework.http.ResponseEntity;
 import ua.slavik.carwash.model.Job;
 
-public interface JobService
-{
+public interface JobService {
     Job getJobById(Long id);
 
     Job createJob(Job job);

@@ -26,8 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CustomerControllerTest
-{
+public class CustomerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -41,8 +40,7 @@ public class CustomerControllerTest
     private CustomerServiceImpl customerServiceMock;
 
     @Test
-    public void getCustomer() throws Exception
-    {
+    public void getCustomer() throws Exception {
         Customer mockCustomer = Customer.builder()
                 .firstName("John")
                 .lastName("Wick")
@@ -68,8 +66,7 @@ public class CustomerControllerTest
     }
 
     @Test
-    public void postCustomer() throws Exception
-    {
+    public void postCustomer() throws Exception {
 
         CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
                 .firstName("James")
@@ -97,8 +94,7 @@ public class CustomerControllerTest
     }
 
     @Test
-    public void updateCustomer() throws Exception
-    {
+    public void updateCustomer() throws Exception {
         Customer mockCustomer = Customer.builder()
                 .firstName("Benedict")
                 .lastName("Cumberbatch")
@@ -130,8 +126,7 @@ public class CustomerControllerTest
     }
 
     @Test
-    public void deleteCustomer() throws Exception
-    {
+    public void deleteCustomer() throws Exception {
         Customer mockCustomer = Customer.builder()
                 .firstName("Luke")
                 .lastName("Skywalker")

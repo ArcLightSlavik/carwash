@@ -9,16 +9,15 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobItem
-{
+public class JobItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String description;
+    private Long id;
     private int price;
     private int duration;
     private int priority;
+    private String name;
+    private String description;
     private JobStatus status;
     private boolean repeatable;
 

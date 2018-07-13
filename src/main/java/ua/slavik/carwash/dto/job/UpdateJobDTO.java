@@ -12,8 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateJobDTO
-{
+public class UpdateJobDTO {
     private Long id;
     private Long carId;
     private List<Long> jobItemIds;

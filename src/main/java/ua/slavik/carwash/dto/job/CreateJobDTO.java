@@ -12,8 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateJobDTO
-{
+public class CreateJobDTO {
     private Long carId;
     private List<Long> jobItemIds;
     private Date startDate;

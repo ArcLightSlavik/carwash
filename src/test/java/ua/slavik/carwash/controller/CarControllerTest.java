@@ -28,8 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CarControllerTest
-{
+public class CarControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -46,8 +45,7 @@ public class CarControllerTest
     private CarServiceImpl carServiceMock;
 
     @Test
-    public void getCar() throws Exception
-    {
+    public void getCar() throws Exception {
         Car mockCar = Car.builder()
                 .registrationNumber("AA 8448 CB")
                 .model("Audi")
@@ -69,8 +67,7 @@ public class CarControllerTest
     }
 
     @Test
-    public void postCar() throws Exception
-    {
+    public void postCar() throws Exception {
         Customer mockCustomer = Customer.builder()
                 .firstName("John")
                 .lastName("Wick")
@@ -103,8 +100,7 @@ public class CarControllerTest
     }
 
     @Test
-    public void updateCar() throws Exception
-    {
+    public void updateCar() throws Exception {
         Car mockCar = Car.builder()
                 .registrationNumber("AA 8448 CB")
                 .model("Audi")
@@ -130,8 +126,7 @@ public class CarControllerTest
     }
 
     @Test
-    public void deleteCar() throws Exception
-    {
+    public void deleteCar() throws Exception {
         Car mockCar = Car.builder()
                 .registrationNumber("AA 8448 CB")
                 .model("Audi")

@@ -11,24 +11,19 @@ import ua.slavik.carwash.dto.job.UpdateJobDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.service.JobService;
 
-
 @RestController
 @RequestMapping("/job")
-public class JobController
-{
+public class JobController {
     private final ModelMapper modelMapper = new ModelMapper();
-
     private final JobService jobService;
 
     @Autowired
-    public JobController(JobService jobService)
-    {
+    public JobController(JobService jobService) {
         this.jobService = jobService;
     }
 
     @PostMapping
-    public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO)
-    {
+    public ResponseEntity createJob(@RequestBody CreateJobDTO jobDTO) {
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
 
@@ -36,19 +31,16 @@ public class JobController
     }
 
     @GetMapping(value = "/{jobId}")
-    public ResponseEntity getJob(@PathVariable("jobId") Long id)
-    {
+    public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
-        if (job == null)
-        {
+        if (job == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO)
-    {
+    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO) {
         Job job = modelMapper.map(updateJobDTO, Job.class);
         Job updatedJob = jobService.updateJob(job);
 
@@ -56,11 +48,9 @@ public class JobController
     }
 
     @DeleteMapping(value = "/{jobId}")
-    public ResponseEntity delete(@PathVariable("jobId") Long id)
-    {
+    public ResponseEntity delete(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
-        if (job == null)
-        {
+        if (job == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobService.deleteJob(id);
@@ -68,9 +58,7 @@ public class JobController
     }
 
     @PutMapping(value = "/{jobId}/jobItem/{jobItemId}")
-    public ResponseEntity addJobItemToJob(@PathVariable("jobId") Long jobId, @PathVariable("jobItemId") Long jobItemId)
-    {
+    public ResponseEntity addJobItemToJob(@PathVariable("jobId") Long jobId, @PathVariable("jobItemId") Long jobItemId) {
         return jobService.addJobItemToJob(jobId, jobItemId);
     }
-
 }

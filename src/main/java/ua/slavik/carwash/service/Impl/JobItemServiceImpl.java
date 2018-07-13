@@ -5,43 +5,35 @@ import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.repository.JobItemRepository;
 import ua.slavik.carwash.service.JobItemService;
 
-
 @org.springframework.stereotype.Service
 
-public class JobItemServiceImpl implements JobItemService
-{
+public class JobItemServiceImpl implements JobItemService {
     private final JobItemRepository jobItemRepository;
 
     @Autowired
-    public JobItemServiceImpl(JobItemRepository jobItemRepository)
-    {
+    public JobItemServiceImpl(JobItemRepository jobItemRepository) {
         this.jobItemRepository = jobItemRepository;
     }
 
     @Override
-    public JobItem getJobItemById(Long id)
-    {
+    public JobItem getJobItemById(Long id) {
         return jobItemRepository.findById(id).orElse(null);
     }
 
     @Override
-    public JobItem createJobItem(JobItem jobItem)
-    {
+    public JobItem createJobItem(JobItem jobItem) {
         return jobItemRepository.save(jobItem);
     }
 
     @Override
-    public JobItem updateJobItem(JobItem jobItem)
-    {
+    public JobItem updateJobItem(JobItem jobItem) {
         return jobItemRepository.save(jobItem);
     }
 
     @Override
-    public void deleteJobItem(Long id)
-    {
+    public void deleteJobItem(Long id) {
         JobItem jobItem = getJobItemById(id);
-        if (jobItem != null)
-        {
+        if (jobItem != null) {
             jobItemRepository.deleteById(id);
         }
     }

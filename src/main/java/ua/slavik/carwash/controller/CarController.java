@@ -11,23 +11,19 @@ import ua.slavik.carwash.dto.car.UpdateCarDTO;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.service.CarService;
 
-
 @RestController
 @RequestMapping("/car")
-public class CarController
-{
+public class CarController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CarService carService;
 
     @Autowired
-    public CarController(CarService carService)
-    {
+    public CarController(CarService carService) {
         this.carService = carService;
     }
 
     @PostMapping
-    public ResponseEntity createCar(@RequestBody CreateCarDTO carDTO)
-    {
+    public ResponseEntity createCar(@RequestBody CreateCarDTO carDTO) {
         Car car = modelMapper.map(carDTO, Car.class);
         Car savedCar = carService.createCar(car);
 
@@ -35,19 +31,16 @@ public class CarController
     }
 
     @GetMapping(value = "/{carId}")
-    public ResponseEntity getCar(@PathVariable("carId") Long id)
-    {
+    public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
-        if (car == null)
-        {
+        if (car == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO)
-    {
+    public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO) {
         Car car = modelMapper.map(updateCarDTO, Car.class);
         Car updatedCar = carService.updateCar(car);
 
@@ -55,11 +48,9 @@ public class CarController
     }
 
     @DeleteMapping(value = "/{carId}")
-    public ResponseEntity delete(@PathVariable("carId") Long id)
-    {
+    public ResponseEntity delete(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
-        if (car == null)
-        {
+        if (car == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         carService.deleteCar(id);

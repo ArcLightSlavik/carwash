@@ -10,8 +10,7 @@ import ua.slavik.carwash.model.JobStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateJobItemDTO
-{
+public class UpdateJobItemDTO {
     private Long id;
     private Long jobId;
     private int price;

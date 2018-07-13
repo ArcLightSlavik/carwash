@@ -10,8 +10,7 @@ import ua.slavik.carwash.model.JobStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateJobItemDTO
-{
+public class CreateJobItemDTO {
     private int price;
     private int duration;
     private int priority;

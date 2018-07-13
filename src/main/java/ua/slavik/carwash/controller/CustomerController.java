@@ -11,23 +11,19 @@ import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.service.CustomerService;
 
-
 @RestController
 @RequestMapping("/customer")
-public class CustomerController
-{
+public class CustomerController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerService customerService)
-    {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @PostMapping
-    public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO)
-    {
+    public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO) {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
 
@@ -35,19 +31,16 @@ public class CustomerController
     }
 
     @GetMapping(value = "/{customerId}")
-    public ResponseEntity getCustomer(@PathVariable("customerId") Long id)
-    {
+    public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
-        if (customer == null)
-        {
+        if (customer == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO)
-    {
+    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO) {
         Customer customer = modelMapper.map(updateCustomerDTO, Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(customer);
 
@@ -55,11 +48,9 @@ public class CustomerController
     }
 
     @DeleteMapping(value = "/{customerId}")
-    public ResponseEntity delete(@PathVariable("customerId") Long id)
-    {
+    public ResponseEntity delete(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
-        if (customer == null)
-        {
+        if (customer == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         customerService.deleteCustomer(id);

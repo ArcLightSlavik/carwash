@@ -29,8 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class JobItemControllerTest
-{
+public class JobItemControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -47,8 +46,7 @@ public class JobItemControllerTest
     private JobItemServiceImpl jobItemServiceMock;
 
     @Test
-    public void getJobItem() throws Exception
-    {
+    public void getJobItem() throws Exception {
         JobItem mockJobItem = JobItem.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
@@ -79,8 +77,7 @@ public class JobItemControllerTest
     }
 
     @Test
-    public void postJobItem() throws Exception
-    {
+    public void postJobItem() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -119,8 +116,7 @@ public class JobItemControllerTest
     }
 
     @Test
-    public void updateJobItem() throws Exception
-    {
+    public void updateJobItem() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -162,8 +158,7 @@ public class JobItemControllerTest
     }
 
     @Test
-    public void deleteJobItem() throws Exception
-    {
+    public void deleteJobItem() throws Exception {
         JobItem mockJobItem = JobItem.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
@@ -183,6 +178,4 @@ public class JobItemControllerTest
                 .andExpect(status().isOk());
     }
 
-
-    //to do -  make a test for addJobItemToJob
 }

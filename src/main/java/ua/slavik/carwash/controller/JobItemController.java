@@ -11,24 +11,19 @@ import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.service.JobItemService;
 
-
 @RestController
 @RequestMapping("/jobitem")
-public class JobItemController
-{
+public class JobItemController {
     private final ModelMapper modelMapper = new ModelMapper();
-
     private final JobItemService jobItemService;
 
     @Autowired
-    public JobItemController(JobItemService jobItemService)
-    {
+    public JobItemController(JobItemService jobItemService) {
         this.jobItemService = jobItemService;
     }
 
     @PostMapping
-    public ResponseEntity createJobItem(@RequestBody CreateJobItemDTO jobItemDTO)
-    {
+    public ResponseEntity createJobItem(@RequestBody CreateJobItemDTO jobItemDTO) {
         JobItem jobItem = modelMapper.map(jobItemDTO, JobItem.class);
         JobItem savedJobItem = jobItemService.createJobItem(jobItem);
 
@@ -36,19 +31,16 @@ public class JobItemController
     }
 
     @GetMapping(value = "/{jobItemId}")
-    public ResponseEntity getJobItem(@PathVariable("jobItemId") Long id)
-    {
+    public ResponseEntity getJobItem(@PathVariable("jobItemId") Long id) {
         JobItem jobItem = jobItemService.getJobItemById(id);
-        if (jobItem == null)
-        {
+        if (jobItem == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(modelMapper.map(jobItem, JobItemDTO.class), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity updateJobItem(@RequestBody UpdateJobItemDTO updateJobItemDTO)
-    {
+    public ResponseEntity updateJobItem(@RequestBody UpdateJobItemDTO updateJobItemDTO) {
         JobItem jobItem = modelMapper.map(updateJobItemDTO, JobItem.class);
         JobItem updatedJobItem = jobItemService.updateJobItem(jobItem);
 
@@ -56,11 +48,9 @@ public class JobItemController
     }
 
     @DeleteMapping(value = "/{jobItemId}")
-    public ResponseEntity delete(@PathVariable("jobItemId") Long id)
-    {
+    public ResponseEntity delete(@PathVariable("jobItemId") Long id) {
         JobItem jobItem = jobItemService.getJobItemById(id);
-        if (jobItem == null)
-        {
+        if (jobItem == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobItemService.deleteJobItem(id);

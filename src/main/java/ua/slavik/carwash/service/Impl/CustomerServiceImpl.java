@@ -6,38 +6,30 @@ import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.CustomerService;
 
-
 @Service
-public class CustomerServiceImpl implements CustomerService
-{
+public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository)
-    {
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public Customer getCustomerById(Long id)
-    {
+    public Customer getCustomerById(Long id) {
         return customerRepository.findById(id).orElse(null);
     }
 
-    public Customer createCustomer(Customer customer)
-    {
+    public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    public Customer updateCustomer(Customer customer)
-    {
+    public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    public void deleteCustomer(Long id)
-    {
+    public void deleteCustomer(Long id) {
         Customer customer = getCustomerById(id);
-        if (customer != null)
-        {
+        if (customer != null) {
             customerRepository.deleteById(id);
         }
     }
