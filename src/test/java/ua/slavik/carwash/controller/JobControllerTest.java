@@ -15,8 +15,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.dto.job.CreateJobDTO;
 import ua.slavik.carwash.dto.job.UpdateJobDTO;
+import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
 import ua.slavik.carwash.model.Job;
+import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobStatus;
+import ua.slavik.carwash.repository.JobItemRepository;
 import ua.slavik.carwash.repository.JobRepository;
 import ua.slavik.carwash.service.Impl.JobServiceImpl;
 import java.util.Date;
@@ -34,6 +37,9 @@ public class JobControllerTest
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private JobItemRepository jobItemRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -131,6 +137,46 @@ public class JobControllerTest
                 .andExpect(content().string("deleted"))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void addJobItemToJob() throws Exception
+    {
+        Job mockJob = Job.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.IN_PROGRESS)
+                .id(1L)
+                .build();
+        jobRepository.save(mockJob);
 
+        JobItem mockJobItem = JobItem.builder()
+                .description("Car wash")
+                .name("Car wash")
+                .price(600)
+                .priority(1)
+                .repeatable(false)
+                .status(JobStatus.IN_PROGRESS)
+                .id(1L)
+                .build();
+        jobItemRepository.save(mockJobItem);
+
+        UpdateJobItemDTO jobItemUpdate = UpdateJobItemDTO.builder()
+                .id(1L)
+                .description("Car windows wash")
+                .name("Window wash")
+                .price(300)
+                .priority(2)
+                .repeatable(true)
+                .status(JobStatus.IN_PROGRESS)
+                .jobId(1L)
+                .build();
+
+        RequestBuilder requestBuilder = put("/job/{jobId}/jobItem/{jobItemId}" , 1L , 1L);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.status").value(jobItemUpdate.getStatus().toString()));
+    }
 }
 
