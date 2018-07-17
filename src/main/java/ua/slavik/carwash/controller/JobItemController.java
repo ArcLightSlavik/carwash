@@ -10,6 +10,7 @@ import ua.slavik.carwash.dto.jobItem.JobItemDTO;
 import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.service.JobItemService;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/jobitem")
@@ -23,7 +24,7 @@ public class JobItemController {
     }
 
     @PostMapping
-    public ResponseEntity createJobItem(@RequestBody CreateJobItemDTO jobItemDTO) {
+    public ResponseEntity createJobItem(@Valid @RequestBody CreateJobItemDTO jobItemDTO) {
         JobItem jobItem = modelMapper.map(jobItemDTO, JobItem.class);
         JobItem savedJobItem = jobItemService.createJobItem(jobItem);
 

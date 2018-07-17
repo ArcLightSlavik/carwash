@@ -10,6 +10,7 @@ import ua.slavik.carwash.dto.customer.CustomerDTO;
 import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.service.CustomerService;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/customer")
@@ -23,7 +24,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity createCustomer(@RequestBody CreateCustomerDTO customerDTO) {
+    public ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerDTO customerDTO) {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
 
