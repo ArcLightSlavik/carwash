@@ -3,19 +3,14 @@ package ua.slavik.carwash.exception.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PhoneNumberValidator implements ConstraintValidator<PhoneNumberConstraint, String>
-{
+public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber,String> {
     @Override
-    public void initialize(PhoneNumberConstraint phoneNumber)
-    {
-
+    public void initialize(PhoneNumber phoneNumber) {
     }
 
     @Override
-    public boolean isValid(String contactField, ConstraintValidatorContext cxt)
-    {
-        return contactField != null && contactField.matches("[0-9]+")
-                && (contactField.length() > 8) && (contactField.length() < 14);
+    public boolean isValid(String phoneNumber, ConstraintValidatorContext context) {
+        return phoneNumber.matches("[0-9]+") && phoneNumber.length() == 9;
     }
 }
 

@@ -13,7 +13,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
 import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
@@ -21,7 +20,6 @@ import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.Impl.CustomerServiceImpl;
 import java.util.ArrayList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -145,23 +143,4 @@ public class CustomerControllerTest {
 
     }
 
-    @Test
-    public void givePhoneReturnPhonePage() throws Exception
-    {
-        this.mockMvc.
-                perform(get("/validatePhoneNumber")).andExpect(view().name("phoneHome"));
-    }
-
-    @Test
-    public void phoneVerification() throws Exception
-    {
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/addValidatePhoneNumber").
-                accept(MediaType.TEXT_HTML).
-                param("phoneInput", "123")).
-                andExpect(model().attributeHasFieldErrorCode(
-                        "validatedPhone","phone","ContactNumberConstraint")).
-                andExpect(view().name("phoneHome")).
-                andExpect(status().isOk()).
-                andDo(print());
-    }
 }

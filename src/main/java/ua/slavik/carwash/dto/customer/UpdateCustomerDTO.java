@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.slavik.carwash.exception.validators.PhoneNumber;
 import java.util.List;
 
 @Data
@@ -11,10 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCustomerDTO {
+    @PhoneNumber(message = "Invalid phone number.")
+    private String phoneNumber;
+
     private Long id;
     private List<Long> carIds;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
     private String email;
 }
