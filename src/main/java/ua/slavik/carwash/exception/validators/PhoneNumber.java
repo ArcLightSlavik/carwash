@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PhoneNumber {
-    String message() default "{Phone Number}";
+    String message() default "{PhoneNumber}";
 
     Class<?>[] groups() default {};
 

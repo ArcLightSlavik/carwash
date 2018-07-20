@@ -45,7 +45,7 @@ public class CustomerControllerTest {
                 .firstName("John")
                 .lastName("Wick")
                 .email("john.wick@gmail.com")
-                .phoneNumber("04587302576")
+                .phoneNumber("045873025")
                 .id(1L)
                 .build();
 
@@ -71,8 +71,8 @@ public class CustomerControllerTest {
         CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
                 .firstName("James")
                 .lastName("Bond")
-                .email("007@gmail.com")
-                .phoneNumber("04509345435")
+                .email("james.bond@gmail.com")
+                .phoneNumber("045093454")
                 .carIds(new ArrayList<>())
                 .build();
 
@@ -99,7 +99,7 @@ public class CustomerControllerTest {
                 .firstName("Benedict")
                 .lastName("Cumberbatch")
                 .email("benny.d@outlook.com")
-                .phoneNumber("05976854234")
+                .phoneNumber("059768542")
                 .build();
         customerRepository.save(mockCustomer);
 
@@ -107,7 +107,7 @@ public class CustomerControllerTest {
                 .firstName("John")
                 .lastName("Watson")
                 .email("watson.john@gmail.com")
-                .phoneNumber("99999999999")
+                .phoneNumber("999999999")
                 .id(1L)
                 .build();
 
@@ -131,7 +131,7 @@ public class CustomerControllerTest {
                 .firstName("Luke")
                 .lastName("Skywalker")
                 .email("skywalker.l@outlook.com")
-                .phoneNumber("098765432101")
+                .phoneNumber("0987654321")
                 .build();
         customerRepository.save(mockCustomer);
 
