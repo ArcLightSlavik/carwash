@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.slavik.carwash.exception.validators.Email;
+import ua.slavik.carwash.exception.validators.FirstName;
+import ua.slavik.carwash.exception.validators.LastName;
 import ua.slavik.carwash.exception.validators.PhoneNumber;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -13,15 +15,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCustomerDTO {
-    @NotNull(message = "first name can not be null.")
+    @FirstName(message = "Invalid first name.")
     private String firstName;
 
-    @NotNull(message = "last name can not be null.")
+    @LastName(message = "Invalid last name.")
     private String lastName;
 
     @PhoneNumber(message = "Invalid phone number.")
     private String phoneNumber;
 
-    private List<Long> carIds;
+    @Email(message = "Invalid email.")
     private String email;
+
+    private List<Long> carIds;
 }
