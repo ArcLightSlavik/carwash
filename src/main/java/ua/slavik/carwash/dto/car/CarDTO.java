@@ -14,7 +14,7 @@ public class CarDTO {
     private Long id;
     private Long customerId;
     private List<Long> jobIds;
-    private String registrationNumber;
+    private String registrationPlate;
     private String model;
 }
 

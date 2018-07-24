@@ -12,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCarDTO {
-    @NotNull(message = "registrationNumber can not be null.")
-    private String registrationNumber;
+    @NotNull(message = "registrationPlate can not be null.")
+    private String registrationPlate;
 
     @NotNull(message = "model can not be null.")
     private String model;

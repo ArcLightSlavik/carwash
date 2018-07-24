@@ -5,11 +5,11 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = IntegerFieldValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Email {
-    String message() default "{Email}";
+public @interface IntegerField {
+    String message() default "{IntegerField}";
 
     Class<?>[] groups() default {};
 

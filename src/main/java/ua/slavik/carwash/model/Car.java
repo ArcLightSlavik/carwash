@@ -14,7 +14,7 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String registrationNumber;
+    private String registrationPlate;
     private String model;
 
     @OneToMany(mappedBy = "car")

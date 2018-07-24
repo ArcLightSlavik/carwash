@@ -5,11 +5,11 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = LastNameValidator.class)
+@Constraint(validatedBy = StringFieldValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LastName {
-    String message() default "{LastName}";
+public @interface StringField {
+    String message() default "{StringField}";
 
     Class<?>[] groups() default {};
 

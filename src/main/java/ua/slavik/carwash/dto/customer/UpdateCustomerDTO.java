@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.slavik.carwash.exception.validators.Email;
-import ua.slavik.carwash.exception.validators.FirstName;
-import ua.slavik.carwash.exception.validators.LastName;
 import ua.slavik.carwash.exception.validators.PhoneNumber;
+import ua.slavik.carwash.exception.validators.StringField;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Data
@@ -15,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCustomerDTO {
-    @FirstName(message = "Invalid first name.")
+    @StringField(message = "Invalid first name.")
     private String firstName;
 
-    @LastName(message = "Invalid last name.")
+    @StringField(message = "Invalid last name.")
     private String lastName;
 
     @PhoneNumber(message = "Invalid phone number.")

@@ -47,7 +47,7 @@ public class CarControllerTest {
     @Test
     public void getCar() throws Exception {
         Car mockCar = Car.builder()
-                .registrationNumber("AA 8448 CB")
+                .registrationPlate("AA 8448 CB")
                 .model("Audi")
                 .id(1L)
                 .build();
@@ -62,7 +62,7 @@ public class CarControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockCar.getId()))
-                .andExpect(jsonPath("$.registrationNumber").value(mockCar.getRegistrationNumber()))
+                .andExpect(jsonPath("$.registrationPlate").value(mockCar.getRegistrationPlate()))
                 .andExpect(jsonPath("$.model").value(mockCar.getModel()));
     }
 
@@ -78,7 +78,7 @@ public class CarControllerTest {
         customerRepository.save(mockCustomer);
 
         CreateCarDTO mockCarDTO = CreateCarDTO.builder()
-                .registrationNumber("AA 8448 CB")
+                .registrationPlate("AA 8448 CB")
                 .model("Audi")
                 .jobIds(new ArrayList<>())
                 .customerId(1L)
@@ -94,7 +94,7 @@ public class CarControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.registrationNumber").value(mockCarDTO.getRegistrationNumber()))
+                .andExpect(jsonPath("$.registrationPlate").value(mockCarDTO.getRegistrationPlate()))
                 .andExpect(jsonPath("$.model").value(mockCarDTO.getModel()));
 
     }
@@ -102,13 +102,13 @@ public class CarControllerTest {
     @Test
     public void updateCar() throws Exception {
         Car mockCar = Car.builder()
-                .registrationNumber("AA 8448 CB")
+                .registrationPlate("AA 8448 CB")
                 .model("Audi")
                 .build();
         carRepository.save(mockCar);
 
         UpdateCarDTO carUpdate = UpdateCarDTO.builder()
-                .registrationNumber("AA 9999 CB")
+                .registrationPlate("AA 9999 CB")
                 .model("Bmw")
                 .id(1L)
                 .build();
@@ -121,14 +121,14 @@ public class CarControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.registrationNumber").value(carUpdate.getRegistrationNumber()))
+                .andExpect(jsonPath("$.registrationPlate").value(carUpdate.getRegistrationPlate()))
                 .andExpect(jsonPath("$.model").value(carUpdate.getModel()));
     }
 
     @Test
     public void deleteCar() throws Exception {
         Car mockCar = Car.builder()
-                .registrationNumber("AA 8448 CB")
+                .registrationPlate("AA 8448 CB")
                 .model("Audi")
                 .id(1L)
                 .build();
