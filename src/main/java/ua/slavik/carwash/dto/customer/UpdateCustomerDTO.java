@@ -14,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCustomerDTO {
-    @StringField(message = "Invalid first name.")
+    @StringField(max = 40, message = "Invalid first name.")
     private String firstName;
 
-    @StringField(message = "Invalid last name.")
+    @StringField(max = 40, message = "Invalid last name.")
     private String lastName;
 
     @PhoneNumber(message = "Invalid phone number.")

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCarDTO {
-    @StringField(message = "registrationPlate must be a valid string value.")
+    @StringField(min = 5, max = 10, message = "registrationPlate must be a valid string value.")
     private String registrationPlate;
 
     @StringField(message = "model must be a valid string value.")
