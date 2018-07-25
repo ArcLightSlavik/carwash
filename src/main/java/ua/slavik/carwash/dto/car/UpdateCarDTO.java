@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.NotNull;
+import ua.slavik.carwash.exception.validators.StringField;
 import java.util.List;
 
 @Data
@@ -12,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCarDTO {
-    @NotNull(message = "registrationPlate can not be null.")
+    @StringField(message = "registrationPlate must be a valid string value.")
     private String registrationPlate;
 
-    @NotNull(message = "model can not be null.")
+    @StringField(message = "model must be a valid string value.")
     private String model;
 
     private Long id;

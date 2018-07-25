@@ -11,6 +11,6 @@ public class IntegerFieldValidator implements ConstraintValidator<IntegerField,I
 
     @Override
     public boolean isValid(Integer integerField, ConstraintValidatorContext constraintValidatorContext) {
-        return integerField >= 0;
+        return integerField != null && integerField >= 0;
     }
 }

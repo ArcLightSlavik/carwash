@@ -79,8 +79,8 @@ public class JobItemControllerTest {
     @Test
     public void postJobItem() throws Exception {
         Job mockJob = Job.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
+                .startDate(new Date(1532460764L))
+                .endDate(new Date(1532460766L))
                 .status(JobStatus.NOT_STARTED)
                 .id(1L)
                 .build();
@@ -118,8 +118,8 @@ public class JobItemControllerTest {
     @Test
     public void updateJobItem() throws Exception {
         Job mockJob = Job.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
+                .startDate(new Date(1532460764L))
+                .endDate(new Date(1532460766L))
                 .status(JobStatus.NOT_STARTED)
                 .id(1L)
                 .build();

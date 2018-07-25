@@ -11,6 +11,6 @@ public class StringFieldValidator implements ConstraintValidator<StringField,Str
 
     @Override
     public boolean isValid(String stringField, ConstraintValidatorContext constraintValidatorContext) {
-        return stringField.length() >= 2 && stringField.length() <= 50;
+        return stringField != null && stringField.length() >= 2 && stringField.length() <= 50;
     }
 }
