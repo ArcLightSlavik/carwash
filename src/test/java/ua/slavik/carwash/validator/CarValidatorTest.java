@@ -1,4 +1,4 @@
-package ua.slavik.carwash.controller;
+package ua.slavik.carwash.validator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
