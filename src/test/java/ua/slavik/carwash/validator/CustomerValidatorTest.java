@@ -32,9 +32,9 @@ public class CustomerValidatorTest {
     public void customerValidatorTooShortTest() throws Exception {
 
         CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
-                .firstName("J")
-                .lastName("B")
-                .email("james.bond")
+                .firstName("")
+                .lastName("")
+                .email("jamesbond")
                 .phoneNumber("0450934")
                 .carIds(new ArrayList<>())
                 .build();
