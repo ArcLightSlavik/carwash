@@ -1,12 +1,12 @@
 package ua.slavik.carwash.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.repository.JobItemRepository;
 import ua.slavik.carwash.service.JobItemService;
 
-@org.springframework.stereotype.Service
-
+@Service
 public class JobItemServiceImpl implements JobItemService {
     private final JobItemRepository jobItemRepository;
 
