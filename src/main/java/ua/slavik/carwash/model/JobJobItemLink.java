@@ -1,10 +1,7 @@
 package ua.slavik.carwash.model;
 
 import lombok.*;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -14,6 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobJobItemLink {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @OneToOne
     @JoinColumn(name = "job_id")
     private Job job;
