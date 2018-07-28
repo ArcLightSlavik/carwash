@@ -1,7 +1,10 @@
 package ua.slavik.carwash.model;
 
 import lombok.*;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @Setter
@@ -20,8 +23,4 @@ public class JobItem {
     private String description;
     private JobStatus status;
     private boolean repeatable;
-
-    @ManyToOne
-    @JoinColumn(name = "job_id")
-    private Job job;
 }

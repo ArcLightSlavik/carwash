@@ -94,7 +94,6 @@ public class JobItemControllerTest {
                 .priority(3)
                 .status(JobStatus.IN_PROGRESS)
                 .repeatable(false)
-                .jobId(1L)
                 .build();
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
@@ -132,7 +131,6 @@ public class JobItemControllerTest {
                 .priority(1)
                 .repeatable(false)
                 .status(JobStatus.NOT_STARTED)
-                .job(mockJob)
                 .build();
         jobItemRepository.save(mockJobItem);
 
@@ -144,7 +142,6 @@ public class JobItemControllerTest {
                 .priority(2)
                 .repeatable(true)
                 .status(JobStatus.IN_PROGRESS)
-                .jobId(1L)
                 .build();
 
         RequestBuilder requestBuilder = put("/jobitem/")

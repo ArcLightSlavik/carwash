@@ -162,7 +162,6 @@ public class JobControllerTest {
                 .priority(2)
                 .repeatable(true)
                 .status(JobStatus.IN_PROGRESS)
-                .jobId(1L)
                 .build();
 
         RequestBuilder requestBuilder = put("/job/{jobId}/jobItem/{jobItemId}", 1L, 1L);

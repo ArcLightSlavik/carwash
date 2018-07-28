@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.exception.validators.StringField;
-import java.util.List;
 
 @Data
 @Builder
@@ -19,6 +18,4 @@ public class UpdateCarDTO {
     private String model;
 
     private Long id;
-    private Long customerId;
-    private List<Long> jobIds;
 }

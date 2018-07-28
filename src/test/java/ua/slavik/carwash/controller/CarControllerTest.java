@@ -20,7 +20,6 @@ import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CarRepository;
 import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.Impl.CarServiceImpl;
-import java.util.ArrayList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -80,8 +79,6 @@ public class CarControllerTest {
         CreateCarDTO mockCarDTO = CreateCarDTO.builder()
                 .registrationPlate("AA 8448 CB")
                 .model("Audi")
-                .jobIds(new ArrayList<>())
-                .customerId(1L)
                 .build();
 
         String mockCarDTOJSON = objectMapper.writeValueAsString(mockCarDTO);

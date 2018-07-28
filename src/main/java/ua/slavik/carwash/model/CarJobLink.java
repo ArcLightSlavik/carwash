@@ -13,12 +13,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerCarLink {
+public class CarJobLink {
     @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "car_id")
+    private Car car;
 
     @OneToMany
-    @JoinColumn(name = "car_id")
-    private List<Car> cars;
+    @JoinColumn(name = "job_id")
+    private List<Job> jobs;
 }

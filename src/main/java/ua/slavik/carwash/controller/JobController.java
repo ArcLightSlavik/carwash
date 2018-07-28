@@ -57,9 +57,10 @@ public class JobController {
         jobService.deleteJob(id);
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
-
+    /*
     @PutMapping(value = "/{jobId}/jobItem/{jobItemId}")
     public ResponseEntity addJobItemToJob(@PathVariable("jobId") Long jobId, @PathVariable("jobItemId") Long jobItemId) {
         return jobService.addJobItemToJob(jobId, jobItemId);
     }
+    */
 }

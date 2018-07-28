@@ -1,8 +1,10 @@
 package ua.slavik.carwash.model;
 
 import lombok.*;
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @Setter
@@ -16,11 +18,4 @@ public class Car {
     private Long id;
     private String registrationPlate;
     private String model;
-
-    @OneToMany(mappedBy = "car")
-    private List<Job> jobs;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 }

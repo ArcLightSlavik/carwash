@@ -52,7 +52,6 @@ public class JobItemValidatorTest {
                 .priority(-1)
                 .status(JobStatus.IN_PROGRESS)
                 .repeatable(false)
-                .jobId(1L)
                 .build();
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
@@ -90,7 +89,6 @@ public class JobItemValidatorTest {
                 .priority(-1)
                 .status(JobStatus.IN_PROGRESS)
                 .repeatable(false)
-                .jobId(1L)
                 .build();
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);

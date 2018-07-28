@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.model.JobStatus;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Builder
@@ -14,8 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class UpdateJobDTO {
     private Long id;
-    private Long carId;
-    private List<Long> jobItemIds;
     private Date startDate;
     private Date endDate;
     private JobStatus status;

@@ -15,8 +15,7 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
-    public Docket productApi()
-    {
+    public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ua.slavik.carwash.controller"))

@@ -2,19 +2,11 @@ package ua.slavik.carwash.service.Impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ua.slavik.carwash.dto.job.JobDTO;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.model.JobItem;
-import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.repository.JobRepository;
 import ua.slavik.carwash.service.JobItemService;
 import ua.slavik.carwash.service.JobService;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -52,7 +44,7 @@ public class JobServiceImpl implements JobService {
             jobRepository.deleteById(id);
         }
     }
-
+    /*
     @Override
     public ResponseEntity addJobItemToJob(Long jobId, Long jobItemId) {
         Job job = getJobById(jobId);
@@ -78,7 +70,6 @@ public class JobServiceImpl implements JobService {
                     }
 
                 });
-
         if (!allowed) {
             return new ResponseEntity<>("cannot add a new jobitem to this job - jobitem with lower priority is already complete", HttpStatus.NOT_ACCEPTABLE);
         }
@@ -96,5 +87,7 @@ public class JobServiceImpl implements JobService {
 
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
 
+
     }
+    */
 }

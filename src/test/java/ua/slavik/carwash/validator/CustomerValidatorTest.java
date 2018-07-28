@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
-import java.util.ArrayList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -36,7 +35,6 @@ public class CustomerValidatorTest {
                 .lastName("")
                 .email("jamesbond")
                 .phoneNumber("0450934")
-                .carIds(new ArrayList<>())
                 .build();
 
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
@@ -64,7 +62,6 @@ public class CustomerValidatorTest {
                 .lastName(null)
                 .email("james.bond")
                 .phoneNumber("0450934")
-                .carIds(new ArrayList<>())
                 .build();
 
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);

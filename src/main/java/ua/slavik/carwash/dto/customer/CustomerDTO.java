@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @Builder
@@ -12,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerDTO {
     private Long id;
-    private List<Long> carIds;
     private String firstName;
     private String lastName;
     private String phoneNumber;

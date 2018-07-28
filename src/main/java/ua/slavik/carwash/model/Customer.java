@@ -1,8 +1,10 @@
 package ua.slavik.carwash.model;
 
 import lombok.*;
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @Setter
@@ -18,7 +20,4 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
     private String email;
-
-    @OneToMany(mappedBy = "customer")
-    private List<Car> cars;
 }

@@ -12,7 +12,6 @@ import ua.slavik.carwash.model.JobStatus;
 @AllArgsConstructor
 public class JobItemDTO {
     private Long id;
-    private Long jobId;
     private int price;
     private int duration;
     private int priority;

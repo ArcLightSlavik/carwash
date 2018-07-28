@@ -18,7 +18,6 @@ import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.Impl.CustomerServiceImpl;
-import java.util.ArrayList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -73,7 +72,6 @@ public class CustomerControllerTest {
                 .lastName("Bond")
                 .email("james.bond@gmail.com")
                 .phoneNumber("045093454")
-                .carIds(new ArrayList<>())
                 .build();
 
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);

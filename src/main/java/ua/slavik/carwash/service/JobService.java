@@ -1,6 +1,5 @@
 package ua.slavik.carwash.service;
 
-import org.springframework.http.ResponseEntity;
 import ua.slavik.carwash.model.Job;
 
 public interface JobService {
@@ -12,5 +11,5 @@ public interface JobService {
 
     void deleteJob(Long id);
 
-    ResponseEntity addJobItemToJob(Long jobId, Long jobItemId);
+   // ResponseEntity addJobItemToJob(Long jobId, Long jobItemId);
 }

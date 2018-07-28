@@ -25,7 +25,6 @@ public class CreateJobItemDTO {
     @IntegerField(message = "Invalid duration.")
     private int duration;
 
-    private Long jobId;
     private String name;
     private boolean repeatable;
     private JobStatus status;

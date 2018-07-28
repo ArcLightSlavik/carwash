@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import ua.slavik.carwash.exception.validators.PhoneNumber;
 import ua.slavik.carwash.exception.validators.StringField;
 import javax.validation.constraints.Email;
-import java.util.List;
 
 @Data
 @Builder
@@ -25,6 +24,4 @@ public class CreateCustomerDTO {
 
     @Email(message = "Invalid email.")
     private String email;
-
-    private List<Long> carIds;
 }

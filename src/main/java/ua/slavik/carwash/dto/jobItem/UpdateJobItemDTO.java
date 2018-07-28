@@ -26,7 +26,6 @@ public class UpdateJobItemDTO {
     private int duration;
 
     private Long id;
-    private Long jobId;
     private String name;
     private boolean repeatable;
     private JobStatus status;
