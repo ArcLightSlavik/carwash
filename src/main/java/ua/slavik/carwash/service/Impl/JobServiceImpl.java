@@ -11,9 +11,7 @@ import ua.slavik.carwash.service.JobService;
 @Service
 public class JobServiceImpl implements JobService {
     private final ModelMapper modelMapper = new ModelMapper();
-
     private final JobRepository jobRepository;
-
     private final JobItemService jobItemService;
 
     @Autowired

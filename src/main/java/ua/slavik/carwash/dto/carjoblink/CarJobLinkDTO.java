@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarJobLink {
+public class CarJobLinkDTO {
     private List<Long> jobIds;
     private Long carId;
 }

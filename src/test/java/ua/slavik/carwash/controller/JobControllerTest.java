@@ -15,9 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.dto.job.CreateJobDTO;
 import ua.slavik.carwash.dto.job.UpdateJobDTO;
-import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.repository.JobItemRepository;
 import ua.slavik.carwash.repository.JobRepository;
@@ -132,7 +130,7 @@ public class JobControllerTest {
                 .andExpect(content().string("deleted"))
                 .andExpect(status().isOk());
     }
-
+    /*
     @Test
     public void addJobItemToJob() throws Exception {
         Job mockJob = Job.builder()
@@ -172,5 +170,6 @@ public class JobControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.status").value(jobItemUpdate.getStatus().toString()));
     }
+    */
 }
 

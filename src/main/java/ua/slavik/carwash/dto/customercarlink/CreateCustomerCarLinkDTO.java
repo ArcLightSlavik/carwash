@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateCustomerCarLink {
+public class CreateCustomerCarLinkDTO {
     private Long customerId;
     private List<Long> carIds;
 }

@@ -1,4 +1,4 @@
-package ua.slavik.carwash.dto.jobjobitemlink;
+package ua.slavik.carwash.dto.customercarlink;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateJobJobItemLink {
-    private Long jobId;
-    private List<Long> jobItemIds;
+public class UpdateCustomerCarLinkDTO {
+    private Long customerId;
+    private List<Long> carIds;
 }
