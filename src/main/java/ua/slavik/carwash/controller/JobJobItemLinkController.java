@@ -13,7 +13,7 @@ import ua.slavik.carwash.service.JobJobItemLinkService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/jobjobitemlink")
+@RequestMapping("/jobJobItemlink")
 public class JobJobItemLinkController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final JobJobItemLinkService jobJobItemLinkService;
@@ -55,6 +55,6 @@ public class JobJobItemLinkController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobJobItemLinkService.deleteJobJobItemLink(id);
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

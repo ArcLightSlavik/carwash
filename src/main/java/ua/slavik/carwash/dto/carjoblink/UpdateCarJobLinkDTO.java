@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCarJobLinkDTO {
+    private Long id;
     private List<Long> jobIds;
     private Long carId;
 }

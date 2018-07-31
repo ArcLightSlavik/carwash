@@ -55,6 +55,6 @@ public class CarController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         carService.deleteCar(id);
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

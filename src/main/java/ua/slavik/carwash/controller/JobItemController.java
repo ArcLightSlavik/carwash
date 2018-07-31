@@ -55,6 +55,6 @@ public class JobItemController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobItemService.deleteJobItem(id);
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

@@ -10,6 +10,4 @@ public interface JobService {
     Job updateJob(Job job);
 
     void deleteJob(Long id);
-
-    // ResponseEntity addJobItemToJob(Long jobId, Long jobItemId);
 }

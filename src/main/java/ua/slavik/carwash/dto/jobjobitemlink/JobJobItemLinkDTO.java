@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobJobItemLinkDTO {
+    private Long id;
     private Long jobId;
     private List<Long> jobItemIds;
 }

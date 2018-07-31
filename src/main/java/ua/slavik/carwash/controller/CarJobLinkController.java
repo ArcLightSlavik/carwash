@@ -13,7 +13,7 @@ import ua.slavik.carwash.service.CarJobLinkService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/carjoblink")
+@RequestMapping("/carJobLink")
 public class CarJobLinkController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CarJobLinkService carJobLinkService;
@@ -55,6 +55,6 @@ public class CarJobLinkController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         carJobLinkService.deleteCarJobLink(id);
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

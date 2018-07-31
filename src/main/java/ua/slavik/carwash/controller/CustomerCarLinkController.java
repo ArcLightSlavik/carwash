@@ -13,7 +13,7 @@ import ua.slavik.carwash.service.CustomerCarLinkService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/customercarlink")
+@RequestMapping("/customerCarLink")
 public class CustomerCarLinkController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CustomerCarLinkService customerCarLinkService;
@@ -55,6 +55,6 @@ public class CustomerCarLinkController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         customerCarLinkService.deleteCustomerCarLink(id);
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }
