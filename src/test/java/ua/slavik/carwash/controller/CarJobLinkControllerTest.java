@@ -68,7 +68,7 @@ public class CarJobLinkControllerTest {
         RequestBuilder requestBuilder = get("/carJobLink/{id}", 1L);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(carJobLink.getId()))
                 .andExpect(jsonPath("$.carId").value(carJobLink.getCar().getId()))
@@ -100,7 +100,7 @@ public class CarJobLinkControllerTest {
         RequestBuilder requestBuilder = post("/carJobLink/");
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.carId").value(mockCarJobLinkDTO.getCarId()))

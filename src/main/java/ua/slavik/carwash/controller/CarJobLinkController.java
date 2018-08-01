@@ -3,6 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.carjoblink.CarJobLinkDTO;
@@ -23,7 +24,7 @@ public class CarJobLinkController {
         this.carJobLinkService = carJobLinkService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCarJobLink(@Valid @RequestBody CreateCarJobLinkDTO carJobLinkDTO) {
         CarJobLink carJobLink = modelMapper.map(carJobLinkDTO, CarJobLink.class);
         CarJobLink savedCarJobLink = carJobLinkService.createCarJobLink(carJobLink);
@@ -31,7 +32,7 @@ public class CarJobLinkController {
         return new ResponseEntity<>(modelMapper.map(savedCarJobLink, CarJobLinkDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{carJobLinkId}")
+    @GetMapping(value = "/{carJobLinkId}" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getCarJobLink(@PathVariable("carJobLinkId") Long id) {
         CarJobLink carJobLink = carJobLinkService.getCarJobLinkById(id);
         if (carJobLink == null) {
