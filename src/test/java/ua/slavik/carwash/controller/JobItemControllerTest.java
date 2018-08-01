@@ -3,11 +3,9 @@ package ua.slavik.carwash.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,13 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.dto.jobItem.CreateJobItemDTO;
 import ua.slavik.carwash.dto.jobItem.UpdateJobItemDTO;
-import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.repository.JobItemRepository;
-import ua.slavik.carwash.repository.JobRepository;
-import ua.slavik.carwash.service.Impl.JobItemServiceImpl;
-import java.util.Date;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -34,16 +28,10 @@ public class JobItemControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
     private JobItemRepository jobItemRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @SpyBean
-    private JobItemServiceImpl jobItemServiceMock;
 
     @Test
     public void getJobItem() throws Exception {
@@ -57,12 +45,9 @@ public class JobItemControllerTest {
                 .repeatable(false)
                 .id(1L)
                 .build();
+        mockJobItem = jobItemRepository.save(mockJobItem);
 
-        Mockito.when(
-                jobItemServiceMock.getJobItemById(1L)
-        ).thenReturn(mockJobItem);
-
-        RequestBuilder requestBuilder = get("/jobitem/{id}", 1L);
+        RequestBuilder requestBuilder = get("/jobitem/{id}", mockJobItem.getId());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -78,14 +63,6 @@ public class JobItemControllerTest {
 
     @Test
     public void postJobItem() throws Exception {
-        Job mockJob = Job.builder()
-                .startDate(new Date(1532460764L))
-                .endDate(new Date(1532460766L))
-                .status(JobStatus.NOT_STARTED)
-                .id(1L)
-                .build();
-        jobRepository.save(mockJob);
-
         CreateJobItemDTO mockJobItemDTO = CreateJobItemDTO.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
@@ -116,14 +93,6 @@ public class JobItemControllerTest {
 
     @Test
     public void updateJobItem() throws Exception {
-        Job mockJob = Job.builder()
-                .startDate(new Date(1532460764L))
-                .endDate(new Date(1532460766L))
-                .status(JobStatus.NOT_STARTED)
-                .id(1L)
-                .build();
-        jobRepository.save(mockJob);
-
         JobItem mockJobItem = JobItem.builder()
                 .description("Car wash")
                 .name("Car wash")
@@ -132,16 +101,16 @@ public class JobItemControllerTest {
                 .repeatable(false)
                 .status(JobStatus.NOT_STARTED)
                 .build();
-        jobItemRepository.save(mockJobItem);
+        mockJobItem = jobItemRepository.save(mockJobItem);
 
         UpdateJobItemDTO jobItemUpdate = UpdateJobItemDTO.builder()
-                .id(1L)
                 .description("Car windows wash")
                 .name("Window wash")
                 .price(300)
                 .priority(2)
                 .repeatable(true)
                 .status(JobStatus.IN_PROGRESS)
+                .id(mockJobItem.getId())
                 .build();
 
         RequestBuilder requestBuilder = put("/jobitem/")
@@ -151,7 +120,13 @@ public class JobItemControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L));
+                .andExpect(jsonPath("$.id").value(jobItemUpdate.getId()))
+                .andExpect(jsonPath("$.name").value(jobItemUpdate.getName()))
+                .andExpect(jsonPath("$.description").value(jobItemUpdate.getDescription()))
+                .andExpect(jsonPath("$.price").value(jobItemUpdate.getPrice()))
+                .andExpect(jsonPath("$.duration").value(jobItemUpdate.getDuration()))
+                .andExpect(jsonPath("$.priority").value(jobItemUpdate.getPriority()))
+                .andExpect(jsonPath("$.status").value(jobItemUpdate.getStatus().toString()));
     }
 
     @Test
@@ -166,13 +141,12 @@ public class JobItemControllerTest {
                 .repeatable(false)
                 .id(1L)
                 .build();
-        jobItemRepository.save(mockJobItem);
+        mockJobItem = jobItemRepository.save(mockJobItem);
 
-        RequestBuilder requestBuilder = delete("/jobitem/{id}", 1L);
+        RequestBuilder requestBuilder = delete("/jobitem/{id}", mockJobItem.getId());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().string("Deleted"))
                 .andExpect(status().isOk());
     }
-
 }

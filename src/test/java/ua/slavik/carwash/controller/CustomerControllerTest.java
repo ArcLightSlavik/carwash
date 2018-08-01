@@ -3,11 +3,9 @@ package ua.slavik.carwash.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,7 +15,6 @@ import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
 import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
-import ua.slavik.carwash.service.Impl.CustomerServiceImpl;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -35,9 +32,6 @@ public class CustomerControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @SpyBean
-    private CustomerServiceImpl customerServiceMock;
-
     @Test
     public void getCustomer() throws Exception {
         Customer mockCustomer = Customer.builder()
@@ -47,12 +41,9 @@ public class CustomerControllerTest {
                 .phoneNumber("045873025")
                 .id(1L)
                 .build();
+        mockCustomer = customerRepository.save(mockCustomer);
 
-        Mockito.when(
-                customerServiceMock.getCustomerById(1L)
-        ).thenReturn(mockCustomer);
-
-        RequestBuilder requestBuilder = get("/customer/{id}", 1L);
+        RequestBuilder requestBuilder = get("/customer/{id}", mockCustomer.getId());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -83,7 +74,7 @@ public class CustomerControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstName").value(mockCustomerDTO.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(mockCustomerDTO.getLastName()))
                 .andExpect(jsonPath("$.email").value(mockCustomerDTO.getEmail()))
@@ -99,14 +90,14 @@ public class CustomerControllerTest {
                 .email("benny.d@outlook.com")
                 .phoneNumber("059768542")
                 .build();
-        customerRepository.save(mockCustomer);
+        mockCustomer = customerRepository.save(mockCustomer);
 
         UpdateCustomerDTO customerUpdate = UpdateCustomerDTO.builder()
                 .firstName("John")
                 .lastName("Watson")
                 .email("watson.john@gmail.com")
                 .phoneNumber("999999999")
-                .id(1L)
+                .id(mockCustomer.getId())
                 .build();
 
         RequestBuilder requestBuilder = put("/customer/")
@@ -116,7 +107,7 @@ public class CustomerControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.id").value(mockCustomer.getId()))
                 .andExpect(jsonPath("$.firstName").value(customerUpdate.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(customerUpdate.getLastName()))
                 .andExpect(jsonPath("$.email").value(customerUpdate.getEmail()))
@@ -131,9 +122,9 @@ public class CustomerControllerTest {
                 .email("skywalker.l@outlook.com")
                 .phoneNumber("0987654321")
                 .build();
-        customerRepository.save(mockCustomer);
+        mockCustomer = customerRepository.save(mockCustomer);
 
-        RequestBuilder requestBuilder = delete("/customer/{id}", 1L);
+        RequestBuilder requestBuilder = delete("/customer/{id}", mockCustomer.getId());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().string("Deleted"))
