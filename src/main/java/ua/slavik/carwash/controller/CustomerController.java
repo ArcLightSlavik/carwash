@@ -3,6 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
@@ -23,7 +24,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerDTO customerDTO) {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
@@ -31,7 +32,7 @@ public class CustomerController {
         return new ResponseEntity<>(modelMapper.map(savedCustomer, CustomerDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{customerId}")
+    @GetMapping(value = "/{customerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
@@ -40,7 +41,7 @@ public class CustomerController {
         return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO) {
         Customer customer = modelMapper.map(updateCustomerDTO, Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(customer);

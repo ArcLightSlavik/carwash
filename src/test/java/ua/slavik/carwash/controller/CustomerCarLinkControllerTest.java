@@ -1,5 +1,6 @@
 package ua.slavik.carwash.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ import ua.slavik.carwash.model.CustomerCarLink;
 import ua.slavik.carwash.repository.CarRepository;
 import ua.slavik.carwash.repository.CustomerCarLinkRepository;
 import ua.slavik.carwash.repository.CustomerRepository;
-import ua.slavik.carwash.repository.JobJobItemLinkRepository;
 import java.util.Collections;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -40,7 +41,7 @@ public class CustomerCarLinkControllerTest {
     private CustomerCarLinkRepository customerCarLinkRepository;
 
     @Autowired
-    private JobJobItemLinkRepository jobJobItemLinkRepository;
+    private ObjectMapper objectMapper;
 
     @Test
     public void getCustomerCarLink() throws Exception {
@@ -67,10 +68,14 @@ public class CustomerCarLinkControllerTest {
                 .build();
         customerCarLink = customerCarLinkRepository.save(customerCarLink);
 
-        RequestBuilder requestBuilder = get("/CustomerCarLink/{id}", 1L);
+        String customerCarLinkJSON = objectMapper.writeValueAsString(customerCarLink);
+
+        RequestBuilder requestBuilder = get("/customerCarLink/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(customerCarLinkJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(customerCarLink.getId()))
                 .andExpect(jsonPath("$.carId").value(customerCarLink.getCustomer().getId()))
@@ -78,7 +83,7 @@ public class CustomerCarLinkControllerTest {
     }
 
     @Test
-    public void postCustomerCArLink() throws Exception {
+    public void postCustomerCarLink() throws Exception {
         Customer mockCustomer = Customer.builder()
                 .firstName("Benedict")
                 .lastName("Cumberbatch")
@@ -100,11 +105,15 @@ public class CustomerCarLinkControllerTest {
                 .carIds(Collections.singletonList(mockCar.getId()))
                 .build();
 
-        RequestBuilder requestBuilder = get("/customerCarLink/{id}", 1L);
+        String mockCustomerCarLinkDTOJSON = objectMapper.writeValueAsString(mockCustomerCarLinkDTO);
+
+        RequestBuilder requestBuilder = post("/customerCarLink/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockCustomerCarLinkDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.carId").value(mockCustomerCarLinkDTO.getCustomerId()))
                 .andExpect(jsonPath("$.jobIds").value(Collections.singletonList(mockCustomerCarLinkDTO.getCarIds())));

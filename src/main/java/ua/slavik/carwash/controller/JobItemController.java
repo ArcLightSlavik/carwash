@@ -3,6 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.jobItem.CreateJobItemDTO;
@@ -13,7 +14,7 @@ import ua.slavik.carwash.service.JobItemService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/jobitem")
+@RequestMapping("/jobItem")
 public class JobItemController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final JobItemService jobItemService;
@@ -23,7 +24,7 @@ public class JobItemController {
         this.jobItemService = jobItemService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createJobItem(@Valid @RequestBody CreateJobItemDTO jobItemDTO) {
         JobItem jobItem = modelMapper.map(jobItemDTO, JobItem.class);
         JobItem savedJobItem = jobItemService.createJobItem(jobItem);
@@ -31,7 +32,7 @@ public class JobItemController {
         return new ResponseEntity<>(modelMapper.map(savedJobItem, JobItemDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{jobItemId}")
+    @GetMapping(value = "/{jobItemId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getJobItem(@PathVariable("jobItemId") Long id) {
         JobItem jobItem = jobItemService.getJobItemById(id);
         if (jobItem == null) {
@@ -40,7 +41,7 @@ public class JobItemController {
         return new ResponseEntity<>(modelMapper.map(jobItem, JobItemDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateJobItem(@RequestBody UpdateJobItemDTO updateJobItemDTO) {
         JobItem jobItem = modelMapper.map(updateJobItemDTO, JobItem.class);
         JobItem updatedJobItem = jobItemService.updateJobItem(jobItem);

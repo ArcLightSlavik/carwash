@@ -43,10 +43,14 @@ public class CustomerControllerTest {
                 .build();
         mockCustomer = customerRepository.save(mockCustomer);
 
-        RequestBuilder requestBuilder = get("/customer/{id}", mockCustomer.getId());
+        String mockCustomerJSON = objectMapper.writeValueAsString(mockCustomer);
+
+        RequestBuilder requestBuilder = get("/customer/{id}", mockCustomer.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockCustomerJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockCustomer.getId()))
                 .andExpect(jsonPath("$.firstName").value(mockCustomer.getFirstName()))
@@ -68,11 +72,11 @@ public class CustomerControllerTest {
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
 
         RequestBuilder requestBuilder = post("/customer/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCustomerDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstName").value(mockCustomerDTO.getFirstName()))
@@ -101,11 +105,11 @@ public class CustomerControllerTest {
                 .build();
 
         RequestBuilder requestBuilder = put("/customer/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(customerUpdate));
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockCustomer.getId()))
                 .andExpect(jsonPath("$.firstName").value(customerUpdate.getFirstName()))

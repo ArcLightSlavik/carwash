@@ -24,7 +24,7 @@ public class CarJobLinkController {
         this.carJobLinkService = carJobLinkService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCarJobLink(@Valid @RequestBody CreateCarJobLinkDTO carJobLinkDTO) {
         CarJobLink carJobLink = modelMapper.map(carJobLinkDTO, CarJobLink.class);
         CarJobLink savedCarJobLink = carJobLinkService.createCarJobLink(carJobLink);
@@ -32,7 +32,7 @@ public class CarJobLinkController {
         return new ResponseEntity<>(modelMapper.map(savedCarJobLink, CarJobLinkDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{carJobLinkId}" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{carJobLinkId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getCarJobLink(@PathVariable("carJobLinkId") Long id) {
         CarJobLink carJobLink = carJobLinkService.getCarJobLinkById(id);
         if (carJobLink == null) {
@@ -41,7 +41,7 @@ public class CarJobLinkController {
         return new ResponseEntity<>(modelMapper.map(carJobLink, CarJobLinkDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateCarJobLink(@RequestBody UpdateCarJobLinkDTO updateCarJobLinkDTO) {
         CarJobLink carJobLink = modelMapper.map(updateCarJobLinkDTO, CarJobLink.class);
         CarJobLink updatedCarJobLink = carJobLinkService.updateCarJobLink(carJobLink);

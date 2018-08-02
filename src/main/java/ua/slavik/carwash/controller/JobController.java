@@ -3,6 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.job.CreateJobDTO;
@@ -23,7 +24,7 @@ public class JobController {
         this.jobService = jobService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createJob(@Valid @RequestBody CreateJobDTO jobDTO) {
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
@@ -31,7 +32,7 @@ public class JobController {
         return new ResponseEntity<>(modelMapper.map(savedJob, JobDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{jobId}")
+    @GetMapping(value = "/{jobId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
@@ -40,7 +41,7 @@ public class JobController {
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO) {
         Job job = modelMapper.map(updateJobDTO, Job.class);
         Job updatedJob = jobService.updateJob(job);

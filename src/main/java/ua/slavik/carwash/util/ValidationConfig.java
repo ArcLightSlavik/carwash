@@ -5,7 +5,7 @@ import org.springframework.validation.ObjectError;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationUtil {
+public class ValidationConfig {
     public static List<String> fromBindingErrors(Errors errors) {
         List<String> validErrors = new ArrayList<>();
         for (ObjectError objectError : errors.getAllErrors()) {

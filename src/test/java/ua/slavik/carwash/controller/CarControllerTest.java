@@ -40,10 +40,14 @@ public class CarControllerTest {
                 .build();
         mockCar = carRepository.save(mockCar);
 
-        RequestBuilder requestBuilder = get("/car/{id}", mockCar.getId());
+        String mockCarJSON = objectMapper.writeValueAsString(mockCar);
+
+        RequestBuilder requestBuilder = get("/car/{id}", mockCar.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockCarJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockCar.getId()))
                 .andExpect(jsonPath("$.registrationPlate").value(mockCar.getRegistrationPlate()))
@@ -60,11 +64,11 @@ public class CarControllerTest {
         String mockCarDTOJSON = objectMapper.writeValueAsString(mockCarDTO);
 
         RequestBuilder requestBuilder = post("/car/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCarDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.registrationPlate").value(mockCarDTO.getRegistrationPlate()))
@@ -87,11 +91,11 @@ public class CarControllerTest {
                 .build();
 
         RequestBuilder requestBuilder = put("/car/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(carUpdate));
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockCar.getId()))
                 .andExpect(jsonPath("$.registrationPlate").value(carUpdate.getRegistrationPlate()))
@@ -112,6 +116,5 @@ public class CarControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().string("Deleted"))
                 .andExpect(status().isOk());
-
     }
 }

@@ -40,11 +40,11 @@ public class CustomerValidatorTest {
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
 
         RequestBuilder requestBuilder = post("/customer/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCustomerDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
@@ -67,11 +67,11 @@ public class CustomerValidatorTest {
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
 
         RequestBuilder requestBuilder = post("/customer/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCustomerDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",

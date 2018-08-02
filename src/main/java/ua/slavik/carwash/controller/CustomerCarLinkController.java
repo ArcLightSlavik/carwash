@@ -3,6 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.customercarlink.CreateCustomerCarLinkDTO;
@@ -23,7 +24,7 @@ public class CustomerCarLinkController {
         this.customerCarLinkService = customerCarLinkService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCustomerCarLink(@Valid @RequestBody CreateCustomerCarLinkDTO customerCarLinkDTO) {
         CustomerCarLink customerCarLink = modelMapper.map(customerCarLinkDTO, CustomerCarLink.class);
         CustomerCarLink savedCustomerCarLink = customerCarLinkService.createCustomerCarLink(customerCarLink);
@@ -31,7 +32,7 @@ public class CustomerCarLinkController {
         return new ResponseEntity<>(modelMapper.map(savedCustomerCarLink, CustomerCarLinkDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{customerCarLinkId}")
+    @GetMapping(value = "/{customerCarLinkId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getCustomerCarLink(@PathVariable("customerCarLinkId") Long id) {
         CustomerCarLink customerCarLink = customerCarLinkService.getCustomerCarLinkById(id);
         if (customerCarLink == null) {
@@ -40,7 +41,7 @@ public class CustomerCarLinkController {
         return new ResponseEntity<>(modelMapper.map(customerCarLink, CustomerCarLinkDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateCustomerCarLink(@RequestBody UpdateCustomerCarLinkDTO updateCustomerCarLinkDTO) {
         CustomerCarLink customerCarLink = modelMapper.map(updateCustomerCarLinkDTO, CustomerCarLink.class);
         CustomerCarLink updatedCustomerCarLink = customerCarLinkService.updateCustomerCarLink(customerCarLink);

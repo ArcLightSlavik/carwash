@@ -51,11 +51,11 @@ public class CarValidatorTest {
         String mockCarDTOJSON = objectMapper.writeValueAsString(mockCarDTO);
 
         RequestBuilder requestBuilder = post("/car/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCarDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "registrationPlate must be a valid string value.",
@@ -82,11 +82,11 @@ public class CarValidatorTest {
         String mockCarDTOJSON = objectMapper.writeValueAsString(mockCarDTO);
 
         RequestBuilder requestBuilder = post("/car/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCarDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "registrationPlate must be a valid string value.",

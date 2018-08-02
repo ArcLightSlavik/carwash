@@ -1,5 +1,6 @@
 package ua.slavik.carwash.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class CarJobLinkControllerTest {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     public void getCarJobLink() throws Exception {
         Car mockCar = Car.builder()
@@ -65,7 +69,11 @@ public class CarJobLinkControllerTest {
                 .build();
         carJobLink = carJobLinkRepository.save(carJobLink);
 
-        RequestBuilder requestBuilder = get("/carJobLink/{id}", 1L);
+        String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(carJobLink);
+
+        RequestBuilder requestBuilder = get("/carJobLink/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockCarJobLinkDTOJSON);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -97,7 +105,11 @@ public class CarJobLinkControllerTest {
                 .jobIds(Collections.singletonList(mockJob.getId()))
                 .build();
 
-        RequestBuilder requestBuilder = post("/carJobLink/");
+        String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(mockCarJobLinkDTO);
+
+        RequestBuilder requestBuilder = post("/carJobLink/", 1L)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockCarJobLinkDTOJSON);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))

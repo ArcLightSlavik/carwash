@@ -44,10 +44,14 @@ public class JobControllerTest {
                 .build();
         mockJob = jobRepository.save(mockJob);
 
-        RequestBuilder requestBuilder = get("/job/{id}", mockJob.getId());
+        String mockJobJSON = objectMapper.writeValueAsString(mockJob);
+
+        RequestBuilder requestBuilder = get("/job/{id}", mockJob.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockJobJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockJob.getId()))
                 .andExpect(jsonPath("$.status").value(mockJob.getStatus().toString()));
@@ -64,11 +68,11 @@ public class JobControllerTest {
         String mockJobDTOJSON = objectMapper.writeValueAsString(mockJobDTO);
 
         RequestBuilder requestBuilder = post("/job/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.status").value(mockJobDTO.getStatus().toString()));
@@ -92,11 +96,11 @@ public class JobControllerTest {
                 .build();
 
         RequestBuilder requestBuilder = put("/job/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(jobUpdate));
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockJob.getId()))
                 .andExpect(jsonPath("$.status").value(jobUpdate.getStatus().toString()));

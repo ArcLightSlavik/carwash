@@ -3,6 +3,7 @@ package ua.slavik.carwash.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.car.CarDTO;
@@ -23,7 +24,7 @@ public class CarController {
         this.carService = carService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
         Car car = modelMapper.map(carDTO, Car.class);
         Car savedCar = carService.createCar(car);
@@ -31,7 +32,7 @@ public class CarController {
         return new ResponseEntity<>(modelMapper.map(savedCar, CarDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{carId}")
+    @GetMapping(value = "/{carId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
@@ -40,7 +41,7 @@ public class CarController {
         return new ResponseEntity<>(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO) {
         Car car = modelMapper.map(updateCarDTO, Car.class);
         Car updatedCar = carService.updateCar(car);

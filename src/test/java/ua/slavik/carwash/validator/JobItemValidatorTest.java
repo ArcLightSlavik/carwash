@@ -56,12 +56,12 @@ public class JobItemValidatorTest {
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
 
-        RequestBuilder requestBuilder = post("/jobitem/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+        RequestBuilder requestBuilder = post("/jobItem/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobItemDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid description.",
@@ -93,12 +93,12 @@ public class JobItemValidatorTest {
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
 
-        RequestBuilder requestBuilder = post("/jobitem/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+        RequestBuilder requestBuilder = post("/jobItem/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobItemDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid description.",

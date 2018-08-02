@@ -1,5 +1,6 @@
 package ua.slavik.carwash.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import ua.slavik.carwash.repository.JobRepository;
 import java.util.Collections;
 import java.util.Date;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -39,6 +41,9 @@ public class JobJobItemLinkControllerTest {
 
     @Autowired
     private JobJobItemLinkRepository jobJobItemLinkRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void getJobJobItemLink() throws Exception {
@@ -69,10 +74,14 @@ public class JobJobItemLinkControllerTest {
                 .build();
         jobJobItemLink = jobJobItemLinkRepository.save(jobJobItemLink);
 
-        RequestBuilder requestBuilder = get("/jobJobItemLink/{id}", 1L);
+        String jobJobItemLinkJSON = objectMapper.writeValueAsString(jobJobItemLink);
+
+        RequestBuilder requestBuilder = get("/jobJobItemLink/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(jobJobItemLinkJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(jobJobItemLink.getId()))
                 .andExpect(jsonPath("$.carId").value(jobJobItemLink.getJob().getId()))
@@ -106,11 +115,15 @@ public class JobJobItemLinkControllerTest {
                 .jobItemIds(Collections.singletonList(mockJobItem.getId()))
                 .build();
 
-        RequestBuilder requestBuilder = get("/jobJobItemLink/{id}", 1L);
+        String mockJobJobItemLinkDTOJSON = objectMapper.writeValueAsString(mockJobJobItemLinkDTO);
+
+        RequestBuilder requestBuilder = post("/jobJobItemLink/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockJobJobItemLinkDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.jobId").value(mockJobJobItemLinkDTO.getJobId()))
                 .andExpect(jsonPath("$.jobItemIds").value(Collections.singletonList(mockJobJobItemLinkDTO.getJobItemIds())));

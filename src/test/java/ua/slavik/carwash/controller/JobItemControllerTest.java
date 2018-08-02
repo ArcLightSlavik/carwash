@@ -47,10 +47,14 @@ public class JobItemControllerTest {
                 .build();
         mockJobItem = jobItemRepository.save(mockJobItem);
 
-        RequestBuilder requestBuilder = get("/jobitem/{id}", mockJobItem.getId());
+        String mockJobItemJSON = objectMapper.writeValueAsString(mockJobItem);
+
+        RequestBuilder requestBuilder = get("/jobItem/{id}", mockJobItem.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(mockJobItemJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockJobItem.getId()))
                 .andExpect(jsonPath("$.name").value(mockJobItem.getName()))
@@ -75,12 +79,12 @@ public class JobItemControllerTest {
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
 
-        RequestBuilder requestBuilder = post("/jobitem/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+        RequestBuilder requestBuilder = post("/jobItem/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobItemDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value(mockJobItemDTO.getName()))
@@ -113,12 +117,12 @@ public class JobItemControllerTest {
                 .id(mockJobItem.getId())
                 .build();
 
-        RequestBuilder requestBuilder = put("/jobitem/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+        RequestBuilder requestBuilder = put("/jobItem/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(jobItemUpdate));
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(jobItemUpdate.getId()))
                 .andExpect(jsonPath("$.name").value(jobItemUpdate.getName()))
@@ -143,7 +147,7 @@ public class JobItemControllerTest {
                 .build();
         mockJobItem = jobItemRepository.save(mockJobItem);
 
-        RequestBuilder requestBuilder = delete("/jobitem/{id}", mockJobItem.getId());
+        RequestBuilder requestBuilder = delete("/jobItem/{id}", mockJobItem.getId());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().string("Deleted"))
