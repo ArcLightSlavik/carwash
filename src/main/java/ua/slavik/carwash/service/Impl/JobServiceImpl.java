@@ -1,23 +1,18 @@
 package ua.slavik.carwash.service.Impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.repository.JobRepository;
-import ua.slavik.carwash.service.JobItemService;
 import ua.slavik.carwash.service.JobService;
 
 @Service
 public class JobServiceImpl implements JobService {
-    private final ModelMapper modelMapper = new ModelMapper();
     private final JobRepository jobRepository;
-    private final JobItemService jobItemService;
 
     @Autowired
-    public JobServiceImpl(JobRepository jobRepository, JobItemService jobItemService) {
+    public JobServiceImpl(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
-        this.jobItemService = jobItemService;
     }
 
     @Override

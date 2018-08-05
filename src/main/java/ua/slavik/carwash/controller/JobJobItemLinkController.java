@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.jobjobitemlink.CreateJobJobItemLinkDTO;
 import ua.slavik.carwash.dto.jobjobitemlink.JobJobItemLinkDTO;
-import ua.slavik.carwash.dto.jobjobitemlink.UpdateJobJobItemLinkDTO;
 import ua.slavik.carwash.model.JobJobItemLink;
 import ua.slavik.carwash.service.JobJobItemLinkService;
 import javax.validation.Valid;
@@ -39,23 +38,5 @@ public class JobJobItemLinkController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(modelMapper.map(jobJobItemLink, JobJobItemLinkDTO.class), HttpStatus.OK);
-    }
-
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateJobJobItemLink(@RequestBody UpdateJobJobItemLinkDTO updateJobJobItemLinkDTO) {
-        JobJobItemLink jobJobItemLink = modelMapper.map(updateJobJobItemLinkDTO, JobJobItemLink.class);
-        JobJobItemLink updatedJobJobItemLink = jobJobItemLinkService.updateJobJobItemLink(jobJobItemLink);
-
-        return new ResponseEntity<>(modelMapper.map(updatedJobJobItemLink, JobJobItemLinkDTO.class), HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{jobJobItemLinkId}")
-    public ResponseEntity delete(@PathVariable("jobJobItemLinkId") Long id) {
-        JobJobItemLink jobJobItemLink = jobJobItemLinkService.getJobJobItemLinkById(id);
-        if (jobJobItemLink == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
-        }
-        jobJobItemLinkService.deleteJobJobItemLink(id);
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

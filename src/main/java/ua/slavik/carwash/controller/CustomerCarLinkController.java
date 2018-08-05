@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.customercarlink.CreateCustomerCarLinkDTO;
 import ua.slavik.carwash.dto.customercarlink.CustomerCarLinkDTO;
-import ua.slavik.carwash.dto.customercarlink.UpdateCustomerCarLinkDTO;
 import ua.slavik.carwash.model.CustomerCarLink;
 import ua.slavik.carwash.service.CustomerCarLinkService;
 import javax.validation.Valid;
@@ -39,23 +38,5 @@ public class CustomerCarLinkController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(modelMapper.map(customerCarLink, CustomerCarLinkDTO.class), HttpStatus.OK);
-    }
-
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateCustomerCarLink(@RequestBody UpdateCustomerCarLinkDTO updateCustomerCarLinkDTO) {
-        CustomerCarLink customerCarLink = modelMapper.map(updateCustomerCarLinkDTO, CustomerCarLink.class);
-        CustomerCarLink updatedCustomerCarLink = customerCarLinkService.updateCustomerCarLink(customerCarLink);
-
-        return new ResponseEntity<>(modelMapper.map(updatedCustomerCarLink, CustomerCarLinkDTO.class), HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{customerCarLinkId}")
-    public ResponseEntity delete(@PathVariable("customerCarLinkId") Long id) {
-        CustomerCarLink customerCarLink = customerCarLinkService.getCustomerCarLinkById(id);
-        if (customerCarLink == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
-        }
-        customerCarLinkService.deleteCustomerCarLink(id);
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }
