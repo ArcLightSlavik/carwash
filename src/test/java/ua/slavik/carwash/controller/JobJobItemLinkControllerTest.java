@@ -1,6 +1,7 @@
 package ua.slavik.carwash.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,8 +85,8 @@ public class JobJobItemLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(jobJobItemLink.getId()))
-                .andExpect(jsonPath("$.carId").value(jobJobItemLink.getJob().getId()))
-                .andExpect(jsonPath("$.jobIds").value(Collections.singletonList(jobJobItemLink.getJobItems().get(0).getId())));
+                .andExpect(jsonPath("$.jobId").value(jobJobItemLink.getJob().getId()))
+                .andExpect(jsonPath("$.jobItemIds").value(Matchers.contains(jobJobItemLink.getJobItems().get(0).getId())));
     }
 
     @Test
@@ -126,6 +127,6 @@ public class JobJobItemLinkControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.jobId").value(mockJobJobItemLinkDTO.getJobId()))
-                .andExpect(jsonPath("$.jobItemIds").value(Collections.singletonList(mockJobJobItemLinkDTO.getJobItemIds())));
+                .andExpect(jsonPath("$.jobItemIds").value(Matchers.equalTo(mockJobJobItemLinkDTO.getJobItemIds())));
     }
 }
