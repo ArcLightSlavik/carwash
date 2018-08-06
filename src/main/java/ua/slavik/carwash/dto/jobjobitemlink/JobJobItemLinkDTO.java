@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.slavik.carwash.dto.job.JobDTO;
+import ua.slavik.carwash.dto.jobItem.JobItemDTO;
 import java.util.List;
 
 @Data
@@ -12,6 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class JobJobItemLinkDTO {
     private Long id;
-    private Long jobId;
-    private List<Long> jobItemIds;
+    private JobDTO job;
+    private List<JobItemDTO> jobItems;
 }

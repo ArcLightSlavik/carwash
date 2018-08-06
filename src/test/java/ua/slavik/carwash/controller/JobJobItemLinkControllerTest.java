@@ -1,7 +1,6 @@
 package ua.slavik.carwash.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import ua.slavik.carwash.dto.job.JobDTO;
+import ua.slavik.carwash.dto.jobItem.JobItemDTO;
 import ua.slavik.carwash.dto.jobjobitemlink.CreateJobJobItemLinkDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobItem;
@@ -85,8 +86,8 @@ public class JobJobItemLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(jobJobItemLink.getId()))
-                .andExpect(jsonPath("$.jobId").value(jobJobItemLink.getJob().getId()))
-                .andExpect(jsonPath("$.jobItemIds").value(Matchers.contains(jobJobItemLink.getJobItems().get(0).getId())));
+                .andExpect(jsonPath("$.job.id").value(jobJobItemLink.getJob().getId()))
+                .andExpect(jsonPath("$.jobItems[0].id").value(jobJobItemLink.getJobItems().get(0).getId()));
     }
 
     @Test
@@ -112,8 +113,12 @@ public class JobJobItemLinkControllerTest {
         mockJobItem = jobItemRepository.save(mockJobItem);
 
         CreateJobJobItemLinkDTO mockJobJobItemLinkDTO = CreateJobJobItemLinkDTO.builder()
-                .jobId(mockJob.getId())
-                .jobItemIds(Collections.singletonList(mockJobItem.getId()))
+                .job(JobDTO.builder()
+                        .id(mockJob.getId())
+                        .build())
+                .jobItems(Collections.singletonList(JobItemDTO.builder()
+                        .id(mockJobItem.getId())
+                        .build()))
                 .build();
 
         String mockJobJobItemLinkDTOJSON = objectMapper.writeValueAsString(mockJobJobItemLinkDTO);
@@ -126,7 +131,7 @@ public class JobJobItemLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.jobId").value(mockJobJobItemLinkDTO.getJobId()))
-                .andExpect(jsonPath("$.jobItemIds").value(Matchers.equalTo(mockJobJobItemLinkDTO.getJobItemIds())));
+                .andExpect(jsonPath("$.job.id").value(mockJobJobItemLinkDTO.getJob().getId()))
+                .andExpect(jsonPath("$.jobItems[0].id").value(mockJobJobItemLinkDTO.getJobItems().get(0).getId()));
     }
 }

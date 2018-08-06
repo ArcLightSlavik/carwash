@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.slavik.carwash.dto.car.CarDTO;
+import ua.slavik.carwash.dto.customer.CustomerDTO;
 import java.util.List;
 
 @Data
@@ -11,6 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCustomerCarLinkDTO {
-    private Long customerId;
-    private List<Long> carIds;
+    private CustomerDTO customer;
+    private List<CarDTO> cars;
 }

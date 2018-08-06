@@ -8,11 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.dto.jobjobitemlink.CreateJobJobItemLinkDTO;
 import ua.slavik.carwash.dto.jobjobitemlink.JobJobItemLinkDTO;
-import ua.slavik.carwash.model.JobItem;
 import ua.slavik.carwash.model.JobJobItemLink;
 import ua.slavik.carwash.service.JobJobItemLinkService;
 import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/jobJobItemLink")
@@ -30,7 +28,7 @@ public class JobJobItemLinkController {
         JobJobItemLink jobJobItemLink = modelMapper.map(jobJobItemLinkDTO, JobJobItemLink.class);
         JobJobItemLink savedJobJobItemLink = jobJobItemLinkService.createJobJobItemLink(jobJobItemLink);
 
-        return new ResponseEntity<>(entityToDTO(savedJobJobItemLink), HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(savedJobJobItemLink, JobJobItemLinkDTO.class), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{jobJobItemLinkId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -39,19 +37,7 @@ public class JobJobItemLinkController {
         if (jobJobItemLink == null) {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(entityToDTO(jobJobItemLink), HttpStatus.OK);
-    }
-
-    private JobJobItemLinkDTO entityToDTO(JobJobItemLink entity) {
-        JobJobItemLinkDTO DTO = modelMapper.map(entity, JobJobItemLinkDTO.class);
-        if (entity.getJobItems() != null) {
-            DTO.setJobItemIds(
-                    entity.getJobItems().stream()
-                            .map(JobItem::getId)
-                            .collect(Collectors.toList())
-            );
-        }
-        return DTO;
+        return new ResponseEntity<>(modelMapper.map(jobJobItemLink, JobJobItemLinkDTO.class), HttpStatus.OK);
     }
 }
 

@@ -11,6 +11,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import ua.slavik.carwash.dto.car.CarDTO;
+import ua.slavik.carwash.dto.customer.CustomerDTO;
 import ua.slavik.carwash.dto.customercarlink.CreateCustomerCarLinkDTO;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.model.Customer;
@@ -78,8 +80,8 @@ public class CustomerCarLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(customerCarLink.getId()))
-                .andExpect(jsonPath("$.carId").value(customerCarLink.getCustomer().getId()))
-                .andExpect(jsonPath("$.jobIds").value(Collections.singletonList(customerCarLink.getCars().get(0).getId())));
+                .andExpect(jsonPath("$.customer.id").value(customerCarLink.getCustomer().getId()))
+                .andExpect(jsonPath("$.cars[0].id").value(customerCarLink.getCars().get(0).getId()));
     }
 
     @Test
@@ -101,8 +103,13 @@ public class CustomerCarLinkControllerTest {
         mockCar = carRepository.save(mockCar);
 
         CreateCustomerCarLinkDTO mockCustomerCarLinkDTO = CreateCustomerCarLinkDTO.builder()
-                .customerId(mockCustomer.getId())
-                .carIds(Collections.singletonList(mockCar.getId()))
+                .customer(CustomerDTO.builder()
+                        .id(mockCustomer.getId())
+                        .build())
+
+                .cars(Collections.singletonList(CarDTO.builder()
+                        .id(mockCar.getId())
+                        .build()))
                 .build();
 
         String mockCustomerCarLinkDTOJSON = objectMapper.writeValueAsString(mockCustomerCarLinkDTO);
@@ -115,7 +122,7 @@ public class CustomerCarLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.carId").value(mockCustomerCarLinkDTO.getCustomerId()))
-                .andExpect(jsonPath("$.jobIds").value(Collections.singletonList(mockCustomerCarLinkDTO.getCarIds())));
+                .andExpect(jsonPath("$.customer.id").value(mockCustomerCarLinkDTO.getCustomer().getId()))
+                .andExpect(jsonPath("$.cars[0].id").value(mockCustomerCarLinkDTO.getCars().get(0).getId()));
     }
 }

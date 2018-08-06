@@ -11,7 +11,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import ua.slavik.carwash.dto.car.CarDTO;
 import ua.slavik.carwash.dto.carjoblink.CreateCarJobLinkDTO;
+import ua.slavik.carwash.dto.job.JobDTO;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.model.CarJobLink;
 import ua.slavik.carwash.model.Job;
@@ -79,8 +81,8 @@ public class CarJobLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(carJobLink.getId()))
-                .andExpect(jsonPath("$.carId").value(carJobLink.getCar().getId()))
-                .andExpect(jsonPath("$.jobIds").value(Collections.singletonList(carJobLink.getJobs().get(0).getId())));
+                .andExpect(jsonPath("$.car.id").value(carJobLink.getCar().getId()))
+                .andExpect(jsonPath("$.jobs[0].id").value(carJobLink.getJobs().get(0).getId()));
     }
 
     @Test
@@ -101,8 +103,12 @@ public class CarJobLinkControllerTest {
         mockJob = jobRepository.save(mockJob);
 
         CreateCarJobLinkDTO mockCarJobLinkDTO = CreateCarJobLinkDTO.builder()
-                .carId(mockCar.getId())
-                .jobIds(Collections.singletonList(mockJob.getId()))
+                .car(CarDTO.builder()
+                        .id(mockCar.getId())
+                        .build())
+                .jobs(Collections.singletonList(JobDTO.builder()
+                        .id(mockJob.getId())
+                        .build()))
                 .build();
 
         String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(mockCarJobLinkDTO);
@@ -115,7 +121,7 @@ public class CarJobLinkControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.carId").value(mockCarJobLinkDTO.getCarId()))
-                .andExpect(jsonPath("$.jobIds").value(mockCarJobLinkDTO.getJobIds()));
+                .andExpect(jsonPath("$.car.id").value(mockCarJobLinkDTO.getCar().getId()))
+                .andExpect(jsonPath("$.jobs[0].id").value(mockCarJobLinkDTO.getJobs().get(0).getId()));
     }
 }
