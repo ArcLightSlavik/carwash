@@ -41,10 +41,13 @@ public class CustomerController {
         return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO) {
-        Customer customer = modelMapper.map(updateCustomerDTO, Customer.class);
-        Customer updatedCustomer = customerService.updateCustomer(customer);
+    @PutMapping(value = "/{customerId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerId") Long id) {
+        Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
+        if (oldCustomer == null) {
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+        }
+        Customer updatedCustomer = customerService.updateCustomer(oldCustomer, id);
 
         return new ResponseEntity<>(modelMapper.map(updatedCustomer, CustomerDTO.class), HttpStatus.OK);
     }
@@ -56,6 +59,7 @@ public class CustomerController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         customerService.deleteCustomer(id);
+
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

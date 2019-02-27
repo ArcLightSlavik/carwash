@@ -1,4 +1,4 @@
-package ua.slavik.carwash.service.Impl;
+package ua.slavik.carwash.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,14 @@ public class JobItemServiceImpl implements JobItemService {
     }
 
     @Override
-    public JobItem updateJobItem(JobItem jobItem) {
+    public JobItem updateJobItem(JobItem jobItem, Long id) {
+        JobItem oldJobItem = getJobItemById(id);
+        if (oldJobItem == null) {
+            return null;
+        }
+
+        jobItem.setId(id);
+
         return jobItemRepository.save(jobItem);
     }
 

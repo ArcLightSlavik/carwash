@@ -104,7 +104,7 @@ public class CustomerControllerTest {
                 .id(mockCustomer.getId())
                 .build();
 
-        RequestBuilder requestBuilder = put("/customer/")
+        RequestBuilder requestBuilder = put("/customer/{id}", mockCustomer.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(customerUpdate));
 

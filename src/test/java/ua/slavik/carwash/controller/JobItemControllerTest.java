@@ -117,7 +117,7 @@ public class JobItemControllerTest {
                 .id(mockJobItem.getId())
                 .build();
 
-        RequestBuilder requestBuilder = put("/jobItem/")
+        RequestBuilder requestBuilder = put("/jobItem/{id}", mockJobItem.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(jobItemUpdate));
 

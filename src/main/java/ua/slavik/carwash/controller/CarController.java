@@ -41,10 +41,13 @@ public class CarController {
         return new ResponseEntity<>(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO) {
-        Car car = modelMapper.map(updateCarDTO, Car.class);
-        Car updatedCar = carService.updateCar(car);
+    @PutMapping(value = "/{carId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO, @PathVariable("carId") Long id) {
+        Car oldCar = modelMapper.map(updateCarDTO, Car.class);
+        if (oldCar == null) {
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+        }
+        Car updatedCar = carService.updateCar(oldCar, id);
 
         return new ResponseEntity<>(modelMapper.map(updatedCar, CarDTO.class), HttpStatus.OK);
     }
@@ -56,6 +59,7 @@ public class CarController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         carService.deleteCar(id);
+
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

@@ -7,7 +7,7 @@ public interface CarService {
 
     Car createCar(Car car);
 
-    Car updateCar(Car car);
+    Car updateCar(Car car, Long id);
 
     void deleteCar(Long id);
 }

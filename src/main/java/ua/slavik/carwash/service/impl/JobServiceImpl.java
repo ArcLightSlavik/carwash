@@ -1,4 +1,4 @@
-package ua.slavik.carwash.service.Impl;
+package ua.slavik.carwash.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,14 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job updateJob(Job job) {
+    public Job updateJob(Job job, Long id) {
+        Job oldJob = getJobById(id);
+        if (oldJob == null) {
+            return null;
+        }
+
+        job.setId(id);
+
         return jobRepository.save(job);
     }
 

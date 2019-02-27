@@ -41,10 +41,13 @@ public class JobController {
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO) {
-        Job job = modelMapper.map(updateJobDTO, Job.class);
-        Job updatedJob = jobService.updateJob(job);
+    @PutMapping(value = "/{jobId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
+        Job oldJob = modelMapper.map(updateJobDTO, Job.class);
+        if (oldJob == null) {
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+        }
+        Job updatedJob = jobService.updateJob(oldJob, id);
 
         return new ResponseEntity<>(modelMapper.map(updatedJob, JobDTO.class), HttpStatus.OK);
     }
@@ -56,6 +59,7 @@ public class JobController {
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
         jobService.deleteJob(id);
+
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }

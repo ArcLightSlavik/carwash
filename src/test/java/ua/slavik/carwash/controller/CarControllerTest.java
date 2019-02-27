@@ -90,7 +90,7 @@ public class CarControllerTest {
                 .id(mockCar.getId())
                 .build();
 
-        RequestBuilder requestBuilder = put("/car/")
+        RequestBuilder requestBuilder = put("/car/{id}", mockCar.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(carUpdate));
 

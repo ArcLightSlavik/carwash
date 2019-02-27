@@ -1,4 +1,4 @@
-package ua.slavik.carwash.service.Impl;
+package ua.slavik.carwash.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,14 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer updateCustomer(Customer customer) {
+    public Customer updateCustomer(Customer customer, Long id) {
+        Customer oldCustomer = getCustomerById(id);
+        if (oldCustomer == null) {
+            return null;
+        }
+
+        customer.setId(id);
+
         return customerRepository.save(customer);
     }
 

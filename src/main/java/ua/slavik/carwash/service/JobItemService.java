@@ -7,7 +7,7 @@ public interface JobItemService {
 
     JobItem createJobItem(JobItem jobItem);
 
-    JobItem updateJobItem(JobItem jobItem);
+    JobItem updateJobItem(JobItem jobItem, Long id);
 
     void deleteJobItem(Long id);
 }

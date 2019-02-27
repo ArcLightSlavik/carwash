@@ -1,4 +1,4 @@
-package ua.slavik.carwash.service.Impl;
+package ua.slavik.carwash.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car updateCar(Car car) {
+    public Car updateCar(Car car, Long id) {
+        Car oldCar = getCarById(id);
+        if (oldCar == null) {
+            return null;
+        }
+
+        car.setId(id);
+
         return carRepository.save(car);
     }
 
