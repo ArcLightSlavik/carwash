@@ -36,7 +36,7 @@ public class CarController {
     public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class CarController {
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO, @PathVariable("carId") Long id) {
         Car oldCar = modelMapper.map(updateCarDTO, Car.class);
         if (oldCar == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         Car updatedCar = carService.updateCar(oldCar, id);
 
@@ -56,7 +56,7 @@ public class CarController {
     public ResponseEntity delete(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         carService.deleteCar(id);
 

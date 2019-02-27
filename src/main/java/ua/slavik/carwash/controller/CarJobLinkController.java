@@ -35,7 +35,7 @@ public class CarJobLinkController {
     public ResponseEntity getCarJobLink(@PathVariable("carJobLinkId") Long id) {
         CarJobLink carJobLink = carJobLinkService.getCarJobLinkById(id);
         if (carJobLink == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(carJobLink, CarJobLinkDTO.class), HttpStatus.OK);
     }

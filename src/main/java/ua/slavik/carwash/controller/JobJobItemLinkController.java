@@ -35,7 +35,7 @@ public class JobJobItemLinkController {
     public ResponseEntity getJobJobItemLink(@PathVariable("jobJobItemLinkId") Long id) {
         JobJobItemLink jobJobItemLink = jobJobItemLinkService.getJobJobItemLinkById(id);
         if (jobJobItemLink == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(jobJobItemLink, JobJobItemLinkDTO.class), HttpStatus.OK);
     }

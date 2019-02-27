@@ -36,7 +36,7 @@ public class JobController {
     public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class JobController {
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         if (oldJob == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         Job updatedJob = jobService.updateJob(oldJob, id);
 
@@ -56,7 +56,7 @@ public class JobController {
     public ResponseEntity delete(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         jobService.deleteJob(id);
 

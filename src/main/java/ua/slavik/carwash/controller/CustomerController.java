@@ -36,7 +36,7 @@ public class CustomerController {
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class CustomerController {
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerId") Long id) {
         Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
         if (oldCustomer == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         Customer updatedCustomer = customerService.updateCustomer(oldCustomer, id);
 
@@ -56,7 +56,7 @@ public class CustomerController {
     public ResponseEntity delete(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
         }
         customerService.deleteCustomer(id);
 
