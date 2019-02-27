@@ -6,8 +6,4 @@ public interface JobJobItemLinkService {
     JobJobItemLink getJobJobItemLinkById(Long id);
 
     JobJobItemLink createJobJobItemLink(JobJobItemLink jobJobItemLink);
-
-    JobJobItemLink updateJobJobItemLink(JobJobItemLink jobJobItemLink);
-
-    void deleteJobJobItemLink(Long id);
 }

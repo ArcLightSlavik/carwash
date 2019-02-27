@@ -24,17 +24,4 @@ public class JobJobItemLinkServiceImpl implements JobJobItemLinkService {
     public JobJobItemLink createJobJobItemLink(JobJobItemLink jobJobItemLink) {
         return jobJobItemLinkRepository.save(jobJobItemLink);
     }
-
-    @Override
-    public JobJobItemLink updateJobJobItemLink(JobJobItemLink jobJobItemLink) {
-        return jobJobItemLinkRepository.save(jobJobItemLink);
-    }
-
-    @Override
-    public void deleteJobJobItemLink(Long id) {
-        JobJobItemLink jobJobItemLink = getJobJobItemLinkById(id);
-        if (jobJobItemLink != null) {
-            jobJobItemLinkRepository.deleteById(id);
-        }
-    }
 }

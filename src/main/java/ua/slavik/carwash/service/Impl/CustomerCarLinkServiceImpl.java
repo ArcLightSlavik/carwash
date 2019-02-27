@@ -22,15 +22,4 @@ public class CustomerCarLinkServiceImpl implements CustomerCarLinkService {
     public CustomerCarLink createCustomerCarLink(CustomerCarLink customerCarLink) {
         return customerCarLinkRepository.save(customerCarLink);
     }
-
-    public CustomerCarLink updateCustomerCarLink(CustomerCarLink customerCarLink) {
-        return customerCarLinkRepository.save(customerCarLink);
-    }
-
-    public void deleteCustomerCarLink(Long id) {
-        CustomerCarLink customerCarLink = getCustomerCarLinkById(id);
-        if (customerCarLink != null) {
-            customerCarLinkRepository.deleteById(id);
-        }
-    }
 }

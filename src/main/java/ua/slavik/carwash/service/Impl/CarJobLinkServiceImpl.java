@@ -22,15 +22,4 @@ public class CarJobLinkServiceImpl implements CarJobLinkService {
     public CarJobLink createCarJobLink(CarJobLink carJobLink) {
         return carJobLinkRepository.save(carJobLink);
     }
-
-    public CarJobLink updateCarJobLink(CarJobLink carJobLink) {
-        return carJobLinkRepository.save(carJobLink);
-    }
-
-    public void deleteCarJobLink(Long id) {
-        CarJobLink carJobLink = getCarJobLinkById(id);
-        if (carJobLink != null) {
-            carJobLinkRepository.deleteById(id);
-        }
-    }
 }
