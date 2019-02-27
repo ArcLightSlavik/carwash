@@ -15,10 +15,12 @@ public class CustomerCarLinkServiceImpl implements CustomerCarLinkService {
         this.customerCarLinkRepository = customerCarLinkRepository;
     }
 
+    @Override
     public CustomerCarLink getCustomerCarLinkById(Long id) {
         return customerCarLinkRepository.findById(id).orElse(null);
     }
 
+    @Override
     public CustomerCarLink createCustomerCarLink(CustomerCarLink customerCarLink) {
         return customerCarLinkRepository.save(customerCarLink);
     }

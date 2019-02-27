@@ -15,10 +15,12 @@ public class CarJobLinkServiceImpl implements CarJobLinkService {
         this.carJobLinkRepository = carJobLinkRepository;
     }
 
+    @Override
     public CarJobLink getCarJobLinkById(Long id) {
         return carJobLinkRepository.findById(id).orElse(null);
     }
 
+    @Override
     public CarJobLink createCarJobLink(CarJobLink carJobLink) {
         return carJobLinkRepository.save(carJobLink);
     }

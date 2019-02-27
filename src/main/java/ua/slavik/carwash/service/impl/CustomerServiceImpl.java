@@ -15,14 +15,17 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Override
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id).orElse(null);
     }
 
+    @Override
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
+    @Override
     public Customer updateCustomer(Customer customer, Long id) {
         Customer oldCustomer = getCustomerById(id);
         if (oldCustomer == null) {
@@ -34,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer);
     }
 
+    @Override
     public void deleteCustomer(Long id) {
         Customer customer = getCustomerById(id);
         if (customer != null) {
