@@ -13,7 +13,7 @@ import ua.slavik.carwash.service.JobTaskLinkService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/jobTaskLink")
+@RequestMapping("/jobtasklink")
 public class JobTaskLinkController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final JobTaskLinkService jobTaskLinkService;
@@ -31,8 +31,8 @@ public class JobTaskLinkController {
         return new ResponseEntity<>(modelMapper.map(savedJobTaskLink, JobTaskLinkDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{jobTaskLinkId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getJobJobItemLink(@PathVariable("jobTaskLinkId") Long id) {
+    @GetMapping(value = "/{jobtasklinkid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getJobJobItemLink(@PathVariable("jobtasklinkid") Long id) {
         JobTaskLink jobTaskLink = jobTaskLinkService.getJobTaskLinkById(id);
         if (jobTaskLink == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);

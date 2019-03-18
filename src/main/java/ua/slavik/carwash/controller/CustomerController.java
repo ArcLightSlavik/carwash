@@ -32,8 +32,8 @@ public class CustomerController {
         return new ResponseEntity<>(modelMapper.map(savedCustomer, CustomerDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{customerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
+    @GetMapping(value = "/{customerid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getCustomer(@PathVariable("customerid") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
@@ -41,8 +41,8 @@ public class CustomerController {
         return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{customerId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerId") Long id) {
+    @PutMapping(value = "/{customerid}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerid") Long id) {
         Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
         if (oldCustomer == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
@@ -52,8 +52,8 @@ public class CustomerController {
         return new ResponseEntity<>(modelMapper.map(updatedCustomer, CustomerDTO.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{customerId}")
-    public ResponseEntity deleteCustomer(@PathVariable("customerId") Long id) {
+    @DeleteMapping(value = "/{customerid}")
+    public ResponseEntity deleteCustomer(@PathVariable("customerid") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);

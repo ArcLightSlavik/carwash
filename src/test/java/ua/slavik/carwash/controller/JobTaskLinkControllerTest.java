@@ -78,7 +78,7 @@ public class JobTaskLinkControllerTest {
 
         String jobTaskLinkJSON = objectMapper.writeValueAsString(jobTaskLink);
 
-        RequestBuilder requestBuilder = get("/jobTaskLink/{id}", 1L)
+        RequestBuilder requestBuilder = get("/jobtasklink/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(jobTaskLinkJSON);
 
@@ -123,7 +123,7 @@ public class JobTaskLinkControllerTest {
 
         String mockJobTaskLinkDTOJSON = objectMapper.writeValueAsString(mockJobTaskLinkDTO);
 
-        RequestBuilder requestBuilder = post("/jobTaskLink/")
+        RequestBuilder requestBuilder = post("/jobtasklink/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobTaskLinkDTOJSON);
 

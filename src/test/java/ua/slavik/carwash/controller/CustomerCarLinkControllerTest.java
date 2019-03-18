@@ -72,7 +72,7 @@ public class CustomerCarLinkControllerTest {
 
         String customerCarLinkJSON = objectMapper.writeValueAsString(customerCarLink);
 
-        RequestBuilder requestBuilder = get("/customerCarLink/{id}", 1L)
+        RequestBuilder requestBuilder = get("/customercarlink/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(customerCarLinkJSON);
 
@@ -114,7 +114,7 @@ public class CustomerCarLinkControllerTest {
 
         String mockCustomerCarLinkDTOJSON = objectMapper.writeValueAsString(mockCustomerCarLinkDTO);
 
-        RequestBuilder requestBuilder = post("/customerCarLink/")
+        RequestBuilder requestBuilder = post("/customercarlink/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCustomerCarLinkDTOJSON);
 

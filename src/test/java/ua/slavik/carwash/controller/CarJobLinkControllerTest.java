@@ -73,7 +73,7 @@ public class CarJobLinkControllerTest {
 
         String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(carJobLink);
 
-        RequestBuilder requestBuilder = get("/carJobLink/{id}", 1L)
+        RequestBuilder requestBuilder = get("/carjoblink/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCarJobLinkDTOJSON);
 
@@ -113,7 +113,7 @@ public class CarJobLinkControllerTest {
 
         String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(mockCarJobLinkDTO);
 
-        RequestBuilder requestBuilder = post("/carJobLink/", 1L)
+        RequestBuilder requestBuilder = post("/carjoblink/", 1L)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCarJobLinkDTOJSON);
 

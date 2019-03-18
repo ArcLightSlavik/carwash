@@ -32,8 +32,8 @@ public class TaskController {
         return new ResponseEntity<>(modelMapper.map(savedTask, TaskDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{taskId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getTask(@PathVariable("taskId") Long id) {
+    @GetMapping(value = "/{taskid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getTask(@PathVariable("taskid") Long id) {
         Task task = taskService.getTaskById(id);
         if (task == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
@@ -41,8 +41,8 @@ public class TaskController {
         return new ResponseEntity<>(modelMapper.map(task, TaskDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{taskId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable("taskId") Long id) {
+    @PutMapping(value = "/{taskid}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable("taskid") Long id) {
         Task oldTask = modelMapper.map(updateTaskDTO, Task.class);
         if (oldTask == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
@@ -52,8 +52,8 @@ public class TaskController {
         return new ResponseEntity<>(modelMapper.map(updatedTask, TaskDTO.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{taskId}")
-    public ResponseEntity deleteTask(@PathVariable("taskId") Long id) {
+    @DeleteMapping(value = "/{taskid}")
+    public ResponseEntity deleteTask(@PathVariable("taskid") Long id) {
         Task task = taskService.getTaskById(id);
         if (task == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);

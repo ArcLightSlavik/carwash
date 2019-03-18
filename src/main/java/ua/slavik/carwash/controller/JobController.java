@@ -32,8 +32,8 @@ public class JobController {
         return new ResponseEntity<>(modelMapper.map(savedJob, JobDTO.class), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{jobId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getJob(@PathVariable("jobId") Long id) {
+    @GetMapping(value = "/{jobid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getJob(@PathVariable("jobid") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
@@ -41,8 +41,8 @@ public class JobController {
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{jobId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
+    @PutMapping(value = "/{jobid}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobid") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         if (oldJob == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
@@ -52,8 +52,8 @@ public class JobController {
         return new ResponseEntity<>(modelMapper.map(updatedJob, JobDTO.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{jobId}")
-    public ResponseEntity deleteJob(@PathVariable("jobId") Long id) {
+    @DeleteMapping(value = "/{jobid}")
+    public ResponseEntity deleteJob(@PathVariable("jobid") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
