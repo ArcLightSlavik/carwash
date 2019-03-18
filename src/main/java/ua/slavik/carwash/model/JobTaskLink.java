@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobJobItemLink {
+public class JobTaskLink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +22,6 @@ public class JobJobItemLink {
     private Job job;
 
     @OneToMany
-    @JoinColumn(name = "jobitem_id")
-    private List<JobItem> jobItems;
+    @JoinColumn(name = "task_id")
+    private List<Task> tasks;
 }

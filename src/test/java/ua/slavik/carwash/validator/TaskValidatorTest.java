@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.dto.jobItem.CreateJobItemDTO;
+import ua.slavik.carwash.dto.task.CreateTaskDTO;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.repository.JobRepository;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class JobItemValidatorTest {
+public class TaskValidatorTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -44,7 +44,7 @@ public class JobItemValidatorTest {
                 .build();
         jobRepository.save(mockJob);
 
-        CreateJobItemDTO mockJobItemDTO = CreateJobItemDTO.builder()
+        CreateTaskDTO mockJobItemDTO = CreateTaskDTO.builder()
                 .name("w")
                 .description("")
                 .price(-500)
@@ -56,7 +56,7 @@ public class JobItemValidatorTest {
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
 
-        RequestBuilder requestBuilder = post("/jobItem/")
+        RequestBuilder requestBuilder = post("/task/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobItemDTOJSON);
 
@@ -81,7 +81,7 @@ public class JobItemValidatorTest {
                 .build();
         jobRepository.save(mockJob);
 
-        CreateJobItemDTO mockJobItemDTO = CreateJobItemDTO.builder()
+        CreateTaskDTO mockJobItemDTO = CreateTaskDTO.builder()
                 .name(null)
                 .description(null)
                 .price(-500)
@@ -93,7 +93,7 @@ public class JobItemValidatorTest {
 
         String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
 
-        RequestBuilder requestBuilder = post("/jobItem/")
+        RequestBuilder requestBuilder = post("/task/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mockJobItemDTOJSON);
 

@@ -1,28 +1,22 @@
-package ua.slavik.carwash.model;
+package ua.slavik.carwash.dto.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import ua.slavik.carwash.model.JobStatus;
 
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TaskDTO {
     private Long id;
     private int price;
     private int duration;
     private int priority;
     private String name;
     private String description;
-    private JobStatus status;
     private boolean repeatable;
+    private JobStatus status;
 }

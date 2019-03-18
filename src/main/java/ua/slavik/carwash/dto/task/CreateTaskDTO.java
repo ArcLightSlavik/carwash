@@ -1,4 +1,4 @@
-package ua.slavik.carwash.dto.jobItem;
+package ua.slavik.carwash.dto.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import ua.slavik.carwash.model.JobStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateJobItemDTO {
+public class CreateTaskDTO {
     @StringField(message = "Invalid description.")
     private String description;
 

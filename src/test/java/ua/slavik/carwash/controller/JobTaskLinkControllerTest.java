@@ -12,15 +12,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.dto.job.JobDTO;
-import ua.slavik.carwash.dto.jobItem.JobItemDTO;
-import ua.slavik.carwash.dto.jobjobitemlink.CreateJobJobItemLinkDTO;
+import ua.slavik.carwash.dto.jobtasklink.CreateJobTaskLinkDTO;
+import ua.slavik.carwash.dto.task.TaskDTO;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.model.JobItem;
-import ua.slavik.carwash.model.JobJobItemLink;
 import ua.slavik.carwash.model.JobStatus;
-import ua.slavik.carwash.repository.JobItemRepository;
-import ua.slavik.carwash.repository.JobJobItemLinkRepository;
+import ua.slavik.carwash.model.JobTaskLink;
+import ua.slavik.carwash.model.Task;
 import ua.slavik.carwash.repository.JobRepository;
+import ua.slavik.carwash.repository.JobTaskLinkRepository;
+import ua.slavik.carwash.repository.TaskRepository;
 import java.util.Collections;
 import java.util.Date;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class JobJobItemLinkControllerTest {
+public class JobTaskLinkControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,16 +39,16 @@ public class JobJobItemLinkControllerTest {
     private JobRepository jobRepository;
 
     @Autowired
-    private JobItemRepository jobItemRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    private JobJobItemLinkRepository jobJobItemLinkRepository;
+    private JobTaskLinkRepository jobTaskLinkRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
-    public void getJobJobItemLink() throws Exception {
+    public void getJobTaskLink() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -57,7 +57,7 @@ public class JobJobItemLinkControllerTest {
                 .build();
         mockJob = jobRepository.save(mockJob);
 
-        JobItem mockJobItem = JobItem.builder()
+        Task mockTask = Task.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
                 .price(10)
@@ -67,31 +67,31 @@ public class JobJobItemLinkControllerTest {
                 .repeatable(false)
                 .id(1L)
                 .build();
-        mockJobItem = jobItemRepository.save(mockJobItem);
+        mockTask = taskRepository.save(mockTask);
 
-        JobJobItemLink jobJobItemLink = JobJobItemLink.builder()
+        JobTaskLink jobTaskLink = JobTaskLink.builder()
                 .job(mockJob)
-                .jobItems(Collections.singletonList(mockJobItem))
+                .tasks(Collections.singletonList(mockTask))
                 .id(1L)
                 .build();
-        jobJobItemLink = jobJobItemLinkRepository.save(jobJobItemLink);
+        jobTaskLink = jobTaskLinkRepository.save(jobTaskLink);
 
-        String jobJobItemLinkJSON = objectMapper.writeValueAsString(jobJobItemLink);
+        String jobTaskLinkJSON = objectMapper.writeValueAsString(jobTaskLink);
 
-        RequestBuilder requestBuilder = get("/jobJobItemLink/{id}", 1L)
+        RequestBuilder requestBuilder = get("/jobTaskLink/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jobJobItemLinkJSON);
+                .content(jobTaskLinkJSON);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(jobJobItemLink.getId()))
-                .andExpect(jsonPath("$.job.id").value(jobJobItemLink.getJob().getId()))
-                .andExpect(jsonPath("$.jobItems[0].id").value(jobJobItemLink.getJobItems().get(0).getId()));
+                .andExpect(jsonPath("$.id").value(jobTaskLink.getId()))
+                .andExpect(jsonPath("$.job.id").value(jobTaskLink.getJob().getId()))
+                .andExpect(jsonPath("$.tasks[0].id").value(jobTaskLink.getTasks().get(0).getId()));
     }
 
     @Test
-    public void postJobJobItemLink() throws Exception {
+    public void postJobTaskLink() throws Exception {
         Job mockJob = Job.builder()
                 .startDate(new Date(1531282957L))
                 .endDate(new Date(1531282992L))
@@ -100,7 +100,7 @@ public class JobJobItemLinkControllerTest {
                 .build();
         mockJob = jobRepository.save(mockJob);
 
-        JobItem mockJobItem = JobItem.builder()
+        Task mockTask = Task.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
                 .price(10)
@@ -110,28 +110,28 @@ public class JobJobItemLinkControllerTest {
                 .repeatable(false)
                 .id(1L)
                 .build();
-        mockJobItem = jobItemRepository.save(mockJobItem);
+        mockTask = taskRepository.save(mockTask);
 
-        CreateJobJobItemLinkDTO mockJobJobItemLinkDTO = CreateJobJobItemLinkDTO.builder()
+        CreateJobTaskLinkDTO mockJobTaskLinkDTO = CreateJobTaskLinkDTO.builder()
                 .job(JobDTO.builder()
                         .id(mockJob.getId())
                         .build())
-                .jobItems(Collections.singletonList(JobItemDTO.builder()
-                        .id(mockJobItem.getId())
+                .tasks(Collections.singletonList(TaskDTO.builder()
+                        .id(mockTask.getId())
                         .build()))
                 .build();
 
-        String mockJobJobItemLinkDTOJSON = objectMapper.writeValueAsString(mockJobJobItemLinkDTO);
+        String mockJobTaskLinkDTOJSON = objectMapper.writeValueAsString(mockJobTaskLinkDTO);
 
-        RequestBuilder requestBuilder = post("/jobJobItemLink/")
+        RequestBuilder requestBuilder = post("/jobTaskLink/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mockJobJobItemLinkDTOJSON);
+                .content(mockJobTaskLinkDTOJSON);
 
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.job.id").value(mockJobJobItemLinkDTO.getJob().getId()))
-                .andExpect(jsonPath("$.jobItems[0].id").value(mockJobJobItemLinkDTO.getJobItems().get(0).getId()));
+                .andExpect(jsonPath("$.job.id").value(mockJobTaskLinkDTO.getJob().getId()))
+                .andExpect(jsonPath("$.tasks[0].id").value(mockJobTaskLinkDTO.getTasks().get(0).getId()));
     }
 }
