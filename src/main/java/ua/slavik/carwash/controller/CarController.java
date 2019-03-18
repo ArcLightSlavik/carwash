@@ -53,7 +53,7 @@ public class CarController {
     }
 
     @DeleteMapping(value = "/{carId}")
-    public ResponseEntity delete(@PathVariable("carId") Long id) {
+    public ResponseEntity deleteCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);

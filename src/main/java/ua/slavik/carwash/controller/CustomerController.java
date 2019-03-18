@@ -53,7 +53,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(value = "/{customerId}")
-    public ResponseEntity delete(@PathVariable("customerId") Long id) {
+    public ResponseEntity deleteCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
             return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
