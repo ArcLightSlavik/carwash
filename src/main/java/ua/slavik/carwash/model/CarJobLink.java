@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -21,7 +20,7 @@ public class CarJobLink {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "job_id")
-    private List<Job> jobs;
+    private Job job;
 }

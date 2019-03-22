@@ -1,7 +1,7 @@
 package ua.slavik.carwash.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/customer")
+@RequiredArgsConstructor
 public class CustomerController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CustomerService customerService;
-
-    @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerDTO customerDTO) {
@@ -36,7 +32,7 @@ public class CustomerController {
     public ResponseEntity getCustomer(@PathVariable("customerid") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User by id you entered wasn't found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(customer, CustomerDTO.class), HttpStatus.OK);
     }
@@ -45,7 +41,7 @@ public class CustomerController {
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerid") Long id) {
         Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
         if (oldCustomer == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         Customer updatedCustomer = customerService.updateCustomer(oldCustomer, id);
 
@@ -56,10 +52,10 @@ public class CustomerController {
     public ResponseEntity deleteCustomer(@PathVariable("customerid") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         customerService.deleteCustomer(id);
 
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        return new ResponseEntity<>("User has been deleted.", HttpStatus.OK);
     }
 }

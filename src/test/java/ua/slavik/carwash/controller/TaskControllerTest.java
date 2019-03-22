@@ -150,7 +150,7 @@ public class TaskControllerTest {
         RequestBuilder requestBuilder = delete("/task/{id}", mockTask.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().string("Deleted"))
+                .andExpect(content().string("Task has been deleted."))
                 .andExpect(status().isOk());
     }
 }

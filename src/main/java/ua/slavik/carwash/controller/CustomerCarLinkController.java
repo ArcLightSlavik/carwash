@@ -1,7 +1,7 @@
 package ua.slavik.carwash.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/customercarlink")
+@RequiredArgsConstructor
 public class CustomerCarLinkController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CustomerCarLinkService customerCarLinkService;
-
-    @Autowired
-    public CustomerCarLinkController(CustomerCarLinkService customerCarLinkService) {
-        this.customerCarLinkService = customerCarLinkService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCustomerCarLink(@Valid @RequestBody CreateCustomerCarLinkDTO customerCarLinkDTO) {
@@ -35,7 +31,7 @@ public class CustomerCarLinkController {
     public ResponseEntity getCustomerCarLink(@PathVariable("customercarlinkid") Long id) {
         CustomerCarLink customerCarLink = customerCarLinkService.getCustomerCarLinkById(id);
         if (customerCarLink == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("CustomerCar by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(customerCarLink, CustomerCarLinkDTO.class), HttpStatus.OK);
     }

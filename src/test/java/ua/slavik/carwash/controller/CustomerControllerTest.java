@@ -131,7 +131,7 @@ public class CustomerControllerTest {
         RequestBuilder requestBuilder = delete("/customer/{id}", mockCustomer.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().string("Deleted"))
+                .andExpect(content().string("User has been deleted."))
                 .andExpect(status().isOk());
 
     }

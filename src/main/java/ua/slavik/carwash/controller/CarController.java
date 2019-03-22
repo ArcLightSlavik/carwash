@@ -1,7 +1,7 @@
 package ua.slavik.carwash.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/car")
+@RequiredArgsConstructor
 public class CarController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final CarService carService;
-
-    @Autowired
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
@@ -36,7 +32,7 @@ public class CarController {
     public ResponseEntity getCar(@PathVariable("carid") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Car by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(car, CarDTO.class), HttpStatus.OK);
     }
@@ -45,7 +41,7 @@ public class CarController {
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO, @PathVariable("carid") Long id) {
         Car oldCar = modelMapper.map(updateCarDTO, Car.class);
         if (oldCar == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Car by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         Car updatedCar = carService.updateCar(oldCar, id);
 
@@ -56,10 +52,10 @@ public class CarController {
     public ResponseEntity deleteCar(@PathVariable("carid") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Car by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         carService.deleteCar(id);
 
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Car has been deleted.", HttpStatus.OK);
     }
 }

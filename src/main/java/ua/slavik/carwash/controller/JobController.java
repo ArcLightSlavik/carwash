@@ -1,7 +1,7 @@
 package ua.slavik.carwash.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/job")
+@RequiredArgsConstructor
 public class JobController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final JobService jobService;
-
-    @Autowired
-    public JobController(JobService jobService) {
-        this.jobService = jobService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createJob(@Valid @RequestBody CreateJobDTO jobDTO) {
@@ -36,7 +32,7 @@ public class JobController {
     public ResponseEntity getJob(@PathVariable("jobid") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(job, JobDTO.class), HttpStatus.OK);
     }
@@ -45,7 +41,7 @@ public class JobController {
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobid") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         if (oldJob == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         Job updatedJob = jobService.updateJob(oldJob, id);
 
@@ -56,10 +52,10 @@ public class JobController {
     public ResponseEntity deleteJob(@PathVariable("jobid") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         jobService.deleteJob(id);
 
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Job has been deleted.", HttpStatus.OK);
     }
 } 

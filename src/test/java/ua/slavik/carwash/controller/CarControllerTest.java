@@ -114,7 +114,7 @@ public class CarControllerTest {
         RequestBuilder requestBuilder = delete("/car/{id}", mockCar.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().string("Deleted"))
+                .andExpect(content().string("Car has been deleted."))
                 .andExpect(status().isOk());
     }
 }

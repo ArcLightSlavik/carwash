@@ -1,7 +1,7 @@
 package ua.slavik.carwash.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/jobtasklink")
+@RequiredArgsConstructor
 public class JobTaskLinkController {
     private final ModelMapper modelMapper = new ModelMapper();
     private final JobTaskLinkService jobTaskLinkService;
-
-    @Autowired
-    public JobTaskLinkController(JobTaskLinkService jobTaskLinkService) {
-        this.jobTaskLinkService = jobTaskLinkService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createJobTaskLink(@Valid @RequestBody CreateJobTaskLinkDTO jobTaskLinkDTO) {
@@ -35,7 +31,7 @@ public class JobTaskLinkController {
     public ResponseEntity getJobJobItemLink(@PathVariable("jobtasklinkid") Long id) {
         JobTaskLink jobTaskLink = jobTaskLinkService.getJobTaskLinkById(id);
         if (jobTaskLink == null) {
-            return new ResponseEntity<>("Not found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("JobTask by id you entered wasn't found.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(modelMapper.map(jobTaskLink, JobTaskLinkDTO.class), HttpStatus.OK);
     }
