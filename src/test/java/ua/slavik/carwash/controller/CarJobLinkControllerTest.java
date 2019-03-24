@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +21,7 @@ import ua.slavik.carwash.repository.CarJobLinkRepository;
 import ua.slavik.carwash.repository.CarRepository;
 import ua.slavik.carwash.repository.JobRepository;
 import java.util.Date;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,44 +45,6 @@ public class CarJobLinkControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Test
-    public void getCarJobLink() throws Exception {
-        Car mockCar = Car.builder()
-                .registrationPlate("AA 8448 CB")
-                .model("Audi")
-                .id(1L)
-                .build();
-        mockCar = carRepository.save(mockCar);
-
-        Job mockJob = Job.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
-                .status(JobStatus.IN_PROGRESS)
-                .id(1L)
-                .build();
-        mockJob = jobRepository.save(mockJob);
-
-        CarJobLink carJobLink = CarJobLink.builder()
-                .car(mockCar)
-                .job(mockJob)
-                .id(1L)
-                .build();
-        carJobLink = carJobLinkRepository.save(carJobLink);
-
-        String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(carJobLink);
-
-        RequestBuilder requestBuilder = get("/carjoblink/{id}", 1L)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mockCarJobLinkDTOJSON);
-
-        mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(carJobLink.getId()))
-                .andExpect(jsonPath("$.car.id").value(carJobLink.getCar().getId()))
-                .andExpect(jsonPath("$.job.id").value(carJobLink.getJob().getId()));
-    }
 
     @Test
     public void postCarJobLink() throws Exception {
@@ -113,14 +75,52 @@ public class CarJobLinkControllerTest {
         String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(mockCarJobLinkDTO);
 
         RequestBuilder requestBuilder = post("/carjoblink/", 1L)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCarJobLinkDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.car.id").value(mockCarJobLinkDTO.getCar().getId()))
                 .andExpect(jsonPath("$.job.id").value(mockCarJobLinkDTO.getJob().getId()));
+    }
+
+    @Test
+    public void getCarJobLink() throws Exception {
+        Car mockCar = Car.builder()
+                .registrationPlate("AA 8448 CB")
+                .model("Audi")
+                .id(1L)
+                .build();
+        mockCar = carRepository.save(mockCar);
+
+        Job mockJob = Job.builder()
+                .startDate(new Date(1531282957L))
+                .endDate(new Date(1531282992L))
+                .status(JobStatus.IN_PROGRESS)
+                .id(1L)
+                .build();
+        mockJob = jobRepository.save(mockJob);
+
+        CarJobLink carJobLink = CarJobLink.builder()
+                .car(mockCar)
+                .job(mockJob)
+                .id(1L)
+                .build();
+        carJobLink = carJobLinkRepository.save(carJobLink);
+
+        String mockCarJobLinkDTOJSON = objectMapper.writeValueAsString(carJobLink);
+
+        RequestBuilder requestBuilder = get("/carjoblink/{id}", 1L)
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
+                .content(mockCarJobLinkDTOJSON);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(carJobLink.getId()))
+                .andExpect(jsonPath("$.car.id").value(carJobLink.getCar().getId()))
+                .andExpect(jsonPath("$.job.id").value(carJobLink.getJob().getId()));
     }
 }

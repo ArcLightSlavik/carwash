@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,6 +15,7 @@ import ua.slavik.carwash.dto.task.UpdateTaskDTO;
 import ua.slavik.carwash.model.JobStatus;
 import ua.slavik.carwash.model.Task;
 import ua.slavik.carwash.repository.TaskRepository;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,13 +28,43 @@ public class TaskControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private TaskRepository jobItemRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
-    public void getJobItem() throws Exception {
+    public void postTask() throws Exception {
+        CreateTaskDTO mockTaskDTO = CreateTaskDTO.builder()
+                .name("window cleaning")
+                .description("cleaning of window")
+                .price(10)
+                .duration(20)
+                .priority(3)
+                .status(JobStatus.IN_PROGRESS)
+                .repeatable(false)
+                .build();
+
+        String mockTaskDTOJSON = objectMapper.writeValueAsString(mockTaskDTO);
+
+        RequestBuilder requestBuilder = post("/task/")
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
+                .content(mockTaskDTOJSON);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value(mockTaskDTO.getName()))
+                .andExpect(jsonPath("$.description").value(mockTaskDTO.getDescription()))
+                .andExpect(jsonPath("$.price").value(mockTaskDTO.getPrice()))
+                .andExpect(jsonPath("$.duration").value(mockTaskDTO.getDuration()))
+                .andExpect(jsonPath("$.priority").value(mockTaskDTO.getPriority()))
+                .andExpect(jsonPath("$.status").value(mockTaskDTO.getStatus().toString()));
+    }
+
+    @Test
+    public void getTask() throws Exception {
         Task mockTask = Task.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
@@ -45,16 +75,16 @@ public class TaskControllerTest {
                 .repeatable(false)
                 .id(1L)
                 .build();
-        mockTask = jobItemRepository.save(mockTask);
+        mockTask = taskRepository.save(mockTask);
 
-        String mockJobItemJSON = objectMapper.writeValueAsString(mockTask);
+        String mockTaskJSON = objectMapper.writeValueAsString(mockTask);
 
         RequestBuilder requestBuilder = get("/task/{id}", mockTask.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mockJobItemJSON);
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
+                .content(mockTaskJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockTask.getId()))
                 .andExpect(jsonPath("$.name").value(mockTask.getName()))
@@ -66,37 +96,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void postJobItem() throws Exception {
-        CreateTaskDTO mockJobItemDTO = CreateTaskDTO.builder()
-                .name("window cleaning")
-                .description("cleaning of window")
-                .price(10)
-                .duration(20)
-                .priority(3)
-                .status(JobStatus.IN_PROGRESS)
-                .repeatable(false)
-                .build();
-
-        String mockJobItemDTOJSON = objectMapper.writeValueAsString(mockJobItemDTO);
-
-        RequestBuilder requestBuilder = post("/task/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mockJobItemDTOJSON);
-
-        mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value(mockJobItemDTO.getName()))
-                .andExpect(jsonPath("$.description").value(mockJobItemDTO.getDescription()))
-                .andExpect(jsonPath("$.price").value(mockJobItemDTO.getPrice()))
-                .andExpect(jsonPath("$.duration").value(mockJobItemDTO.getDuration()))
-                .andExpect(jsonPath("$.priority").value(mockJobItemDTO.getPriority()))
-                .andExpect(jsonPath("$.status").value(mockJobItemDTO.getStatus().toString()));
-    }
-
-    @Test
-    public void updateJobItem() throws Exception {
+    public void updateTask() throws Exception {
         Task mockTask = Task.builder()
                 .description("Car wash")
                 .name("Car wash")
@@ -105,9 +105,9 @@ public class TaskControllerTest {
                 .repeatable(false)
                 .status(JobStatus.NOT_STARTED)
                 .build();
-        mockTask = jobItemRepository.save(mockTask);
+        mockTask = taskRepository.save(mockTask);
 
-        UpdateTaskDTO jobItemUpdate = UpdateTaskDTO.builder()
+        UpdateTaskDTO taskUpdate = UpdateTaskDTO.builder()
                 .description("Car windows wash")
                 .name("Window wash")
                 .price(300)
@@ -118,23 +118,23 @@ public class TaskControllerTest {
                 .build();
 
         RequestBuilder requestBuilder = put("/task/{id}", mockTask.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(objectMapper.writeValueAsString(jobItemUpdate));
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
+                .content(objectMapper.writeValueAsString(taskUpdate));
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(jobItemUpdate.getId()))
-                .andExpect(jsonPath("$.name").value(jobItemUpdate.getName()))
-                .andExpect(jsonPath("$.description").value(jobItemUpdate.getDescription()))
-                .andExpect(jsonPath("$.price").value(jobItemUpdate.getPrice()))
-                .andExpect(jsonPath("$.duration").value(jobItemUpdate.getDuration()))
-                .andExpect(jsonPath("$.priority").value(jobItemUpdate.getPriority()))
-                .andExpect(jsonPath("$.status").value(jobItemUpdate.getStatus().toString()));
+                .andExpect(jsonPath("$.id").value(taskUpdate.getId()))
+                .andExpect(jsonPath("$.name").value(taskUpdate.getName()))
+                .andExpect(jsonPath("$.description").value(taskUpdate.getDescription()))
+                .andExpect(jsonPath("$.price").value(taskUpdate.getPrice()))
+                .andExpect(jsonPath("$.duration").value(taskUpdate.getDuration()))
+                .andExpect(jsonPath("$.priority").value(taskUpdate.getPriority()))
+                .andExpect(jsonPath("$.status").value(taskUpdate.getStatus().toString()));
     }
 
     @Test
-    public void deleteJobItem() throws Exception {
+    public void deleteTask() throws Exception {
         Task mockTask = Task.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
@@ -145,12 +145,11 @@ public class TaskControllerTest {
                 .repeatable(false)
                 .id(1L)
                 .build();
-        mockTask = jobItemRepository.save(mockTask);
+        mockTask = taskRepository.save(mockTask);
 
         RequestBuilder requestBuilder = delete("/task/{id}", mockTask.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().string("Task has been deleted."))
                 .andExpect(status().isOk());
     }
 }

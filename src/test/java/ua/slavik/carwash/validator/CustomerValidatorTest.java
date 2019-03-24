@@ -7,12 +7,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -29,7 +29,6 @@ public class CustomerValidatorTest {
 
     @Test
     public void customerValidatorTooShortTest() throws Exception {
-
         CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
                 .firstName("")
                 .lastName("")
@@ -40,11 +39,11 @@ public class CustomerValidatorTest {
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
 
         RequestBuilder requestBuilder = post("/customer/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCustomerDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
@@ -56,7 +55,6 @@ public class CustomerValidatorTest {
 
     @Test
     public void customerValidatorNullTest() throws Exception {
-
         CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
                 .firstName(null)
                 .lastName(null)
@@ -67,11 +65,11 @@ public class CustomerValidatorTest {
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
 
         RequestBuilder requestBuilder = post("/customer/")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
                 .content(mockCustomerDTOJSON);
 
         mockMvc.perform(requestBuilder)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
