@@ -5,14 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.dto.employee.CreateEmployeeDTO;
-import ua.slavik.carwash.dto.employee.EmployeeDTO;
-import ua.slavik.carwash.dto.employee.UpdateEmployeeDTO;
 import ua.slavik.carwash.model.Employee;
+import ua.slavik.carwash.model.dto.employee.CreateEmployeeDTO;
+import ua.slavik.carwash.model.dto.employee.EmployeeDTO;
+import ua.slavik.carwash.model.dto.employee.UpdateEmployeeDTO;
 import ua.slavik.carwash.service.EmployeeService;
-
 import javax.validation.Valid;
-
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
@@ -31,8 +29,8 @@ public class EmployeeController {
                 .body(modelMapper.map(savedEmployee, EmployeeDTO.class));
     }
 
-    @GetMapping(value = "/{employeeid}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getEmployee(@PathVariable("employeeid") Long id) {
+    @GetMapping(value = "/{employeeId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
         if (employee == null) {
             return new ResponseEntity<>("Employee by id you entered wasn't found", HttpStatus.NOT_FOUND);
@@ -41,8 +39,8 @@ public class EmployeeController {
                 .body(modelMapper.map(employee, EmployeeDTO.class));
     }
 
-    @PutMapping(value = "/{employeeid}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateEmployee(@RequestBody UpdateEmployeeDTO updateEmployeeDTO, @PathVariable("employeeid") Long id) {
+    @PutMapping(value = "/{employeeId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateEmployee(@RequestBody UpdateEmployeeDTO updateEmployeeDTO, @PathVariable("employeeId") Long id) {
         Employee oldEmployee = modelMapper.map(updateEmployeeDTO, Employee.class);
         if (oldEmployee == null) {
             return new ResponseEntity<>("Employee by id you entered wasn't found.", HttpStatus.NOT_FOUND);
@@ -53,8 +51,8 @@ public class EmployeeController {
                 .body(modelMapper.map(updatedEmployee, EmployeeDTO.class));
     }
 
-    @DeleteMapping(value = "/{employeeid}")
-    public ResponseEntity deleteEmployee(@PathVariable("employeeid") Long id) {
+    @DeleteMapping(value = "/{employeeId}")
+    public ResponseEntity deleteEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
         if (employee == null) {
             return new ResponseEntity<>("Employee by id you entered wasn't found.", HttpStatus.NOT_FOUND);

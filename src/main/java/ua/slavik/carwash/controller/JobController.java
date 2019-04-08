@@ -5,14 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.slavik.carwash.dto.job.CreateJobDTO;
-import ua.slavik.carwash.dto.job.JobDTO;
-import ua.slavik.carwash.dto.job.UpdateJobDTO;
 import ua.slavik.carwash.model.Job;
+import ua.slavik.carwash.model.dto.job.CreateJobDTO;
+import ua.slavik.carwash.model.dto.job.JobDTO;
+import ua.slavik.carwash.model.dto.job.UpdateJobDTO;
 import ua.slavik.carwash.service.JobService;
-
 import javax.validation.Valid;
-
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
@@ -31,8 +29,8 @@ public class JobController {
                 .body(modelMapper.map(savedJob, JobDTO.class));
     }
 
-    @GetMapping(value = "/{jobid}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getJob(@PathVariable("jobid") Long id) {
+    @GetMapping(value = "/{jobId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
             return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.NOT_FOUND);
@@ -41,8 +39,8 @@ public class JobController {
                 .body(modelMapper.map(job, JobDTO.class));
     }
 
-    @PutMapping(value = "/{jobid}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobid") Long id) {
+    @PutMapping(value = "/{jobId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         if (oldJob == null) {
             return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.NOT_FOUND);
@@ -53,8 +51,8 @@ public class JobController {
                 .body(modelMapper.map(updatedJob, JobDTO.class));
     }
 
-    @DeleteMapping(value = "/{jobid}")
-    public ResponseEntity deleteJob(@PathVariable("jobid") Long id) {
+    @DeleteMapping(value = "/{jobId}")
+    public ResponseEntity deleteJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
             return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.NOT_FOUND);

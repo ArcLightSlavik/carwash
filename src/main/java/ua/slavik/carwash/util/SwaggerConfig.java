@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Carwash API",
-                "REST endpoints for managing a carwash.",
+                "Car wash API",
+                "REST endpoints for managing a car wash.",
                 "1.0",
                 "",
                 new Contact("Slavik Leskiv", "https://github.com/CartoonzS", "slavko.leskiv@gmail.com"),

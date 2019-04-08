@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ua.slavik.carwash.util.ValidationConfig;
+import ua.slavik.carwash.configuration.ValidationConfig;
 
 @ControllerAdvice
 public class ExceptionHandlingController {
@@ -17,6 +17,7 @@ public class ExceptionHandlingController {
         response.setErrorCode("Validation Error");
         response.setErrorMessage("Invalid inputs.");
         response.setErrors(ValidationConfig.fromBindingErrors(result));
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(response);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.dto.car.CreateCarDTO;
+import ua.slavik.carwash.model.dto.car.CreateCarDTO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,8 +44,8 @@ public class CarValidatorTest {
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
-                        "registrationPlate must be a valid string value.",
-                        "model must be a valid string value."
+                        "RegistrationPlate must be a valid string value.",
+                        "Model must be a valid string value."
                 )));
     }
 
@@ -66,8 +66,8 @@ public class CarValidatorTest {
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
-                        "registrationPlate must be a valid string value.",
-                        "model must be a valid string value."
+                        "RegistrationPlate must be a valid string value.",
+                        "Model must be a valid string value."
                 )));
     }
 }

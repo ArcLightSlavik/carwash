@@ -9,13 +9,11 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StringField {
-    boolean required() default true;
+    String message() default "Field you entered isn't valid.";
 
     int min() default 1;
 
     int max() default 255;
-
-    String message() default "{StringField}";
 
     Class<?>[] groups() default {};
 
