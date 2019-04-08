@@ -10,9 +10,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
-import ua.slavik.carwash.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.model.Customer;
+import ua.slavik.carwash.model.dto.customer.CreateCustomerDTO;
+import ua.slavik.carwash.model.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.repository.CustomerRepository;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,7 +39,7 @@ public class CustomerControllerTest {
                 .firstName("James")
                 .lastName("Bond")
                 .email("james.bond@gmail.com")
-                .phoneNumber("045093454")
+                .phoneNumber("+123123456")
                 .build();
 
         String mockCustomerDTOJSON = objectMapper.writeValueAsString(mockCustomerDTO);
@@ -88,8 +88,8 @@ public class CustomerControllerTest {
     @Test
     public void updateCustomer() throws Exception {
         Customer mockCustomer = Customer.builder()
-                .firstName("Benedict")
-                .lastName("Cumberbatch")
+                .firstName("Martin")
+                .lastName("Freeman")
                 .email("benny.d@outlook.com")
                 .phoneNumber("059768542")
                 .build();
@@ -121,7 +121,7 @@ public class CustomerControllerTest {
     public void deleteCustomer() throws Exception {
         Customer mockCustomer = Customer.builder()
                 .firstName("Luke")
-                .lastName("Skywalker")
+                .lastName("Sky walker")
                 .email("skywalker.l@outlook.com")
                 .phoneNumber("0987654321")
                 .build();

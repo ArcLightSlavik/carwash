@@ -10,12 +10,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.dto.job.CreateJobDTO;
-import ua.slavik.carwash.dto.job.UpdateJobDTO;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.model.JobStatus;
+import ua.slavik.carwash.model.dto.job.CreateJobDTO;
+import ua.slavik.carwash.model.dto.job.UpdateJobDTO;
+import ua.slavik.carwash.model.enums.JobStatus;
 import ua.slavik.carwash.repository.JobRepository;
-import java.util.Date;
+import java.time.LocalDateTime;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,8 +37,8 @@ public class JobControllerTest {
     @Test
     public void postJob() throws Exception {
         CreateJobDTO mockJobDTO = CreateJobDTO.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusDays(5))
                 .status(JobStatus.IN_PROGRESS)
                 .build();
 
@@ -58,8 +58,8 @@ public class JobControllerTest {
     @Test
     public void getJob() throws Exception {
         Job mockJob = Job.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusDays(5))
                 .status(JobStatus.IN_PROGRESS)
                 .id(1L)
                 .build();
@@ -81,15 +81,15 @@ public class JobControllerTest {
     @Test
     public void updateJob() throws Exception {
         Job mockJob = Job.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusDays(5))
                 .status(JobStatus.IN_PROGRESS)
                 .build();
         mockJob = jobRepository.save(mockJob);
 
         UpdateJobDTO updatedJob = UpdateJobDTO.builder()
-                .startDate(new Date(1531358161L))
-                .endDate(new Date(1531358169L))
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusDays(5))
                 .status(JobStatus.COMPLETED)
                 .id(mockJob.getId())
                 .build();
@@ -108,8 +108,8 @@ public class JobControllerTest {
     @Test
     public void deleteJob() throws Exception {
         Job mockJob = Job.builder()
-                .startDate(new Date(1531282957L))
-                .endDate(new Date(1531282992L))
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusDays(5))
                 .status(JobStatus.IN_PROGRESS)
                 .build();
         mockJob = jobRepository.save(mockJob);

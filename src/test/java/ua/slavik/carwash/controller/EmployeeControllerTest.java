@@ -10,9 +10,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.dto.employee.CreateEmployeeDTO;
-import ua.slavik.carwash.dto.employee.UpdateEmployeeDTO;
 import ua.slavik.carwash.model.Employee;
+import ua.slavik.carwash.model.dto.employee.CreateEmployeeDTO;
+import ua.slavik.carwash.model.dto.employee.UpdateEmployeeDTO;
 import ua.slavik.carwash.repository.EmployeeRepository;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,8 +38,9 @@ public class EmployeeControllerTest {
         CreateEmployeeDTO mockEmployeeDTO = CreateEmployeeDTO.builder()
                 .firstName("James")
                 .lastName("Bond")
+                .age(30)
                 .email("james.bond@gmail.com")
-                .phoneNumber("045093454")
+                .phoneNumber("+123 123456")
                 .build();
 
         String mockEmployeeDTOJSON = objectMapper.writeValueAsString(mockEmployeeDTO);
@@ -122,7 +123,7 @@ public class EmployeeControllerTest {
     public void deleteEmployee() throws Exception {
         Employee mockEmployee = Employee.builder()
                 .firstName("Luke")
-                .lastName("Skywalker")
+                .lastName("Sky walker")
                 .email("skywalker.l@outlook.com")
                 .phoneNumber("0987654321")
                 .build();

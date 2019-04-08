@@ -1,27 +1,20 @@
-package ua.slavik.carwash.model;
+package ua.slavik.carwash.model.dto.job;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.model.enums.JobStatus;
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @OneToMany
-    @JoinColumn(name = "task_id")
-    List<Task> task;
+public class CreateJobDTO {
     private LocalDateTime startDate;
-    private JobStatus status;
     private LocalDateTime endDate;
+    private JobStatus status;
+    private List<Long> tasksId;
 }

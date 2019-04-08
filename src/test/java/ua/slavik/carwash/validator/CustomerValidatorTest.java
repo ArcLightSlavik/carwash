@@ -11,7 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import ua.slavik.carwash.dto.customer.CreateCustomerDTO;
+import ua.slavik.carwash.model.dto.customer.CreateCustomerDTO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,7 +32,7 @@ public class CustomerValidatorTest {
         CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
                 .firstName("")
                 .lastName("")
-                .email("jamesbond")
+                .email("james.bond")
                 .phoneNumber("0450934")
                 .build();
 
@@ -48,7 +48,7 @@ public class CustomerValidatorTest {
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
                         "Invalid last name.",
-                        "Invalid phone number.",
+                        "PhoneNumber you entered is not valid.",
                         "Invalid email."
                 )));
     }
@@ -74,7 +74,7 @@ public class CustomerValidatorTest {
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
                         "Invalid last name.",
-                        "Invalid phone number.",
+                        "PhoneNumber you entered is not valid.",
                         "Invalid email."
                 )));
     }
