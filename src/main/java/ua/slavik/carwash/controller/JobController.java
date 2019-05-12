@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +12,15 @@ import ua.slavik.carwash.model.dto.job.JobDTO;
 import ua.slavik.carwash.model.dto.job.UpdateJobDTO;
 import ua.slavik.carwash.service.JobService;
 import javax.validation.Valid;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
 @RequestMapping("/job")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobController {
     private final ModelMapper modelMapper;
     private final JobService jobService;
 
-    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity createJob(@Valid @RequestBody CreateJobDTO jobDTO) {
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
@@ -29,7 +29,7 @@ public class JobController {
                 .body(modelMapper.map(savedJob, JobDTO.class));
     }
 
-    @GetMapping(value = "/{jobId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{jobId}")
     public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
@@ -39,7 +39,7 @@ public class JobController {
                 .body(modelMapper.map(job, JobDTO.class));
     }
 
-    @PutMapping(value = "/{jobId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/{jobId}")
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         if (oldJob == null) {

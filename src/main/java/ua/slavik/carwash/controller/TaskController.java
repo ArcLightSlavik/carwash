@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +12,15 @@ import ua.slavik.carwash.model.dto.task.TaskDTO;
 import ua.slavik.carwash.model.dto.task.UpdateTaskDTO;
 import ua.slavik.carwash.service.TaskService;
 import javax.validation.Valid;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
 @RequestMapping("/task")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskController {
     private final ModelMapper modelMapper;
     private final TaskService taskService;
 
-    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity createTask(@Valid @RequestBody CreateTaskDTO taskDTO) {
         Task task = modelMapper.map(taskDTO, Task.class);
         Task savedTask = taskService.createTask(task);
@@ -29,7 +29,7 @@ public class TaskController {
                 .body(modelMapper.map(savedTask, TaskDTO.class));
     }
 
-    @GetMapping(value = "/{taskId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{taskId}")
     public ResponseEntity getTask(@PathVariable("taskId") Long id) {
         Task task = taskService.getTaskById(id);
         if (task == null) {
@@ -39,7 +39,7 @@ public class TaskController {
                 .body(modelMapper.map(task, TaskDTO.class));
     }
 
-    @PutMapping(value = "/{taskId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/{taskId}")
     public ResponseEntity updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable("taskId") Long id) {
         Task oldTask = modelMapper.map(updateTaskDTO, Task.class);
         if (oldTask == null) {
