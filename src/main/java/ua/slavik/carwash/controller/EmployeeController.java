@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +12,15 @@ import ua.slavik.carwash.model.dto.employee.EmployeeDTO;
 import ua.slavik.carwash.model.dto.employee.UpdateEmployeeDTO;
 import ua.slavik.carwash.service.EmployeeService;
 import javax.validation.Valid;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
 @RequestMapping("/employee")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeController {
     private final ModelMapper modelMapper;
     private final EmployeeService employeeService;
 
-    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity createEmployee(@Valid @RequestBody CreateEmployeeDTO employeeDTO) {
         Employee employee = modelMapper.map(employeeDTO, Employee.class);
         Employee savedEmployee = employeeService.createEmployee(employee);
@@ -29,7 +29,7 @@ public class EmployeeController {
                 .body(modelMapper.map(savedEmployee, EmployeeDTO.class));
     }
 
-    @GetMapping(value = "/{employeeId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{employeeId}")
     public ResponseEntity getEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
         if (employee == null) {
@@ -39,7 +39,7 @@ public class EmployeeController {
                 .body(modelMapper.map(employee, EmployeeDTO.class));
     }
 
-    @PutMapping(value = "/{employeeId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/{employeeId}")
     public ResponseEntity updateEmployee(@RequestBody UpdateEmployeeDTO updateEmployeeDTO, @PathVariable("employeeId") Long id) {
         Employee oldEmployee = modelMapper.map(updateEmployeeDTO, Employee.class);
         if (oldEmployee == null) {

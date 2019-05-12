@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +13,16 @@ import ua.slavik.carwash.model.dto.car.UpdateCarDTO;
 import ua.slavik.carwash.service.CarService;
 import ua.slavik.carwash.service.CustomerService;
 import javax.validation.Valid;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
 @RequestMapping("/car")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CarController {
     private final ModelMapper modelMapper;
     private final CarService carService;
     private final CustomerService customerService;
 
-    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
         if (carDTO.getCustomerId() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -41,7 +41,7 @@ public class CarController {
                 .body(modelMapper.map(savedCar, CarDTO.class));
     }
 
-    @GetMapping(value = "/{carId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{carId}")
     public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
@@ -52,7 +52,7 @@ public class CarController {
                 .body(modelMapper.map(car, CarDTO.class));
     }
 
-    @PutMapping(value = "/{carId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/{carId}")
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO, @PathVariable("carId") Long id) {
         Car oldCar = modelMapper.map(updateCarDTO, Car.class);
         if (oldCar == null) {
