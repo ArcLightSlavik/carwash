@@ -6,13 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class CarWashConfig {
+public class CarWashBeanConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
         return modelMapper;
     }
 }

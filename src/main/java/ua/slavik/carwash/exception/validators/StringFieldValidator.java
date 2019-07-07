@@ -3,7 +3,7 @@ package ua.slavik.carwash.exception.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class StringFieldValidator implements ConstraintValidator<StringField,String> {
+public class StringFieldValidator implements ConstraintValidator<StringField, String> {
     private int min;
     private int max;
 

@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ua.slavik.carwash.model.Car;
 
 @Repository
-public interface CarRepository extends CrudRepository<Car,Long> {
+public interface CarRepository extends CrudRepository<Car, Long> {
 }

@@ -13,10 +13,8 @@ import ua.slavik.carwash.exception.validators.StringField;
 public class CreateCarDTO {
     @StringField(min = 2, max = 10, message = "RegistrationPlate must be a valid string value.")
     private String registrationPlate;
-
     @StringField(message = "Model must be a valid string value.")
     private String model;
-
     private Long customerId;
     private Long jobId;
 }

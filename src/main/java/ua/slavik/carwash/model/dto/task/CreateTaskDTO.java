@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.exception.validators.StringField;
 import ua.slavik.carwash.model.enums.JobStatus;
+
 import javax.validation.constraints.PositiveOrZero;
 
 @Data
@@ -15,19 +16,14 @@ import javax.validation.constraints.PositiveOrZero;
 public class CreateTaskDTO {
     @PositiveOrZero(message = "Invalid price.")
     private int price;
-
     @PositiveOrZero(message = "Invalid priority.")
     private int priority;
-
     @PositiveOrZero(message = "Invalid duration.")
     private int duration;
-
     @StringField(message = "Invalid description.")
     private String description;
-
     @StringField(message = "Invalid Name.")
     private String name;
-
     private boolean repeatable;
     private JobStatus status;
 }

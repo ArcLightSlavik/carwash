@@ -11,6 +11,7 @@ import ua.slavik.carwash.model.dto.customer.CreateCustomerDTO;
 import ua.slavik.carwash.model.dto.customer.CustomerDTO;
 import ua.slavik.carwash.model.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.service.CustomerService;
+
 import javax.validation.Valid;
 
 @RestController

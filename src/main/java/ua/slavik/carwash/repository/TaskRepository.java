@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ua.slavik.carwash.model.Task;
 
 @Repository
-public interface TaskRepository extends CrudRepository<Task,Long> {
+public interface TaskRepository extends CrudRepository<Task, Long> {
 }

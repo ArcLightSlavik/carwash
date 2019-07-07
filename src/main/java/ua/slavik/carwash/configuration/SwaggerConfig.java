@@ -1,4 +1,4 @@
-package ua.slavik.carwash.util;
+package ua.slavik.carwash.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +9,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 import java.util.Collections;
 
 @Configuration
@@ -30,7 +31,7 @@ public class SwaggerConfig {
                 "REST endpoints for managing a carwash.",
                 "1.0",
                 "",
-                new Contact("Slavik Leskiv", "https://github.com/CartoonzS", "slavko.leskiv@outlook.com"),
+                new Contact("Slavik Leskiv", "https://github.com/CartoonzS", "slavik.leopolis@gmail.com"),
                 null, null, Collections.emptyList());
     }
 }

@@ -3,7 +3,7 @@ package ua.slavik.carwash.exception.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber,String> {
+public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, String> {
     @Override
     public void initialize(PhoneNumber phoneNumber) {
     }
