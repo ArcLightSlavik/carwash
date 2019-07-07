@@ -1,4 +1,6 @@
 /target/
+/build/
+/logs/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -15,6 +17,11 @@
 *.iws
 *.iml
 *.ipr
+
+### Eclipse ###
+.settings/
+*.classpath
+*.project
 
 ### NetBeans ###
 /nbproject/private/
