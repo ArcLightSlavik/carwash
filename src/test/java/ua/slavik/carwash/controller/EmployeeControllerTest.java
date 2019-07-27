@@ -41,7 +41,7 @@ public class EmployeeControllerTest {
                 .lastName("Bond")
                 .age(30)
                 .email("james.bond@gmail.com")
-                .phoneNumber("+123 123456")
+                .phoneNumber("+123123456")
                 .build();
 
         String mockEmployeeDTOJSON = objectMapper.writeValueAsString(mockEmployeeDTO);

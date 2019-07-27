@@ -20,6 +20,7 @@ import javax.validation.Valid;
 public class CustomerController {
     private final ModelMapper modelMapper;
     private final CustomerService customerService;
+    private static final String CUSTOMER_NOT_FOUND = "Customer by id you entered wasn't found.";
 
     @PostMapping
     public ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerDTO customerDTO) {
@@ -34,7 +35,8 @@ public class CustomerController {
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
-            return new ResponseEntity<>("User by id you entered wasn't found", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CUSTOMER_NOT_FOUND);
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(customer, CustomerDTO.class));
@@ -44,7 +46,8 @@ public class CustomerController {
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerId") Long id) {
         Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
         if (oldCustomer == null) {
-            return new ResponseEntity<>("User by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CUSTOMER_NOT_FOUND);
         }
         Customer updatedCustomer = customerService.updateCustomer(oldCustomer, id);
 
@@ -56,7 +59,8 @@ public class CustomerController {
     public ResponseEntity deleteCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
-            return new ResponseEntity<>("User by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CUSTOMER_NOT_FOUND);
         }
         customerService.deleteCustomer(id);
 

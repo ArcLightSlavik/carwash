@@ -49,8 +49,7 @@ public class CustomerValidatorTest {
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
                         "Invalid last name.",
-                        "PhoneNumber you entered is not valid.",
-                        "Invalid email."
+                        "must be a well-formed email address"
                 )));
     }
 
@@ -75,8 +74,7 @@ public class CustomerValidatorTest {
                 .andExpect(jsonPath("$.errors").value(Matchers.containsInAnyOrder(
                         "Invalid first name.",
                         "Invalid last name.",
-                        "PhoneNumber you entered is not valid.",
-                        "Invalid email."
+                        "must be a well-formed email address"
                 )));
     }
 }

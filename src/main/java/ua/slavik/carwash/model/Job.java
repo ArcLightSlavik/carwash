@@ -19,8 +19,8 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime startDate;
     private JobStatus status;
+    private LocalDateTime startDate;
     private LocalDateTime endDate;
 
     @OneToMany

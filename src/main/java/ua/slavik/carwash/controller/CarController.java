@@ -22,12 +22,13 @@ public class CarController {
     private final ModelMapper modelMapper;
     private final CarService carService;
     private final CustomerService customerService;
+    private static final String CAR_NOT_FOUND = "Car by id you entered wasn't found.";
 
     @PostMapping
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
         if (carDTO.getCustomerId() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("error");
+                    .body(CAR_NOT_FOUND);
         }
 
         Car car = modelMapper.map(carDTO, Car.class);
@@ -46,7 +47,8 @@ public class CarController {
     public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
-            return new ResponseEntity<>("Car by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CAR_NOT_FOUND);
         }
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -57,7 +59,8 @@ public class CarController {
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO, @PathVariable("carId") Long id) {
         Car oldCar = modelMapper.map(updateCarDTO, Car.class);
         if (oldCar == null) {
-            return new ResponseEntity<>("Car by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CAR_NOT_FOUND);
         }
         Car updatedCar = carService.updateCar(oldCar, id);
 
@@ -69,7 +72,8 @@ public class CarController {
     public ResponseEntity deleteCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
         if (car == null) {
-            return new ResponseEntity<>("Car by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CAR_NOT_FOUND);
         }
         carService.deleteCar(id);
 

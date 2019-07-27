@@ -20,6 +20,7 @@ import javax.validation.Valid;
 public class EmployeeController {
     private final ModelMapper modelMapper;
     private final EmployeeService employeeService;
+    private static final String EMPLOYEE_NOT_FOUND = "Employee by id you entered wasn't found.";
 
     @PostMapping
     public ResponseEntity createEmployee(@Valid @RequestBody CreateEmployeeDTO employeeDTO) {
@@ -34,7 +35,8 @@ public class EmployeeController {
     public ResponseEntity getEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
         if (employee == null) {
-            return new ResponseEntity<>("Employee by id you entered wasn't found", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EMPLOYEE_NOT_FOUND);
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(employee, EmployeeDTO.class));
@@ -44,7 +46,8 @@ public class EmployeeController {
     public ResponseEntity updateEmployee(@RequestBody UpdateEmployeeDTO updateEmployeeDTO, @PathVariable("employeeId") Long id) {
         Employee oldEmployee = modelMapper.map(updateEmployeeDTO, Employee.class);
         if (oldEmployee == null) {
-            return new ResponseEntity<>("Employee by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EMPLOYEE_NOT_FOUND);
         }
         Employee updatedEmployee = employeeService.updateEmployee(oldEmployee, id);
 
@@ -56,7 +59,8 @@ public class EmployeeController {
     public ResponseEntity deleteEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
         if (employee == null) {
-            return new ResponseEntity<>("Employee by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EMPLOYEE_NOT_FOUND);
         }
         employeeService.deleteEmployee(id);
 

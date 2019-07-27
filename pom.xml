@@ -15,7 +15,7 @@
 
     <properties>
         <!-- environment -->
-        <java.version>12</java.version>
+        <java.version>8</java.version>
         <!-- dependencies -->
         <lombok.version>1.18.8</lombok.version>
         <modelmapper.version>2.3.5</modelmapper.version>
@@ -23,6 +23,7 @@
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
+        <sonar-maven-plugin-version>3.2</sonar-maven-plugin-version>
     </properties>
 
     <dependencies>
@@ -84,6 +85,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin-version}</version>
             </plugin>
         </plugins>
     </build>

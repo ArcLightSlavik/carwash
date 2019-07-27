@@ -20,6 +20,7 @@ import javax.validation.Valid;
 public class TaskController {
     private final ModelMapper modelMapper;
     private final TaskService taskService;
+    private static final String TASK_NOT_FOUND = "Task by id you entered wasn't found.";
 
     @PostMapping
     public ResponseEntity createTask(@Valid @RequestBody CreateTaskDTO taskDTO) {
@@ -34,7 +35,8 @@ public class TaskController {
     public ResponseEntity getTask(@PathVariable("taskId") Long id) {
         Task task = taskService.getTaskById(id);
         if (task == null) {
-            return new ResponseEntity<>("Task by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(TASK_NOT_FOUND);
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(task, TaskDTO.class));
@@ -44,7 +46,8 @@ public class TaskController {
     public ResponseEntity updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable("taskId") Long id) {
         Task oldTask = modelMapper.map(updateTaskDTO, Task.class);
         if (oldTask == null) {
-            return new ResponseEntity<>("Task by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(TASK_NOT_FOUND);
         }
         Task updatedTask = taskService.updateTask(oldTask, id);
 
@@ -56,7 +59,8 @@ public class TaskController {
     public ResponseEntity deleteTask(@PathVariable("taskId") Long id) {
         Task task = taskService.getTaskById(id);
         if (task == null) {
-            return new ResponseEntity<>("Task by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(TASK_NOT_FOUND);
         }
         taskService.deleteTask(id);
 

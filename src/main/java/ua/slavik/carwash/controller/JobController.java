@@ -20,6 +20,7 @@ import javax.validation.Valid;
 public class JobController {
     private final ModelMapper modelMapper;
     private final JobService jobService;
+    private static final String JOB_NOT_FOUND = "Job by id you entered wasn't found.";
 
     @PostMapping
     public ResponseEntity createJob(@Valid @RequestBody CreateJobDTO jobDTO) {
@@ -34,7 +35,8 @@ public class JobController {
     public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
-            return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(JOB_NOT_FOUND);
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(job, JobDTO.class));
@@ -44,7 +46,8 @@ public class JobController {
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         if (oldJob == null) {
-            return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(JOB_NOT_FOUND);
         }
         Job updatedJob = jobService.updateJob(oldJob, id);
 
@@ -56,7 +59,8 @@ public class JobController {
     public ResponseEntity deleteJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
         if (job == null) {
-            return new ResponseEntity<>("Job by id you entered wasn't found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(JOB_NOT_FOUND);
         }
         jobService.deleteJob(id);
 

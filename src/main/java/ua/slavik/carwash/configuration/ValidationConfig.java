@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationConfig {
+    private ValidationConfig() {
+    }
+
     public static List<String> fromBindingErrors(Errors errors) {
         List<String> validErrors = new ArrayList<>();
         for (ObjectError objectError : errors.getAllErrors()) {

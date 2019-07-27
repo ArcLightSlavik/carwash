@@ -11,6 +11,10 @@ import java.lang.annotation.*;
 public @interface PhoneNumber {
     String message() default "PhoneNumber you entered is not valid.";
 
+    int min() default 1;
+
+    int max() default 20;
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
