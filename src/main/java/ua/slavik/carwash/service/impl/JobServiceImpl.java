@@ -3,8 +3,11 @@ package ua.slavik.carwash.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.slavik.carwash.model.Job;
+import ua.slavik.carwash.model.enums.JobStatus;
 import ua.slavik.carwash.repository.JobRepository;
 import ua.slavik.carwash.service.JobService;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +42,10 @@ public class JobServiceImpl implements JobService {
         if (job != null) {
             jobRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<Job> getJobsByStatus(JobStatus status) {
+        return jobRepository.findByStatus(status);
     }
 }

@@ -3,22 +3,25 @@ package ua.slavik.carwash.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.slavik.carwash.model.Task;
+import ua.slavik.carwash.model.enums.JobStatus;
 import ua.slavik.carwash.repository.TaskRepository;
 import ua.slavik.carwash.service.TaskService;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
-    private final TaskRepository jobItemRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     public Task getTaskById(Long id) {
-        return jobItemRepository.findById(id).orElse(null);
+        return taskRepository.findById(id).orElse(null);
     }
 
     @Override
     public Task createTask(Task task) {
-        return jobItemRepository.save(task);
+        return taskRepository.save(task);
     }
 
     @Override
@@ -30,14 +33,19 @@ public class TaskServiceImpl implements TaskService {
 
         task.setId(id);
 
-        return jobItemRepository.save(task);
+        return taskRepository.save(task);
     }
 
     @Override
     public void deleteTask(Long id) {
         Task task = getTaskById(id);
         if (task != null) {
-            jobItemRepository.deleteById(id);
+            taskRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<Task> getTaskByStatus(JobStatus status) {
+        return taskRepository.findByStatus(status);
     }
 }

@@ -6,6 +6,8 @@ import ua.slavik.carwash.model.Employee;
 import ua.slavik.carwash.repository.EmployeeRepository;
 import ua.slavik.carwash.service.EmployeeService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -39,5 +41,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee != null) {
             employeeRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<Employee> getEmployeeWithAgeGreaterThan(int age) {
+        return employeeRepository.findByAgeGreaterThan(age);
     }
 }

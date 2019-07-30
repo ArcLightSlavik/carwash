@@ -6,6 +6,8 @@ import ua.slavik.carwash.model.Customer;
 import ua.slavik.carwash.repository.CustomerRepository;
 import ua.slavik.carwash.service.CustomerService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -39,5 +41,10 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer != null) {
             customerRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<Customer> getCustomerContainingGivenString(String givenString) {
+        return customerRepository.findByFirstNameContaining(givenString);
     }
 }

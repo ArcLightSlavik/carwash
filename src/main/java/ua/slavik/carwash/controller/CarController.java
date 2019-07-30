@@ -11,6 +11,7 @@ import ua.slavik.carwash.model.dto.car.CarDTO;
 import ua.slavik.carwash.model.dto.car.CreateCarDTO;
 import ua.slavik.carwash.model.dto.car.UpdateCarDTO;
 import ua.slavik.carwash.service.CarService;
+import ua.slavik.carwash.service.CustomerService;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public class CarController {
     private final ModelMapper modelMapper;
     private final CarService carService;
+    private final CustomerService customerService;
     private static final String CAR_NOT_FOUND = "Car by id you entered wasn't found.";
 
     @PostMapping
@@ -28,8 +30,8 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(CAR_NOT_FOUND);
         }
-
         Car car = modelMapper.map(carDTO, Car.class);
+        car.setCustomer(customerService.getCustomerById(carDTO.getCustomerId()));
         Car savedCar = carService.createCar(car);
 
         return ResponseEntity.status(HttpStatus.CREATED)
