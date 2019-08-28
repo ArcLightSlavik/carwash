@@ -13,3 +13,7 @@ cd into the **car wash** folder (where pom xml is) and run:
 ```
 mvn spring-boot:run
 ```
+
+```
+Postman: https://www.getpostman.com/collections/ef1225b2851f2c3a76a8
+```
