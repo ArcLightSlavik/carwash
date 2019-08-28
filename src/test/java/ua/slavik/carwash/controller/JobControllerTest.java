@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.dto.job.CreateJobDTO;
 import ua.slavik.carwash.model.dto.job.UpdateJobDTO;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.JobRepository;
 
 import java.time.LocalDateTime;
@@ -41,7 +41,7 @@ public class JobControllerTest {
         CreateJobDTO mockJobDTO = CreateJobDTO.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .build();
 
         String mockJobDTOJSON = objectMapper.writeValueAsString(mockJobDTO);
@@ -62,7 +62,7 @@ public class JobControllerTest {
         Job mockJob = Job.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .id(1L)
                 .build();
         mockJob = jobRepository.save(mockJob);
@@ -85,14 +85,14 @@ public class JobControllerTest {
         Job mockJob = Job.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .build();
         mockJob = jobRepository.save(mockJob);
 
         UpdateJobDTO updatedJob = UpdateJobDTO.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.COMPLETED)
+                .status(Status.COMPLETED)
                 .id(mockJob.getId())
                 .build();
 
@@ -112,7 +112,7 @@ public class JobControllerTest {
         Job mockJob = Job.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .build();
         mockJob = jobRepository.save(mockJob);
 

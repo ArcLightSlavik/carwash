@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.model.Task;
 import ua.slavik.carwash.model.dto.task.CreateTaskDTO;
 import ua.slavik.carwash.model.dto.task.UpdateTaskDTO;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.TaskRepository;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -42,7 +42,7 @@ public class TaskControllerTest {
                 .price(10)
                 .duration(20)
                 .priority(3)
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .repeatable(false)
                 .build();
 
@@ -72,7 +72,7 @@ public class TaskControllerTest {
                 .price(10)
                 .duration(20)
                 .priority(3)
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .repeatable(false)
                 .id(1L)
                 .build();
@@ -104,7 +104,7 @@ public class TaskControllerTest {
                 .price(600)
                 .priority(1)
                 .repeatable(false)
-                .status(JobStatus.NOT_STARTED)
+                .status(Status.NOT_STARTED)
                 .build();
         mockTask = taskRepository.save(mockTask);
 
@@ -114,7 +114,7 @@ public class TaskControllerTest {
                 .price(300)
                 .priority(2)
                 .repeatable(true)
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .id(mockTask.getId())
                 .build();
 
@@ -142,7 +142,7 @@ public class TaskControllerTest {
                 .price(10)
                 .duration(20)
                 .priority(3)
-                .status(JobStatus.COMPLETED)
+                .status(Status.COMPLETED)
                 .repeatable(false)
                 .id(1L)
                 .build();

@@ -44,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getEmployeeWithAgeGreaterThan(int age) {
+    public List<Employee> getEmployeesWithAgeGreaterThan(int age) {
         return employeeRepository.findByAgeGreaterThan(age);
     }
 }

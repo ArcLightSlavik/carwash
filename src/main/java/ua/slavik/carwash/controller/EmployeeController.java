@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import ua.slavik.carwash.model.dto.employee.UpdateEmployeeDTO;
 import ua.slavik.carwash.service.EmployeeService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -21,6 +23,8 @@ public class EmployeeController {
     private final ModelMapper modelMapper;
     private final EmployeeService employeeService;
     private static final String EMPLOYEE_NOT_FOUND = "Employee by id you entered wasn't found.";
+    private static final String EMPLOYEE_NOT_FOUND_BY_REQUEST = "Employee with your request type wasn't found.";
+    private static final String EMPLOYEE_DELETED = "Employee by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createEmployee(@Valid @RequestBody CreateEmployeeDTO employeeDTO) {
@@ -65,6 +69,17 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Employee has been deleted.");
+                .body(EMPLOYEE_DELETED);
+    }
+
+    @GetMapping(value = "/employeeAgeGreat/{givenInteger}")
+    public ResponseEntity getEmployeesAgeGreaterThanGiven(@PathVariable("givenInteger") Integer givenInteger) {
+        List<Employee> employeeList = employeeService.getEmployeesWithAgeGreaterThan(givenInteger);
+        if (employeeList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EMPLOYEE_NOT_FOUND_BY_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(modelMapper.map(employeeList, new TypeToken<List<EmployeeDTO>>() {}.getType()));
     }
 }

@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.exception.validators.StringField;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.enums.Status;
 
 import javax.validation.constraints.PositiveOrZero;
 
@@ -26,5 +26,6 @@ public class UpdateTaskDTO {
     @StringField(message = "Invalid Name.")
     private String name;
     private boolean repeatable;
-    private JobStatus status;
+    private Status status;
+    private Long jobId;
 }

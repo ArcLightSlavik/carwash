@@ -13,12 +13,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.model.dto.car.CreateCarDTO;
 import ua.slavik.carwash.model.dto.car.UpdateCarDTO;
-import ua.slavik.carwash.model.dto.customer.CreateCustomerDTO;
-import ua.slavik.carwash.model.dto.job.CreateJobDTO;
-import ua.slavik.carwash.model.enums.JobStatus;
 import ua.slavik.carwash.repository.CarRepository;
-
-import java.time.LocalDateTime;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -40,19 +35,6 @@ public class CarControllerTest {
 
     @Test
     public void postCar() throws Exception {
-        CreateCustomerDTO mockCustomerDTO = CreateCustomerDTO.builder()
-                .firstName("James")
-                .lastName("Bond")
-                .email("james.bond@gmail.com")
-                .phoneNumber("045093454")
-                .build();
-
-        CreateJobDTO mockJobDTO = CreateJobDTO.builder()
-                .startDate(LocalDateTime.now())
-                .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.IN_PROGRESS)
-                .build();
-
         CreateCarDTO mockCarDTO = CreateCarDTO.builder()
                 .registrationPlate("AA 8448 CB")
                 .model("Audi")

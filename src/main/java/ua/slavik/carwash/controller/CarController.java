@@ -12,6 +12,7 @@ import ua.slavik.carwash.model.dto.car.CreateCarDTO;
 import ua.slavik.carwash.model.dto.car.UpdateCarDTO;
 import ua.slavik.carwash.service.CarService;
 import ua.slavik.carwash.service.CustomerService;
+import ua.slavik.carwash.service.JobService;
 
 import javax.validation.Valid;
 
@@ -22,7 +23,9 @@ public class CarController {
     private final ModelMapper modelMapper;
     private final CarService carService;
     private final CustomerService customerService;
+    private static final String CAR_DELETED = "Car by id you entered was deleted.";
     private static final String CAR_NOT_FOUND = "Car by id you entered wasn't found.";
+    private final JobService jobService;
 
     @PostMapping
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
@@ -32,6 +35,7 @@ public class CarController {
         }
         Car car = modelMapper.map(carDTO, Car.class);
         car.setCustomer(customerService.getCustomerById(carDTO.getCustomerId()));
+        car.setJob(jobService.getJobById(carDTO.getJobId()));
         Car savedCar = carService.createCar(car);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -57,7 +61,11 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(CAR_NOT_FOUND);
         }
+        oldCar.setCustomer(customerService.getCustomerById(updateCarDTO.getCustomerId()));
+        oldCar.setJob(jobService.getJobById(updateCarDTO.getJobId()));
         Car updatedCar = carService.updateCar(oldCar, id);
+        updatedCar.setCustomer(customerService.getCustomerById(updateCarDTO.getCustomerId()));
+        updatedCar.setJob(jobService.getJobById(updateCarDTO.getJobId()));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(updatedCar, CarDTO.class));
@@ -73,6 +81,6 @@ public class CarController {
         carService.deleteCar(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Car has been deleted.");
+                .body(CAR_DELETED);
     }
 }

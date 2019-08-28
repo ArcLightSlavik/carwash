@@ -9,6 +9,5 @@ public interface CustomerService {
     Customer createCustomer(Customer customer);
     Customer updateCustomer(Customer customer, Long id);
     void deleteCustomer(Long id);
-
-    List<Customer> getCustomerContainingGivenString(String givenString);
+    List<Customer> getCustomersByFirstNameContainingGivenString(String givenString);
 }

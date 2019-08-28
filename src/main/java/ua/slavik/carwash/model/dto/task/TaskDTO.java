@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.dto.job.JobDTO;
+import ua.slavik.carwash.model.enums.Status;
 
 @Data
 @Builder
@@ -18,5 +19,6 @@ public class TaskDTO {
     private String name;
     private String description;
     private boolean repeatable;
-    private JobStatus status;
+    private Status status;
+    private JobDTO job;
 }

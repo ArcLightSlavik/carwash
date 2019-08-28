@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,12 @@ import ua.slavik.carwash.model.Task;
 import ua.slavik.carwash.model.dto.task.CreateTaskDTO;
 import ua.slavik.carwash.model.dto.task.TaskDTO;
 import ua.slavik.carwash.model.dto.task.UpdateTaskDTO;
+import ua.slavik.carwash.model.enums.Status;
+import ua.slavik.carwash.service.JobService;
 import ua.slavik.carwash.service.TaskService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -20,11 +24,14 @@ import javax.validation.Valid;
 public class TaskController {
     private final ModelMapper modelMapper;
     private final TaskService taskService;
+    private static final String TASK_DELETED = "Task by id you entered was deleted.";
     private static final String TASK_NOT_FOUND = "Task by id you entered wasn't found.";
+    private final JobService jobService;
 
     @PostMapping
     public ResponseEntity createTask(@Valid @RequestBody CreateTaskDTO taskDTO) {
         Task task = modelMapper.map(taskDTO, Task.class);
+        task.setJob(jobService.getJobById(taskDTO.getJobId()));
         Task savedTask = taskService.createTask(task);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -49,7 +56,9 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(TASK_NOT_FOUND);
         }
+        oldTask.setJob(jobService.getJobById(updateTaskDTO.getJobId()));
         Task updatedTask = taskService.updateTask(oldTask, id);
+        updatedTask.setJob(jobService.getJobById(updateTaskDTO.getJobId()));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(updatedTask, TaskDTO.class));
@@ -65,6 +74,17 @@ public class TaskController {
         taskService.deleteTask(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Task has been deleted.");
+                .body(TASK_DELETED);
+    }
+
+    @GetMapping(value = "/taskListByStatus")
+    public ResponseEntity getTaskListByStatus(@RequestParam Status status) {
+        List<Task> taskList = taskService.getTaskListByStatus(status);
+        if (taskList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(TASK_NOT_FOUND);
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(modelMapper.map(taskList, new TypeToken<List<TaskDTO>>() {}.getType()));
     }
 }

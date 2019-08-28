@@ -3,7 +3,7 @@ package ua.slavik.carwash.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.slavik.carwash.model.Job;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.JobRepository;
 import ua.slavik.carwash.service.JobService;
 
@@ -45,7 +45,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getJobsByStatus(JobStatus status) {
+    public List<Job> getJobListByStatus(Status status) {
         return jobRepository.findByStatus(status);
     }
 }

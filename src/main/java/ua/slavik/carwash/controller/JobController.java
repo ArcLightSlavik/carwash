@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,11 @@ import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.dto.job.CreateJobDTO;
 import ua.slavik.carwash.model.dto.job.JobDTO;
 import ua.slavik.carwash.model.dto.job.UpdateJobDTO;
+import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.service.JobService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/job")
@@ -21,6 +24,7 @@ public class JobController {
     private final ModelMapper modelMapper;
     private final JobService jobService;
     private static final String JOB_NOT_FOUND = "Job by id you entered wasn't found.";
+    private static final String JOB_DELETED = "Job by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createJob(@Valid @RequestBody CreateJobDTO jobDTO) {
@@ -65,6 +69,17 @@ public class JobController {
         jobService.deleteJob(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Job has been deleted.");
+                .body(JOB_DELETED);
+    }
+
+    @GetMapping(value = "/jobListByStatus")
+    public ResponseEntity getJobListByStatus(@RequestParam Status status) {
+        List<Job> jobList = jobService.getJobListByStatus(status);
+        if (jobList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(JOB_NOT_FOUND);
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(modelMapper.map(jobList, new TypeToken<List<JobDTO>>() {}.getType()));
     }
 } 

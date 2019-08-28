@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.dto.task.CreateTaskDTO;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.JobRepository;
 
 import java.time.LocalDateTime;
@@ -41,7 +41,7 @@ public class TaskValidatorTest {
         Job mockJob = Job.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.NOT_STARTED)
+                .status(Status.NOT_STARTED)
                 .id(1L)
                 .build();
         jobRepository.save(mockJob);
@@ -52,7 +52,7 @@ public class TaskValidatorTest {
                 .price(-500)
                 .duration(-10)
                 .priority(-1)
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .repeatable(false)
                 .build();
 
@@ -78,7 +78,7 @@ public class TaskValidatorTest {
         Job mockJob = Job.builder()
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(5))
-                .status(JobStatus.NOT_STARTED)
+                .status(Status.NOT_STARTED)
                 .id(1L)
                 .build();
         jobRepository.save(mockJob);
@@ -89,7 +89,7 @@ public class TaskValidatorTest {
                 .price(-500)
                 .duration(-10)
                 .priority(-1)
-                .status(JobStatus.IN_PROGRESS)
+                .status(Status.IN_PROGRESS)
                 .repeatable(false)
                 .build();
 

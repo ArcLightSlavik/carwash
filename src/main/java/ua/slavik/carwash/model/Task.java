@@ -4,12 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.slavik.carwash.model.enums.JobStatus;
+import ua.slavik.carwash.model.enums.Status;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -25,6 +22,10 @@ public class Task {
     private int priority;
     private String name;
     private String description;
-    private JobStatus status;
+    private Status status;
     private boolean repeatable;
+
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    Job job;
 }

@@ -2,6 +2,7 @@ package ua.slavik.carwash.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import ua.slavik.carwash.model.dto.customer.UpdateCustomerDTO;
 import ua.slavik.carwash.service.CustomerService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
@@ -21,6 +23,8 @@ public class CustomerController {
     private final ModelMapper modelMapper;
     private final CustomerService customerService;
     private static final String CUSTOMER_NOT_FOUND = "Customer by id you entered wasn't found.";
+    private static final String CUSTOMER_NOT_FOUND_BY_REQUEST = "Customer with your request type wasn't found.";
+    private static final String CUSTOMER_DELETED = "Customer by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerDTO customerDTO) {
@@ -65,6 +69,17 @@ public class CustomerController {
         customerService.deleteCustomer(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("User has been deleted.");
+                .body(CUSTOMER_DELETED);
+    }
+
+    @GetMapping(value = "/customerFirstName/{givenString}")
+    public ResponseEntity getCustomersContainingGivenString(@PathVariable("givenString") String string) {
+        List<Customer> customerList = customerService.getCustomersByFirstNameContainingGivenString(string);
+        if (customerList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(CUSTOMER_NOT_FOUND_BY_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(modelMapper.map(customerList, new TypeToken<List<CustomerDTO>>() {}.getType()));
     }
 }

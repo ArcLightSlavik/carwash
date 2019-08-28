@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getCustomerContainingGivenString(String givenString) {
+    public List<Customer> getCustomersByFirstNameContainingGivenString(String givenString) {
         return customerRepository.findByFirstNameContaining(givenString);
     }
 }
