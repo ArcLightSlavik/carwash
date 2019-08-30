@@ -11,9 +11,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.model.Car;
+import ua.slavik.carwash.model.Customer;
+import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.dto.car.CreateCarDTO;
 import ua.slavik.carwash.model.dto.car.UpdateCarDTO;
+import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.CarRepository;
+import ua.slavik.carwash.repository.CustomerRepository;
+import ua.slavik.carwash.repository.JobRepository;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -29,6 +34,12 @@ public class CarControllerTest {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private JobRepository jobRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -54,7 +65,6 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.id").value(5L))
                 .andExpect(jsonPath("$.registrationPlate").value(mockCarDTO.getRegistrationPlate()))
                 .andExpect(jsonPath("$.model").value(mockCarDTO.getModel()));
-
     }
 
     @Test
@@ -81,10 +91,22 @@ public class CarControllerTest {
 
     @Test
     public void updateCar() throws Exception {
+        Customer mockCustomer = Customer.builder()
+                .firstName("Random")
+                .build();
+        customerRepository.save(mockCustomer);
+
+        Job mockJob = Job.builder()
+                .status(Status.NOT_STARTED)
+                .build();
+        jobRepository.save(mockJob);
+
         Car mockCar = Car.builder()
                 .registrationPlate("AA 8448 CB")
                 .model("Audi")
                 .id(1L)
+                .customer(mockCustomer)
+                .job(mockJob)
                 .build();
         mockCar = carRepository.save(mockCar);
 
@@ -92,6 +114,8 @@ public class CarControllerTest {
                 .registrationPlate("AA 9999 CB")
                 .model("Bmw")
                 .id(1L)
+                .customerId(mockCustomer.getId())
+                .jobId(mockJob.getId())
                 .build();
 
         RequestBuilder requestBuilder = put("/car/{id}", mockCar.getId())

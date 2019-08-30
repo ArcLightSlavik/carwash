@@ -10,10 +10,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
+import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.Task;
+import ua.slavik.carwash.model.dto.job.JobDTO;
 import ua.slavik.carwash.model.dto.task.CreateTaskDTO;
 import ua.slavik.carwash.model.dto.task.UpdateTaskDTO;
 import ua.slavik.carwash.model.enums.Status;
+import ua.slavik.carwash.repository.JobRepository;
 import ua.slavik.carwash.repository.TaskRepository;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -32,10 +35,18 @@ public class TaskControllerTest {
     private TaskRepository taskRepository;
 
     @Autowired
+    private JobRepository jobRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     public void postTask() throws Exception {
+        JobDTO mockJobDTO = JobDTO.builder()
+                .status(Status.IN_PROGRESS)
+                .id(5L)
+                .build();
+
         CreateTaskDTO mockTaskDTO = CreateTaskDTO.builder()
                 .name("window cleaning")
                 .description("cleaning of window")
@@ -44,6 +55,7 @@ public class TaskControllerTest {
                 .priority(3)
                 .status(Status.IN_PROGRESS)
                 .repeatable(false)
+                .jobId(mockJobDTO.getId())
                 .build();
 
         String mockTaskDTOJSON = objectMapper.writeValueAsString(mockTaskDTO);
@@ -98,6 +110,12 @@ public class TaskControllerTest {
 
     @Test
     public void updateTask() throws Exception {
+        Job mockJob = Job.builder()
+                .status(Status.IN_PROGRESS)
+                .id(5L)
+                .build();
+        jobRepository.save(mockJob);
+
         Task mockTask = Task.builder()
                 .description("Car wash")
                 .name("Car wash")
@@ -106,6 +124,7 @@ public class TaskControllerTest {
                 .repeatable(false)
                 .status(Status.NOT_STARTED)
                 .id(5L)
+                .job(mockJob)
                 .build();
         mockTask = taskRepository.save(mockTask);
 
@@ -117,6 +136,7 @@ public class TaskControllerTest {
                 .repeatable(true)
                 .status(Status.IN_PROGRESS)
                 .id(5L)
+                .jobId(mockJob.getId())
                 .build();
 
         RequestBuilder requestBuilder = put("/task/{id}", mockTask.getId())
