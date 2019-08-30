@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import ua.slavik.carwash.model.enums.Status;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
@@ -18,6 +17,4 @@ public class UpdateJobDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Status status;
-    private Long carId;
-    private List<Long> taskId;
 }

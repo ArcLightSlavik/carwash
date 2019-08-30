@@ -4,12 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.slavik.carwash.model.dto.car.CarDTO;
-import ua.slavik.carwash.model.dto.task.TaskDTO;
 import ua.slavik.carwash.model.enums.Status;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
@@ -20,6 +17,4 @@ public class JobDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Status status;
-    private CarDTO car;
-    private List<TaskDTO> tasksId;
 }

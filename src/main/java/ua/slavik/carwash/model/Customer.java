@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Data
@@ -21,8 +23,4 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
     private String email;
-
-    @OneToMany
-    @JoinColumn(name = "car_id")
-    List<Car> car;
 }

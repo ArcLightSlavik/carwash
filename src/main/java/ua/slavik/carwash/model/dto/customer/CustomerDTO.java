@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.slavik.carwash.model.dto.car.CarDTO;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -18,5 +15,4 @@ public class CustomerDTO {
     private String lastName;
     private String phoneNumber;
     private String email;
-    private List<CarDTO> carList;
 }

@@ -8,7 +8,6 @@ import ua.slavik.carwash.exception.validators.PhoneNumber;
 import ua.slavik.carwash.exception.validators.StringField;
 
 import javax.validation.constraints.Email;
-import java.util.List;
 
 @Data
 @Builder
@@ -23,5 +22,4 @@ public class CreateCustomerDTO {
     private String phoneNumber;
     @Email
     private String email;
-    private List<Long> carId;
 }

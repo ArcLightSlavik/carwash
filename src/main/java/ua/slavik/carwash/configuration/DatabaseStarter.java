@@ -9,8 +9,6 @@ import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -23,20 +21,20 @@ public class DatabaseStarter implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        jobRepository.save(new Job(1L, Status.IN_PROGRESS, LocalDateTime.now(), LocalDateTime.now().plusDays(5), carRepository.findById(1L).orElse(null), Collections.singletonList(taskRepository.findById(1L).orElse(null))));
-        jobRepository.save(new Job(2L, Status.NOT_STARTED, LocalDateTime.now(), LocalDateTime.now().plusDays(10), carRepository.findById(1L).orElse(null), Collections.singletonList(taskRepository.findById(1L).orElse(null))));
-        jobRepository.save(new Job(3L, Status.TERMINATED, LocalDateTime.now(), LocalDateTime.now().plusDays(1), carRepository.findById(1L).orElse(null), Collections.singletonList(taskRepository.findById(1L).orElse(null))));
-        jobRepository.save(new Job(4L, Status.COMPLETED, LocalDateTime.now(), LocalDateTime.now().plusDays(5), carRepository.findById(1L).orElse(null), Collections.singletonList(taskRepository.findById(1L).orElse(null))));
+        jobRepository.save(new Job(1L, Status.IN_PROGRESS, LocalDateTime.now(), LocalDateTime.now().plusDays(5)));
+        jobRepository.save(new Job(2L, Status.NOT_STARTED, LocalDateTime.now(), LocalDateTime.now().plusDays(10)));
+        jobRepository.save(new Job(3L, Status.TERMINATED, LocalDateTime.now(), LocalDateTime.now().plusDays(1)));
+        jobRepository.save(new Job(4L, Status.COMPLETED, LocalDateTime.now(), LocalDateTime.now().plusDays(5)));
 
         taskRepository.save(new Task(1L, 10, 5, 10, "Wash", "Washing the car", Status.NOT_STARTED, true, jobRepository.findById(1L).orElse(null)));
         taskRepository.save(new Task(2L, 50, 30, 5, "Interior cleaning", "Cleaning inside of a car", Status.IN_PROGRESS, false, jobRepository.findById(2L).orElse(null)));
         taskRepository.save(new Task(3L, 100, 10, 3, "Polishing", "Polishing outside of the car", Status.COMPLETED, false, jobRepository.findById(3L).orElse(null)));
         taskRepository.save(new Task(4L, 250, 50, 10, "Scratches", "Remove scratches from outside the car", Status.TERMINATED, true, jobRepository.findById(4L).orElse(null)));
 
-        customerRepository.save(new Customer(1L, "Michael", "Corleone", "123456565", "michael.corleone@gmail.com", Arrays.asList(carRepository.findById(1L).orElse(null), carRepository.findById(2L).orElse(null))));
-        customerRepository.save(new Customer(2L, "Kevin", "McCallister", "457664324", "kevin.mccallister@gmail.com", Collections.singletonList(carRepository.findById(3L).orElse(null))));
-        customerRepository.save(new Customer(3L, "Ron", "Burgundy", "345347658", "ron.burgundy@gmail.com", Collections.singletonList(carRepository.findById(4L).orElse(null))));
-        customerRepository.save(new Customer(4L, "The", "Dude", "658745443", "the.dude@gmail.com", Collections.singletonList(carRepository.findById(1L).orElse(null))));
+        customerRepository.save(new Customer(1L, "Michael", "Corleone", "123456565", "michael.corleone@gmail.com"));
+        customerRepository.save(new Customer(2L, "Kevin", "McCallister", "457664324", "kevin.mccallister@gmail.com"));
+        customerRepository.save(new Customer(3L, "Ron", "Burgundy", "345347658", "ron.burgundy@gmail.com"));
+        customerRepository.save(new Customer(4L, "The", "Dude", "658745443", "the.dude@gmail.com"));
 
         employeeRepository.save(new Employee(1L, 30, "Patrick", "Bateman", "45437636", "patrick.bateman@gmail.com"));
         employeeRepository.save(new Employee(2L, 55, "Walter", "Sobchak", "65464396", "walter.sobchak@gmail.com"));

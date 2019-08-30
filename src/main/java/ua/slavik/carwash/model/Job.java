@@ -6,9 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.model.enums.Status;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -22,12 +24,4 @@ public class Job {
     private Status status;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-
-    @OneToOne
-    @JoinColumn(name = "car_id")
-    Car car;
-
-    @OneToMany
-    @JoinColumn(name = "task_id")
-    List<Task> task;
 }

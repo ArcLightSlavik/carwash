@@ -51,7 +51,7 @@ public class CarControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.id").value(5L))
                 .andExpect(jsonPath("$.registrationPlate").value(mockCarDTO.getRegistrationPlate()))
                 .andExpect(jsonPath("$.model").value(mockCarDTO.getModel()));
 
@@ -84,13 +84,14 @@ public class CarControllerTest {
         Car mockCar = Car.builder()
                 .registrationPlate("AA 8448 CB")
                 .model("Audi")
+                .id(1L)
                 .build();
         mockCar = carRepository.save(mockCar);
 
         UpdateCarDTO updatedCar = UpdateCarDTO.builder()
                 .registrationPlate("AA 9999 CB")
                 .model("Bmw")
-                .id(mockCar.getId())
+                .id(1L)
                 .build();
 
         RequestBuilder requestBuilder = put("/car/{id}", mockCar.getId())

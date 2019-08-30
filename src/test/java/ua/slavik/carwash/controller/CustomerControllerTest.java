@@ -52,7 +52,7 @@ public class CustomerControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.id").value(5L))
                 .andExpect(jsonPath("$.firstName").value(mockCustomerDTO.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(mockCustomerDTO.getLastName()))
                 .andExpect(jsonPath("$.email").value(mockCustomerDTO.getEmail()))

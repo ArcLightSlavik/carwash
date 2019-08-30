@@ -53,7 +53,7 @@ public class JobControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").value(5L))
                 .andExpect(jsonPath("$.status").value(mockJobDTO.getStatus().toString()));
     }
 
