@@ -1,13 +1,14 @@
 package ua.slavik.carwash.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.slavik.carwash.model.Car;
 import ua.slavik.carwash.repository.CarRepository;
 import ua.slavik.carwash.service.CarService;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
 

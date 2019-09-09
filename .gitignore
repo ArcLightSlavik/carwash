@@ -1,3 +1,4 @@
+### Project exclusive paths ###
 /target/
 /logs/
 !.mvn/wrapper/maven-wrapper.jar
