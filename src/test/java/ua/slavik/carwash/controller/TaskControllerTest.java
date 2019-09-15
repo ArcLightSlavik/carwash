@@ -67,7 +67,7 @@ public class TaskControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(5L))
+                .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value(mockTaskDTO.getName()))
                 .andExpect(jsonPath("$.description").value(mockTaskDTO.getDescription()))
                 .andExpect(jsonPath("$.price").value(mockTaskDTO.getPrice()))
@@ -112,7 +112,8 @@ public class TaskControllerTest {
     public void updateTask() throws Exception {
         Job mockJob = Job.builder()
                 .status(Status.IN_PROGRESS)
-                .id(5L)
+                .id(1L)
+                .task(null)
                 .build();
         jobRepository.save(mockJob);
 
@@ -123,8 +124,8 @@ public class TaskControllerTest {
                 .priority(1)
                 .repeatable(false)
                 .status(Status.NOT_STARTED)
-                .id(5L)
-                .job(mockJob)
+                .id(1L)
+                .job(jobRepository.findById(1L).orElse(null))
                 .build();
         mockTask = taskRepository.save(mockTask);
 
@@ -135,7 +136,7 @@ public class TaskControllerTest {
                 .priority(2)
                 .repeatable(true)
                 .status(Status.IN_PROGRESS)
-                .id(5L)
+                .id(1L)
                 .jobId(mockJob.getId())
                 .build();
 

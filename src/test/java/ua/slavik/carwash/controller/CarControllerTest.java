@@ -62,7 +62,7 @@ public class CarControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(5L))
+                .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.registrationPlate").value(mockCarDTO.getRegistrationPlate()))
                 .andExpect(jsonPath("$.model").value(mockCarDTO.getModel()));
     }
