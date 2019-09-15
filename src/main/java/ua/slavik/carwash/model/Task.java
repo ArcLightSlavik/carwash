@@ -25,7 +25,7 @@ public class Task {
     private Status status;
     private boolean repeatable;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
-    Job job;
+    private Job job;
 }
