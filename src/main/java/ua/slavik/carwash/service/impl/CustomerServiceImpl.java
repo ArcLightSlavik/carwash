@@ -16,7 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getCustomerById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer updateCustomer(Customer customer, Long id) {
         Customer oldCustomer = getCustomerById(id);
         if (oldCustomer == null) {
-            return null;
+            throw new NullPointerException("You tried to update an entity that didn't exist");
         }
 
         customer.setId(id);

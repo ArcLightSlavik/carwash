@@ -16,7 +16,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeRepository.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee updateEmployee(Employee employee, Long id) {
         Employee oldEmployee = getEmployeeById(id);
         if (oldEmployee == null) {
-            return null;
+            throw new NullPointerException("You tried to update an entity that didn't exist");
         }
 
         employee.setId(id);

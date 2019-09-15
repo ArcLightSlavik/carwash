@@ -17,7 +17,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id).orElse(null);
+        return taskRepository.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTask(Task task, Long id) {
         Task oldTask = getTaskById(id);
         if (oldTask == null) {
-            return null;
+            throw new NullPointerException("You tried to update an entity that didn't exist");
         }
 
         task.setId(id);

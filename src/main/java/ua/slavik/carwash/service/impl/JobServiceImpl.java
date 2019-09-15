@@ -17,7 +17,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job getJobById(Long id) {
-        return jobRepository.findById(id).orElse(null);
+        return jobRepository.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class JobServiceImpl implements JobService {
     public Job updateJob(Job job, Long id) {
         Job oldJob = getJobById(id);
         if (oldJob == null) {
-            return null;
+            throw new NullPointerException("You tried to update an entity that didn't exist");
         }
 
         job.setId(id);

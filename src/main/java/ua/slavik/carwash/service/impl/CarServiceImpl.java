@@ -14,7 +14,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car getCarById(Long id) {
-        return carRepository.findById(id).orElse(null);
+        return carRepository.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class CarServiceImpl implements CarService {
     public Car updateCar(Car car, Long id) {
         Car oldCar = getCarById(id);
         if (oldCar == null) {
-            return null;
+            throw new NullPointerException("You tried to update an entity that didn't exist");
         }
 
         car.setId(id);
