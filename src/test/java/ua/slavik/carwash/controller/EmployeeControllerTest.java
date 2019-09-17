@@ -39,7 +39,7 @@ public class EmployeeControllerTest {
         CreateEmployeeDTO mockEmployeeDTO = CreateEmployeeDTO.builder()
                 .firstName("James")
                 .lastName("Bond")
-                .age(30)
+                .age(30L)
                 .email("james.bond@gmail.com")
                 .phoneNumber("+123123456")
                 .build();

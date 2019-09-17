@@ -22,8 +22,6 @@ import java.util.List;
 public class EmployeeController {
     private final ModelMapper modelMapper;
     private final EmployeeService employeeService;
-    private static final String EMPLOYEE_NOT_FOUND = "Employee by id you entered wasn't found.";
-    private static final String EMPLOYEE_NOT_FOUND_BY_REQUEST = "Employee with your request type wasn't found.";
     private static final String EMPLOYEE_DELETED = "Employee by id you entered was deleted.";
 
     @PostMapping
@@ -38,10 +36,6 @@ public class EmployeeController {
     @GetMapping(value = "/{employeeId}")
     public ResponseEntity getEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
-        if (employee == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(EMPLOYEE_NOT_FOUND);
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(employee, EmployeeDTO.class));
     }
@@ -49,10 +43,6 @@ public class EmployeeController {
     @PutMapping(value = "/{employeeId}")
     public ResponseEntity updateEmployee(@RequestBody UpdateEmployeeDTO updateEmployeeDTO, @PathVariable("employeeId") Long id) {
         Employee oldEmployee = modelMapper.map(updateEmployeeDTO, Employee.class);
-        if (oldEmployee == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(EMPLOYEE_NOT_FOUND);
-        }
         Employee updatedEmployee = employeeService.updateEmployee(oldEmployee, id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -61,24 +51,15 @@ public class EmployeeController {
 
     @DeleteMapping(value = "/{employeeId}")
     public ResponseEntity deleteEmployee(@PathVariable("employeeId") Long id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        if (employee == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(EMPLOYEE_NOT_FOUND);
-        }
         employeeService.deleteEmployee(id);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(EMPLOYEE_DELETED);
     }
 
-    @GetMapping(value = "/employeeAgeGreat/{givenInteger}")
-    public ResponseEntity getEmployeesAgeGreaterThanGiven(@PathVariable("givenInteger") Integer givenInteger) {
-        List<Employee> employeeList = employeeService.getEmployeesWithAgeGreaterThan(givenInteger);
-        if (employeeList.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(EMPLOYEE_NOT_FOUND_BY_REQUEST);
-        }
+    @GetMapping(value = "/employeeAgeGreat/{givenAge}")
+    public ResponseEntity getEmployeesAgeGreaterThanGiven(@PathVariable("givenAge") Long givenAge) {
+        List<Employee> employeeList = employeeService.getEmployeesWithAgeGreaterThan(givenAge);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(employeeList, new TypeToken<List<EmployeeDTO>>() {}.getType()));
     }

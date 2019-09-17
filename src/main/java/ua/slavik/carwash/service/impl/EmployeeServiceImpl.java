@@ -3,6 +3,7 @@ package ua.slavik.carwash.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.slavik.carwash.exception.custom.NotFoundException;
 import ua.slavik.carwash.model.Employee;
 import ua.slavik.carwash.repository.EmployeeRepository;
 import ua.slavik.carwash.service.EmployeeService;
@@ -16,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(NullPointerException::new);
+        return employeeRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -26,11 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee updateEmployee(Employee employee, Long id) {
-        Employee oldEmployee = getEmployeeById(id);
-        if (oldEmployee == null) {
-            throw new NullPointerException("You tried to update an entity that didn't exist");
-        }
-
+        getEmployeeById(id);
         employee.setId(id);
 
         return employeeRepository.save(employee);
@@ -38,14 +35,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(Long id) {
-        Employee employee = getEmployeeById(id);
-        if (employee != null) {
-            employeeRepository.deleteById(id);
-        }
+        getEmployeeById(id);
+        employeeRepository.deleteById(id);
     }
 
     @Override
-    public List<Employee> getEmployeesWithAgeGreaterThan(int age) {
-        return employeeRepository.findByAgeGreaterThan(age);
+    public List<Employee> getEmployeesWithAgeGreaterThan(Long age) {
+        List<Employee> employeeList = employeeRepository.findByAgeGreaterThan(age);
+        if (employeeList.size() == 0) {
+            throw new NotFoundException();
+        }
+        return employeeList;
     }
 }

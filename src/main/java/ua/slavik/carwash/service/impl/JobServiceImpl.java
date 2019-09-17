@@ -3,6 +3,7 @@ package ua.slavik.carwash.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.slavik.carwash.exception.custom.NotFoundException;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.enums.Status;
 import ua.slavik.carwash.repository.JobRepository;
@@ -17,7 +18,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job getJobById(Long id) {
-        return jobRepository.findById(id).orElseThrow(NullPointerException::new);
+        return jobRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -27,11 +28,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job updateJob(Job job, Long id) {
-        Job oldJob = getJobById(id);
-        if (oldJob == null) {
-            throw new NullPointerException("You tried to update an entity that didn't exist");
-        }
-
+        getJobById(id);
         job.setId(id);
 
         return jobRepository.save(job);
@@ -39,14 +36,16 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void deleteJob(Long id) {
-        Job job = getJobById(id);
-        if (job != null) {
-            jobRepository.deleteById(id);
-        }
+        getJobById(id);
+        jobRepository.deleteById(id);
     }
 
     @Override
     public List<Job> getJobListByStatus(Status status) {
-        return jobRepository.findByStatus(status);
+        List<Job> jobList = jobRepository.findByStatus(status);
+        if (jobList.size() == 0) {
+            throw new NotFoundException();
+        }
+        return jobList;
     }
 }

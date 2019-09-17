@@ -22,8 +22,6 @@ import java.util.List;
 public class CustomerController {
     private final ModelMapper modelMapper;
     private final CustomerService customerService;
-    private static final String CUSTOMER_NOT_FOUND = "Customer by id you entered wasn't found.";
-    private static final String CUSTOMER_NOT_FOUND_BY_REQUEST = "Customer with your request type wasn't found.";
     private static final String CUSTOMER_DELETED = "Customer by id you entered was deleted.";
 
     @PostMapping
@@ -38,10 +36,6 @@ public class CustomerController {
     @GetMapping(value = "/{customerId}")
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
-        if (customer == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CUSTOMER_NOT_FOUND);
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(customer, CustomerDTO.class));
     }
@@ -49,10 +43,6 @@ public class CustomerController {
     @PutMapping(value = "/{customerId}")
     public ResponseEntity updateCustomer(@RequestBody UpdateCustomerDTO updateCustomerDTO, @PathVariable("customerId") Long id) {
         Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
-        if (oldCustomer == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CUSTOMER_NOT_FOUND);
-        }
         Customer updatedCustomer = customerService.updateCustomer(oldCustomer, id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -61,11 +51,6 @@ public class CustomerController {
 
     @DeleteMapping(value = "/{customerId}")
     public ResponseEntity deleteCustomer(@PathVariable("customerId") Long id) {
-        Customer customer = customerService.getCustomerById(id);
-        if (customer == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CUSTOMER_NOT_FOUND);
-        }
         customerService.deleteCustomer(id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -75,10 +60,6 @@ public class CustomerController {
     @GetMapping(value = "/customerFirstName/{givenString}")
     public ResponseEntity getCustomersContainingGivenString(@PathVariable("givenString") String string) {
         List<Customer> customerList = customerService.getCustomersByFirstNameContainingGivenString(string);
-        if (customerList.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CUSTOMER_NOT_FOUND_BY_REQUEST);
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(customerList, new TypeToken<List<CustomerDTO>>() {}.getType()));
     }

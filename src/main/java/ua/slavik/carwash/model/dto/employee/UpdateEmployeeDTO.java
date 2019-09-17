@@ -17,7 +17,7 @@ import javax.validation.constraints.Email;
 public class UpdateEmployeeDTO {
     private Long id;
     @Age
-    private int age;
+    private Long age;
     @StringField(message = "Invalid first name.")
     private String firstName;
     @StringField(message = "Invalid last name.")

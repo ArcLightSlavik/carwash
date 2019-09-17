@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-    List<Employee> findByAgeGreaterThan(int age);
+    List<Employee> findByAgeGreaterThan(Long age);
 }

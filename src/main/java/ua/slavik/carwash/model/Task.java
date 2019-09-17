@@ -17,15 +17,15 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int price;
-    private int duration;
-    private int priority;
+    private Long price;
+    private Long duration;
+    private Long priority;
     private String name;
     private String description;
     private Status status;
     private boolean repeatable;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "job_id")
     private Job job;
 }

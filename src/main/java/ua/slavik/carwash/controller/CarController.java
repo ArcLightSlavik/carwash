@@ -23,16 +23,11 @@ public class CarController {
     private final ModelMapper modelMapper;
     private final CarService carService;
     private final CustomerService customerService;
-    private static final String CAR_DELETED = "Car by id you entered was deleted.";
-    private static final String CAR_NOT_FOUND = "Car by id you entered wasn't found.";
     private final JobService jobService;
+    private static final String CAR_DELETED = "Car by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
-        if (carDTO.getCustomerId() == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CAR_NOT_FOUND);
-        }
         Car car = modelMapper.map(carDTO, Car.class);
         car.setCustomer(customerService.getCustomerById(carDTO.getCustomerId()));
         car.setJob(jobService.getJobById(carDTO.getJobId()));
@@ -45,10 +40,6 @@ public class CarController {
     @GetMapping(value = "/{carId}")
     public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
-        if (car == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CAR_NOT_FOUND);
-        }
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(car, CarDTO.class));
@@ -57,10 +48,6 @@ public class CarController {
     @PutMapping(value = "/{carId}")
     public ResponseEntity updateCar(@RequestBody UpdateCarDTO updateCarDTO, @PathVariable("carId") Long id) {
         Car oldCar = modelMapper.map(updateCarDTO, Car.class);
-        if (oldCar == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CAR_NOT_FOUND);
-        }
         oldCar.setCustomer(customerService.getCustomerById(updateCarDTO.getCustomerId()));
         oldCar.setJob(jobService.getJobById(updateCarDTO.getJobId()));
         Car updatedCar = carService.updateCar(oldCar, id);
@@ -73,11 +60,6 @@ public class CarController {
 
     @DeleteMapping(value = "/{carId}")
     public ResponseEntity deleteCar(@PathVariable("carId") Long id) {
-        Car car = carService.getCarById(id);
-        if (car == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(CAR_NOT_FOUND);
-        }
         carService.deleteCar(id);
 
         return ResponseEntity.status(HttpStatus.OK)

@@ -9,5 +9,5 @@ public interface EmployeeService {
     Employee createEmployee(Employee employee);
     Employee updateEmployee(Employee employee, Long id);
     void deleteEmployee(Long id);
-    List<Employee> getEmployeesWithAgeGreaterThan(int age);
+    List<Employee> getEmployeesWithAgeGreaterThan(Long age);
 }

@@ -16,11 +16,11 @@ import javax.validation.constraints.PositiveOrZero;
 public class UpdateTaskDTO {
     private Long id;
     @PositiveOrZero(message = "Invalid price.")
-    private int price;
+    private Long price;
     @PositiveOrZero(message = "Invalid priority.")
-    private int priority;
+    private Long priority;
     @PositiveOrZero(message = "Invalid duration.")
-    private int duration;
+    private Long duration;
     @StringField(message = "Invalid description.")
     private String description;
     @StringField(message = "Invalid Name.")

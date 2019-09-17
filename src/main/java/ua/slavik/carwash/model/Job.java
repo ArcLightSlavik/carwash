@@ -19,9 +19,9 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Status status;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Status status;
 
     @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "job")
     private List<Task> task;

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EmployeeDTO {
     private Long id;
-    private int age;
+    private Long age;
     private String firstName;
     private String lastName;
     private String phoneNumber;
