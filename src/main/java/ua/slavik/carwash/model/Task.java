@@ -17,9 +17,9 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int price;
-    private int duration;
-    private int priority;
+    private Long price;
+    private Long duration;
+    private Long priority;
     private String name;
     private String description;
     private Status status;
@@ -27,5 +27,5 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "job_id")
-    Job job;
+    private Job job;
 }

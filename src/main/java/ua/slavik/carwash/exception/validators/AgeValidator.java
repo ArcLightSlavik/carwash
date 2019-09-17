@@ -3,7 +3,7 @@ package ua.slavik.carwash.exception.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class AgeValidator implements ConstraintValidator<Age, Integer> {
+public class AgeValidator implements ConstraintValidator<Age, Long> {
     private boolean required;
     private int min;
     private int max;
@@ -16,7 +16,7 @@ public class AgeValidator implements ConstraintValidator<Age, Integer> {
     }
 
     @Override
-    public boolean isValid(Integer age, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Long age, ConstraintValidatorContext constraintValidatorContext) {
         if (age == null) {
             return !required;
         }

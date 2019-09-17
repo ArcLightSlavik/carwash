@@ -21,9 +21,9 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    Customer customer;
+    private Customer customer;
 
     @OneToOne
     @JoinColumn(name = "job_id")
-    Job job;
+    private Job job;
 }

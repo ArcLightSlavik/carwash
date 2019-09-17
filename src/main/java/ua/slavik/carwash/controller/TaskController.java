@@ -24,9 +24,8 @@ import java.util.List;
 public class TaskController {
     private final ModelMapper modelMapper;
     private final TaskService taskService;
-    private static final String TASK_DELETED = "Task by id you entered was deleted.";
-    private static final String TASK_NOT_FOUND = "Task by id you entered wasn't found.";
     private final JobService jobService;
+    private static final String TASK_DELETED = "Task by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createTask(@Valid @RequestBody CreateTaskDTO taskDTO) {
@@ -41,10 +40,6 @@ public class TaskController {
     @GetMapping(value = "/{taskId}")
     public ResponseEntity getTask(@PathVariable("taskId") Long id) {
         Task task = taskService.getTaskById(id);
-        if (task == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(TASK_NOT_FOUND);
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(task, TaskDTO.class));
     }
@@ -52,10 +47,6 @@ public class TaskController {
     @PutMapping(value = "/{taskId}")
     public ResponseEntity updateTask(@RequestBody UpdateTaskDTO updateTaskDTO, @PathVariable("taskId") Long id) {
         Task oldTask = modelMapper.map(updateTaskDTO, Task.class);
-        if (oldTask == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(TASK_NOT_FOUND);
-        }
         oldTask.setJob(jobService.getJobById(updateTaskDTO.getJobId()));
         Task updatedTask = taskService.updateTask(oldTask, id);
         updatedTask.setJob(jobService.getJobById(updateTaskDTO.getJobId()));
@@ -66,11 +57,6 @@ public class TaskController {
 
     @DeleteMapping(value = "/{taskId}")
     public ResponseEntity deleteTask(@PathVariable("taskId") Long id) {
-        Task task = taskService.getTaskById(id);
-        if (task == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(TASK_NOT_FOUND);
-        }
         taskService.deleteTask(id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -80,10 +66,7 @@ public class TaskController {
     @GetMapping(value = "/taskListByStatus")
     public ResponseEntity getTaskListByStatus(@RequestParam Status status) {
         List<Task> taskList = taskService.getTaskListByStatus(status);
-        if (taskList.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(TASK_NOT_FOUND);
-        }
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(taskList, new TypeToken<List<TaskDTO>>() {}.getType()));
     }

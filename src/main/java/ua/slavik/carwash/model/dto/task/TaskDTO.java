@@ -13,9 +13,9 @@ import ua.slavik.carwash.model.enums.Status;
 @AllArgsConstructor
 public class TaskDTO {
     private Long id;
-    private int price;
-    private int duration;
-    private int priority;
+    private Long price;
+    private Long duration;
+    private Long priority;
     private String name;
     private String description;
     private boolean repeatable;

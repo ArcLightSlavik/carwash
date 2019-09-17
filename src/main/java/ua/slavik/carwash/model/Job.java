@@ -6,11 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.slavik.carwash.model.enums.Status;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,7 +19,10 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Status status;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Status status;
+
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "job")
+    private List<Task> task;
 }

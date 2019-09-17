@@ -39,7 +39,7 @@ public class EmployeeControllerTest {
         CreateEmployeeDTO mockEmployeeDTO = CreateEmployeeDTO.builder()
                 .firstName("James")
                 .lastName("Bond")
-                .age(30)
+                .age(30L)
                 .email("james.bond@gmail.com")
                 .phoneNumber("+123123456")
                 .build();
@@ -53,7 +53,7 @@ public class EmployeeControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(5L))
+                .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstName").value(mockEmployeeDTO.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(mockEmployeeDTO.getLastName()))
                 .andExpect(jsonPath("$.email").value(mockEmployeeDTO.getEmail()))

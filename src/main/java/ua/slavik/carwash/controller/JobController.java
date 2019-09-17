@@ -23,7 +23,6 @@ import java.util.List;
 public class JobController {
     private final ModelMapper modelMapper;
     private final JobService jobService;
-    private static final String JOB_NOT_FOUND = "Job by id you entered wasn't found.";
     private static final String JOB_DELETED = "Job by id you entered was deleted.";
 
     @PostMapping
@@ -38,10 +37,6 @@ public class JobController {
     @GetMapping(value = "/{jobId}")
     public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
-        if (job == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(JOB_NOT_FOUND);
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(job, JobDTO.class));
     }
@@ -49,10 +44,6 @@ public class JobController {
     @PutMapping(value = "/{jobId}")
     public ResponseEntity updateJob(@RequestBody UpdateJobDTO updateJobDTO, @PathVariable("jobId") Long id) {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
-        if (oldJob == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(JOB_NOT_FOUND);
-        }
         Job updatedJob = jobService.updateJob(oldJob, id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -61,11 +52,6 @@ public class JobController {
 
     @DeleteMapping(value = "/{jobId}")
     public ResponseEntity deleteJob(@PathVariable("jobId") Long id) {
-        Job job = jobService.getJobById(id);
-        if (job == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(JOB_NOT_FOUND);
-        }
         jobService.deleteJob(id);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -75,10 +61,7 @@ public class JobController {
     @GetMapping(value = "/jobListByStatus")
     public ResponseEntity getJobListByStatus(@RequestParam Status status) {
         List<Job> jobList = jobService.getJobListByStatus(status);
-        if (jobList.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(JOB_NOT_FOUND);
-        }
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapper.map(jobList, new TypeToken<List<JobDTO>>() {}.getType()));
     }
