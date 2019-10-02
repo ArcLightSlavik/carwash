@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import ua.slavik.carwash.model.Job;
 import ua.slavik.carwash.model.Task;
-import ua.slavik.carwash.model.dto.job.JobDTO;
 import ua.slavik.carwash.model.dto.task.CreateTaskDTO;
 import ua.slavik.carwash.model.dto.task.UpdateTaskDTO;
 import ua.slavik.carwash.model.enums.Status;
@@ -42,10 +41,10 @@ public class TaskControllerTest {
 
     @Test
     public void postTask() throws Exception {
-        JobDTO mockJobDTO = JobDTO.builder()
-                .status(Status.IN_PROGRESS)
-                .id(5L)
+        Job mockJob = Job.builder()
+                .id(1L)
                 .build();
+        jobRepository.save(mockJob);
 
         CreateTaskDTO mockTaskDTO = CreateTaskDTO.builder()
                 .name("window cleaning")
@@ -55,7 +54,7 @@ public class TaskControllerTest {
                 .priority(3L)
                 .status(Status.IN_PROGRESS)
                 .repeatable(false)
-                .jobId(mockJobDTO.getId())
+                .jobId(mockJob.getId())
                 .build();
 
         String mockTaskDTOJSON = objectMapper.writeValueAsString(mockTaskDTO);

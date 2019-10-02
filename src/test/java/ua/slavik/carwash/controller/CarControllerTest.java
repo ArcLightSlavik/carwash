@@ -46,11 +46,21 @@ public class CarControllerTest {
 
     @Test
     public void postCar() throws Exception {
+        Customer mockCustomer = Customer.builder()
+                .id(1L)
+                .build();
+        customerRepository.save(mockCustomer);
+
+        Job mockJob = Job.builder()
+                .id(1L)
+                .build();
+        jobRepository.save(mockJob);
+
         CreateCarDTO mockCarDTO = CreateCarDTO.builder()
                 .registrationPlate("AA 8448 CB")
                 .model("Audi")
-                .customerId(1L)
-                .jobId(1L)
+                .customerId(mockCustomer.getId())
+                .jobId(mockJob.getId())
                 .build();
 
         String mockCarDTOJSON = objectMapper.writeValueAsString(mockCarDTO);
