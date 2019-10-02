@@ -22,7 +22,6 @@ import java.util.List;
 public class EmployeeController {
     private final ModelMapper modelMapper;
     private final EmployeeService employeeService;
-    private static final String EMPLOYEE_DELETED = "Employee by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createEmployee(@Valid @RequestBody CreateEmployeeDTO employeeDTO) {
@@ -53,8 +52,7 @@ public class EmployeeController {
     public ResponseEntity deleteEmployee(@PathVariable("employeeId") Long id) {
         employeeService.deleteEmployee(id);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(EMPLOYEE_DELETED);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/employeeAgeGreat/{givenAge}")

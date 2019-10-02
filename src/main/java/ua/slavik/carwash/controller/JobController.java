@@ -23,7 +23,6 @@ import java.util.List;
 public class JobController {
     private final ModelMapper modelMapper;
     private final JobService jobService;
-    private static final String JOB_DELETED = "Job by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createJob(@Valid @RequestBody CreateJobDTO jobDTO) {
@@ -54,8 +53,7 @@ public class JobController {
     public ResponseEntity deleteJob(@PathVariable("jobId") Long id) {
         jobService.deleteJob(id);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(JOB_DELETED);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/jobListByStatus")

@@ -22,7 +22,6 @@ import java.util.List;
 public class CustomerController {
     private final ModelMapper modelMapper;
     private final CustomerService customerService;
-    private static final String CUSTOMER_DELETED = "Customer by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createCustomer(@Valid @RequestBody CreateCustomerDTO customerDTO) {
@@ -53,8 +52,7 @@ public class CustomerController {
     public ResponseEntity deleteCustomer(@PathVariable("customerId") Long id) {
         customerService.deleteCustomer(id);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CUSTOMER_DELETED);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/customerFirstName/{givenString}")

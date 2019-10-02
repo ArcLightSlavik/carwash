@@ -25,7 +25,6 @@ public class TaskController {
     private final ModelMapper modelMapper;
     private final TaskService taskService;
     private final JobService jobService;
-    private static final String TASK_DELETED = "Task by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createTask(@Valid @RequestBody CreateTaskDTO taskDTO) {
@@ -59,8 +58,7 @@ public class TaskController {
     public ResponseEntity deleteTask(@PathVariable("taskId") Long id) {
         taskService.deleteTask(id);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(TASK_DELETED);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/taskListByStatus")

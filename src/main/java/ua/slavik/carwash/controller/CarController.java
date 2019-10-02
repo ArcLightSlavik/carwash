@@ -24,7 +24,6 @@ public class CarController {
     private final CarService carService;
     private final CustomerService customerService;
     private final JobService jobService;
-    private static final String CAR_DELETED = "Car by id you entered was deleted.";
 
     @PostMapping
     public ResponseEntity createCar(@Valid @RequestBody CreateCarDTO carDTO) {
@@ -62,7 +61,6 @@ public class CarController {
     public ResponseEntity deleteCar(@PathVariable("carId") Long id) {
         carService.deleteCar(id);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CAR_DELETED);
+        return ResponseEntity.noContent().build();
     }
 }
