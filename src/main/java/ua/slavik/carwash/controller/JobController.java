@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.model.Job;
@@ -16,6 +15,8 @@ import ua.slavik.carwash.service.JobService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/job")
@@ -29,14 +30,14 @@ public class JobController {
         Job job = modelMapper.map(jobDTO, Job.class);
         Job savedJob = jobService.createJob(job);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED)
                 .body(modelMapper.map(savedJob, JobDTO.class));
     }
 
     @GetMapping(value = "/{jobId}")
     public ResponseEntity getJob(@PathVariable("jobId") Long id) {
         Job job = jobService.getJobById(id);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(job, JobDTO.class));
     }
 
@@ -45,7 +46,7 @@ public class JobController {
         Job oldJob = modelMapper.map(updateJobDTO, Job.class);
         Job updatedJob = jobService.updateJob(oldJob, id);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(updatedJob, JobDTO.class));
     }
 
@@ -53,14 +54,15 @@ public class JobController {
     public ResponseEntity deleteJob(@PathVariable("jobId") Long id) {
         jobService.deleteJob(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(NO_CONTENT)
+                .build();
     }
 
     @GetMapping(value = "/jobListByStatus")
     public ResponseEntity getJobListByStatus(@RequestParam Status status) {
         List<Job> jobList = jobService.getJobListByStatus(status);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(jobList, new TypeToken<List<JobDTO>>() {}.getType()));
     }
 } 

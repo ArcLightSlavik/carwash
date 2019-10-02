@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.model.Task;
@@ -17,6 +16,8 @@ import ua.slavik.carwash.service.TaskService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/task")
@@ -32,14 +33,14 @@ public class TaskController {
         task.setJob(jobService.getJobById(taskDTO.getJobId()));
         Task savedTask = taskService.createTask(task);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED)
                 .body(modelMapper.map(savedTask, TaskDTO.class));
     }
 
     @GetMapping(value = "/{taskId}")
     public ResponseEntity getTask(@PathVariable("taskId") Long id) {
         Task task = taskService.getTaskById(id);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(task, TaskDTO.class));
     }
 
@@ -50,7 +51,7 @@ public class TaskController {
         Task updatedTask = taskService.updateTask(oldTask, id);
         updatedTask.setJob(jobService.getJobById(updateTaskDTO.getJobId()));
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(updatedTask, TaskDTO.class));
     }
 
@@ -58,14 +59,15 @@ public class TaskController {
     public ResponseEntity deleteTask(@PathVariable("taskId") Long id) {
         taskService.deleteTask(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(NO_CONTENT)
+                .build();
     }
 
     @GetMapping(value = "/taskListByStatus")
     public ResponseEntity getTaskListByStatus(@RequestParam Status status) {
         List<Task> taskList = taskService.getTaskListByStatus(status);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(taskList, new TypeToken<List<TaskDTO>>() {}.getType()));
     }
 }

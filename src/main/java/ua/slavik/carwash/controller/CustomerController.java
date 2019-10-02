@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.model.Customer;
@@ -15,6 +14,8 @@ import ua.slavik.carwash.service.CustomerService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/customer")
@@ -28,14 +29,14 @@ public class CustomerController {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         Customer savedCustomer = customerService.createCustomer(customer);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED)
                 .body(modelMapper.map(savedCustomer, CustomerDTO.class));
     }
 
     @GetMapping(value = "/{customerId}")
     public ResponseEntity getCustomer(@PathVariable("customerId") Long id) {
         Customer customer = customerService.getCustomerById(id);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(customer, CustomerDTO.class));
     }
 
@@ -44,7 +45,7 @@ public class CustomerController {
         Customer oldCustomer = modelMapper.map(updateCustomerDTO, Customer.class);
         Customer updatedCustomer = customerService.updateCustomer(oldCustomer, id);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(updatedCustomer, CustomerDTO.class));
     }
 
@@ -52,13 +53,14 @@ public class CustomerController {
     public ResponseEntity deleteCustomer(@PathVariable("customerId") Long id) {
         customerService.deleteCustomer(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(NO_CONTENT)
+                .build();
     }
 
     @GetMapping(value = "/customerFirstName/{givenString}")
     public ResponseEntity getCustomersContainingGivenString(@PathVariable("givenString") String string) {
         List<Customer> customerList = customerService.getCustomersByFirstNameContainingGivenString(string);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(customerList, new TypeToken<List<CustomerDTO>>() {}.getType()));
     }
 }

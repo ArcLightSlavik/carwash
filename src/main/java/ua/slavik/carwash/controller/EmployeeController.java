@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.model.Employee;
@@ -15,6 +14,8 @@ import ua.slavik.carwash.service.EmployeeService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/employee")
@@ -28,14 +29,14 @@ public class EmployeeController {
         Employee employee = modelMapper.map(employeeDTO, Employee.class);
         Employee savedEmployee = employeeService.createEmployee(employee);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED)
                 .body(modelMapper.map(savedEmployee, EmployeeDTO.class));
     }
 
     @GetMapping(value = "/{employeeId}")
     public ResponseEntity getEmployee(@PathVariable("employeeId") Long id) {
         Employee employee = employeeService.getEmployeeById(id);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(employee, EmployeeDTO.class));
     }
 
@@ -44,7 +45,7 @@ public class EmployeeController {
         Employee oldEmployee = modelMapper.map(updateEmployeeDTO, Employee.class);
         Employee updatedEmployee = employeeService.updateEmployee(oldEmployee, id);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(updatedEmployee, EmployeeDTO.class));
     }
 
@@ -52,13 +53,14 @@ public class EmployeeController {
     public ResponseEntity deleteEmployee(@PathVariable("employeeId") Long id) {
         employeeService.deleteEmployee(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(NO_CONTENT)
+                .build();
     }
 
     @GetMapping(value = "/employeeAgeGreat/{givenAge}")
     public ResponseEntity getEmployeesAgeGreaterThanGiven(@PathVariable("givenAge") Long givenAge) {
         List<Employee> employeeList = employeeService.getEmployeesWithAgeGreaterThan(givenAge);
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(employeeList, new TypeToken<List<EmployeeDTO>>() {}.getType()));
     }
 }

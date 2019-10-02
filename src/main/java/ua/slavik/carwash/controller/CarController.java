@@ -3,7 +3,6 @@ package ua.slavik.carwash.controller;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.slavik.carwash.model.Car;
@@ -15,6 +14,8 @@ import ua.slavik.carwash.service.CustomerService;
 import ua.slavik.carwash.service.JobService;
 
 import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/car")
@@ -32,7 +33,7 @@ public class CarController {
         car.setJob(jobService.getJobById(carDTO.getJobId()));
         Car savedCar = carService.createCar(car);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED)
                 .body(modelMapper.map(savedCar, CarDTO.class));
     }
 
@@ -40,7 +41,7 @@ public class CarController {
     public ResponseEntity getCar(@PathVariable("carId") Long id) {
         Car car = carService.getCarById(id);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(car, CarDTO.class));
     }
 
@@ -53,7 +54,7 @@ public class CarController {
         updatedCar.setCustomer(customerService.getCustomerById(updateCarDTO.getCustomerId()));
         updatedCar.setJob(jobService.getJobById(updateCarDTO.getJobId()));
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                 .body(modelMapper.map(updatedCar, CarDTO.class));
     }
 
@@ -61,6 +62,7 @@ public class CarController {
     public ResponseEntity deleteCar(@PathVariable("carId") Long id) {
         carService.deleteCar(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(NO_CONTENT)
+                .build();
     }
 }
