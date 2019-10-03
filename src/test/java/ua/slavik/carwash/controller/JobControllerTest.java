@@ -119,7 +119,7 @@ public class JobControllerTest {
         RequestBuilder requestBuilder = delete("/job/{id}", mockJob.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
 

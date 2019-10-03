@@ -131,6 +131,6 @@ public class CustomerControllerTest {
         RequestBuilder requestBuilder = delete("/customer/{id}", mockCustomer.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

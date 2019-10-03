@@ -35,7 +35,6 @@ public class EmployeeControllerTest {
 
     @Test
     public void postEmployee() throws Exception {
-
         CreateEmployeeDTO mockEmployeeDTO = CreateEmployeeDTO.builder()
                 .firstName("James")
                 .lastName("Bond")
@@ -133,6 +132,6 @@ public class EmployeeControllerTest {
         RequestBuilder requestBuilder = delete("/employee/{id}", mockEmployee.getId());
 
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }
