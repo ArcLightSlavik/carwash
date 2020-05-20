@@ -1,14 +1,6 @@
 # Car wash
 
-### -not hugely sure of quality of code since i will rewriting the entire project soon-
-
-#### TO-DO:
-1. Change the whole domain 
-2. Completely rethink connection between classes
-3. Create an actually usable app 
-4. Remake all of the tests
-5. Continue Docker/SonarQube integration with possibility of Jenkins
-6. Create an angular front-end 
+### Yea i'm not going to do anything with java anymore so this is dead
 
 ## Installation
 
