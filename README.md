@@ -14,14 +14,9 @@ $ docker image build -t carwash:latest .
 $ docker container run -p 8080:8080 -d --name carwash-container carwash
 ```
 
-Should start up a docker instance which you can see if you run docker ps:
+Starts up a docker instance to which you make requests.
 
-![Docker_ps](https://imgur.com/SXmOfDH.png) 
-
-After which you should be able to run postman:
-
-![Postman](https://imgur.com/Ya9oPbT.png)
-
+After which you should be able to make requests using postman or curl.
 
 ### Option 2: Running spring-boot directly
 
