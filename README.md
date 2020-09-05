@@ -1,7 +1,5 @@
 # Car wash
 
-### Yea i'm not going to do anything with java anymore so this is dead
-
 ## Installation
 
 ### Option 1: Docker Container
@@ -33,7 +31,7 @@ $ cd carwash
 $ mvn spring-boot:run
 ```
 
-### Basic usage
+### Usage
 ```
-Postman: https://www.getpostman.com/collections/ef1225b2851f2c3a76a8
+Postman: https://www.getpostman.com/collections/31c61f9c25119cf6df3e
 ```
